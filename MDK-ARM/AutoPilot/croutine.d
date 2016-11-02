@@ -1,7 +1,7 @@
 autopilot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/croutine.c
 autopilot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-autopilot\croutine.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
-autopilot\croutine.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\croutine.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
+autopilot\croutine.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\croutine.o: ../Inc/FreeRTOSConfig.h
 autopilot\croutine.o: ../Inc/mxconstants.h
 autopilot\croutine.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

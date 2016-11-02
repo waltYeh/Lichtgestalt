@@ -7,7 +7,7 @@ autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 autopilot\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 autopilot\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h
 autopilot\main.o: ../Drivers/CMSIS/Include/core_cm4.h
-autopilot\main.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\main.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 autopilot\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 autopilot\main.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -15,7 +15,7 @@ autopilot\main.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 autopilot\main.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-autopilot\main.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -40,7 +40,7 @@ autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 autopilot\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 autopilot\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-autopilot\main.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
 autopilot\main.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 autopilot\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 autopilot\main.o: ../Inc/FreeRTOSConfig.h
@@ -58,5 +58,8 @@ autopilot\main.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_group
 autopilot\main.o: ../Inc/usb_device.h
 autopilot\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 autopilot\main.o: ../Inc/usbd_conf.h
-autopilot\main.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
-autopilot\main.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
+autopilot\main.o: ../Src/../Devices/data_link.h
+autopilot\main.o: ../Src/../Devices/motor_pwm.h
+autopilot\main.o: ../Src/../Devices/GPS.h

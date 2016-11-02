@@ -7,7 +7,7 @@ autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cm4.h
-autopilot\stm32f4xx_it.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\stm32f4xx_it.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -15,7 +15,7 @@ autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-autopilot\stm32f4xx_it.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
+autopilot\stm32f4xx_it.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -41,7 +41,7 @@ autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 autopilot\stm32f4xx_it.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 autopilot\stm32f4xx_it.o: ../Inc/stm32f4xx_it.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
-autopilot\stm32f4xx_it.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
+autopilot\stm32f4xx_it.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
 autopilot\stm32f4xx_it.o: ../Drivers/CMSIS/Include/core_cmFunc.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
 autopilot\stm32f4xx_it.o: ../Inc/FreeRTOSConfig.h
@@ -56,3 +56,4 @@ autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/tim
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
+autopilot\stm32f4xx_it.o: ../Src/../Devices/GPS.h

@@ -1,9 +1,9 @@
 autopilot\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/tasks.c
-autopilot\tasks.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
-autopilot\tasks.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
+autopilot\tasks.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
+autopilot\tasks.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
 autopilot\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-autopilot\tasks.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
-autopilot\tasks.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\tasks.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
+autopilot\tasks.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\tasks.o: ../Inc/FreeRTOSConfig.h
 autopilot\tasks.o: ../Inc/mxconstants.h
 autopilot\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

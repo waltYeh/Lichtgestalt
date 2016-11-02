@@ -34,7 +34,9 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "usb_device.h"
-
+#include "../Devices/data_link.h"
+#include "../Devices/motor_pwm.h"
+#include "../Devices/GPS.h"
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -53,7 +55,7 @@ SPI_HandleTypeDef hspi3;
 DMA_HandleTypeDef hdma_spi3_rx;
 DMA_HandleTypeDef hdma_spi3_tx;
 
-TIM_HandleTypeDef htim2;
+
 TIM_HandleTypeDef htim3;
 
 UART_HandleTypeDef huart5;
@@ -81,7 +83,7 @@ static void MX_ADC1_Init(void);
 static void MX_CRC_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_SPI3_Init(void);
-static void MX_TIM2_Init(void);
+
 static void MX_UART5_Init(void);
 static void MX_USART6_UART_Init(void);
 static void MX_TIM3_Init(void);
@@ -91,14 +93,19 @@ void StartDefaultTask(void const * argument);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
                 
-
+short data[9]={1,2,3,4,5,6,7,8,9};
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+#define LED0_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);  
+#define LED0_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);  
+static void vLED0Task( void *pvParameters ); 
+#define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);  
+#define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);  
+static void vLED1Task( void *pvParameters ); 
 /* USER CODE END 0 */
 
 int main(void)
@@ -123,13 +130,13 @@ int main(void)
   MX_CRC_Init();
   MX_I2C1_Init();
   MX_SPI3_Init();
-  MX_TIM2_Init();
+  motor_init();
   MX_UART5_Init();
   MX_USART6_UART_Init();
   MX_TIM3_Init();
   MX_USART1_UART_Init();
   MX_I2C2_Init();
-
+	
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -153,6 +160,10 @@ int main(void)
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
+	xTaskCreate( vLED0Task, "LED0", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
+  xTaskCreate( vLED1Task, "LED1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
+  GPSInit();
+	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
@@ -178,6 +189,35 @@ int main(void)
 
 }
 
+void vLED0Task( void *pvParameters )  
+{  
+  TickType_t xLastWakeTime;
+	const TickType_t timeIncreament = 1000;
+	xLastWakeTime = xTaskGetTickCount();
+	for( ;; )  
+  {  
+    send_buffer(data, 18);
+		LED0_ON();  
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
+    LED0_OFF();  
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
+  }  
+}  
+void vLED1Task( void *pvParameters )  
+{  
+  TickType_t xLastWakeTime;
+	const TickType_t timeIncreament = 1000;
+	xLastWakeTime = xTaskGetTickCount();
+	for( ;; )  
+  {  
+//    LED0_ON(); 
+//		TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)		
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
+//    LED0_OFF();  
+		
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
+  }  
+}  
 /** System Clock Configuration
 */
 void SystemClock_Config(void)
@@ -194,7 +234,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLM = 25;
+  RCC_OscInitStruct.PLL.PLLM = 8;
   RCC_OscInitStruct.PLL.PLLN = 336;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 7;
@@ -333,57 +373,7 @@ static void MX_SPI3_Init(void)
 
 }
 
-/* TIM2 init function */
-static void MX_TIM2_Init(void)
-{
 
-  TIM_MasterConfigTypeDef sMasterConfig;
-  TIM_OC_InitTypeDef sConfigOC;
-
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 0;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  if (HAL_TIM_PWM_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  HAL_TIM_MspPostInit(&htim2);
-
-}
 
 /* TIM3 init function */
 static void MX_TIM3_Init(void)
@@ -393,9 +383,9 @@ static void MX_TIM3_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 83;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 0;
+  htim3.Init.Period = 3999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
   {
@@ -434,15 +424,18 @@ static void MX_TIM3_Init(void)
   }
 
   HAL_TIM_MspPostInit(&htim3);
-
+	__HAL_TIM_SET_AUTORELOAD(&htim3, 3999);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1500);
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
 }
 
 /* UART5 init function */
-static void MX_UART5_Init(void)
+//GPS
+static void MX_UART5_Init(void)//gps
 {
 
   huart5.Instance = UART5;
-  huart5.Init.BaudRate = 100000;
+  huart5.Init.BaudRate = 38400;
   huart5.Init.WordLength = UART_WORDLENGTH_8B;
   huart5.Init.StopBits = UART_STOPBITS_1;
   huart5.Init.Parity = UART_PARITY_NONE;
@@ -453,11 +446,12 @@ static void MX_UART5_Init(void)
   {
     Error_Handler();
   }
+	__HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE);
 
 }
 
 /* USART1 init function */
-static void MX_USART1_UART_Init(void)
+static void MX_USART1_UART_Init(void)//link
 {
 
   huart1.Instance = USART1;
@@ -505,6 +499,7 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Stream0_IRQn interrupt configuration */
+	//GPS
   HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
   /* DMA1_Stream2_IRQn interrupt configuration */
@@ -556,7 +551,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15|GPIO_PIN_4 
                           |GPIO_PIN_5, GPIO_PIN_RESET);
-	
+
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, GPIO_PIN_RESET);
 

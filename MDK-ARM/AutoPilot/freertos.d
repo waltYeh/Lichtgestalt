@@ -1,7 +1,7 @@
 autopilot\freertos.o: ../Src/freertos.c
 autopilot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
-autopilot\freertos.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
-autopilot\freertos.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\freertos.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stddef.h
+autopilot\freertos.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\freertos.o: ../Inc/FreeRTOSConfig.h
 autopilot\freertos.o: ../Inc/mxconstants.h
 autopilot\freertos.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h

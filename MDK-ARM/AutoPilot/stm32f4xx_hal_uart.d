@@ -7,7 +7,7 @@ autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ha
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Include/core_cm4.h
-autopilot\stm32f4xx_hal_uart.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\stm32f4xx_hal_uart.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -15,7 +15,7 @@ autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Include/core_cmSimd.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-autopilot\stm32f4xx_hal_uart.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
+autopilot\stm32f4xx_hal_uart.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 autopilot\stm32f4xx_hal_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h

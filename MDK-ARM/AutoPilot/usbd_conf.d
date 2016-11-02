@@ -2,7 +2,7 @@ autopilot\usbd_conf.o: ../Src/usbd_conf.c
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Include/core_cm4.h
-autopilot\usbd_conf.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
+autopilot\usbd_conf.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdint.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Include/core_cmInstr.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Include/core_cmFunc.h
@@ -15,7 +15,7 @@ autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 autopilot\usbd_conf.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-autopilot\usbd_conf.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
+autopilot\usbd_conf.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdio.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -41,8 +41,8 @@ autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h
 autopilot\usbd_conf.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h
 autopilot\usbd_conf.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 autopilot\usbd_conf.o: ../Inc/usbd_conf.h
-autopilot\usbd_conf.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
-autopilot\usbd_conf.o: D:\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
+autopilot\usbd_conf.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
+autopilot\usbd_conf.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
 autopilot\usbd_conf.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
 autopilot\usbd_conf.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
 autopilot\usbd_conf.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h
