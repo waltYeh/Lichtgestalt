@@ -60,6 +60,3 @@ autopilot\main.o: ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h
 autopilot\main.o: ../Inc/usbd_conf.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
-autopilot\main.o: ../Src/../Devices/data_link.h
-autopilot\main.o: ../Src/../Devices/motor_pwm.h
-autopilot\main.o: ../Src/../Devices/GPS.h

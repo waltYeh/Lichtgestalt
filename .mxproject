@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=E:/yExin/dasLaboratorium/STM32/STMGenerated/AutoPilot/Inc
+HeaderPath=F:/HauptOrdner/dasLaaboratorium/STM_AutoPilot/STM32/STMGenerated/AutoPilot/Inc
 HeaderFiles=FreeRTOSConfig.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_cdc_if.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;mxconstants.h;
-SourcePath=E:/yExin/dasLaboratorium/STM32/STMGenerated/AutoPilot/Src
+SourcePath=F:/HauptOrdner/dasLaaboratorium/STM_AutoPilot/STM32/STMGenerated/AutoPilot/Src
 SourceFiles=FreeRTOSConfig.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_cdc_if.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;mxconstants.h;freertos.c;usb_device.c;usbd_conf.c;usbd_desc.c;usbd_cdc_if.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;stm32f4xx_hal_timebase_TIM.c;main.c;
 
 [PreviousLibFiles]
