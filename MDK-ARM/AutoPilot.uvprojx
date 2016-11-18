@@ -373,7 +373,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;    ../Drivers/STM32F4xx_HAL_Driver/Inc;    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;    ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;    ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;    ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;    ../Middlewares/Third_Party/FreeRTOS/Source/include;    ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;    ../Drivers/CMSIS/Include;    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
+              <IncludePath>../Inc;            ../Drivers/STM32F4xx_HAL_Driver/Inc;            ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;            ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;            ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;            ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;            ../Middlewares/Third_Party/FreeRTOS/Source/include;            ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;            ../Drivers/CMSIS/Include;            ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -701,6 +701,31 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\motor_pwm.c</FilePath>
             </File>
+            <File>
+              <FileName>receiver_ppm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\receiver_ppm.c</FilePath>
+            </File>
+            <File>
+              <FileName>battery.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\battery.c</FilePath>
+            </File>
+            <File>
+              <FileName>mpu6000_spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\mpu6000_spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>hmc5883l_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\hmc5883l_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>ms5611_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\ms5611_i2c.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -712,6 +737,9 @@
               <FilePath>..\Modules\attitude_estimation.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>HighDriver</GroupName>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

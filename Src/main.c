@@ -36,7 +36,11 @@
 #include "usb_device.h"
 
 /* USER CODE BEGIN Includes */
-
+#include "../Devices/data_link.h"
+#include "../Devices/motor_pwm.h"
+#include "../Devices/GPS.h"
+#include "../Devices/receiver_ppm.h"
+#include "../Devices/battery.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -55,6 +59,8 @@ DMA_HandleTypeDef hdma_spi3_tx;
 
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim8;
 
 UART_HandleTypeDef huart5;
 UART_HandleTypeDef huart1;
@@ -87,6 +93,8 @@ static void MX_USART6_UART_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_I2C2_Init(void);
+static void MX_TIM4_Init(void);
+static void MX_TIM8_Init(void);
 void StartDefaultTask(void const * argument);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
@@ -94,16 +102,16 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
-/* USER CODE BEGIN 0 */
 #define LED0_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);  
 #define LED0_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);  
 static void vLED0Task( void *pvParameters ); 
 #define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET);  
 #define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET);  
 static void vLED1Task( void *pvParameters ); 
+/* USER CODE END PFP */
+
+/* USER CODE BEGIN 0 */
+
 /* USER CODE END 0 */
 
 int main(void)
@@ -134,9 +142,11 @@ int main(void)
   MX_TIM3_Init();
   MX_USART1_UART_Init();
   MX_I2C2_Init();
+  MX_TIM4_Init();
+  MX_TIM8_Init();
 
   /* USER CODE BEGIN 2 */
-
+	
   /* USER CODE END 2 */
 
   /* USER CODE BEGIN RTOS_MUTEX */
@@ -161,6 +171,9 @@ int main(void)
 	xTaskCreate( vLED0Task, "LED0", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
   xTaskCreate( vLED1Task, "LED1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
   GPSInit();
+	data_link_init();
+	PPM_init();
+	battery_init();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 
@@ -350,9 +363,9 @@ static void MX_TIM2_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 0;
+  htim2.Init.Prescaler = 83;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 0;
+  htim2.Init.Period = 3999;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_PWM_Init(&htim2) != HAL_OK)
   {
@@ -402,9 +415,9 @@ static void MX_TIM3_Init(void)
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
+  htim3.Init.Prescaler = 83;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 0;
+  htim3.Init.Period = 9999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
   {
@@ -443,6 +456,91 @@ static void MX_TIM3_Init(void)
   }
 
   HAL_TIM_MspPostInit(&htim3);
+
+}
+
+/* TIM4 init function */
+static void MX_TIM4_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 20;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 7999;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
+/* TIM8 init function */
+static void MX_TIM8_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
+
+  htim8.Instance = TIM8;
+  htim8.Init.Prescaler = 83;
+  htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim8.Init.Period = 39999;
+  htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim8.Init.RepetitionCounter = 0;
+  if (HAL_TIM_Base_Init(&htim8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim8, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_TIM_IC_Init(&htim8) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim8, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_BOTHEDGE;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim8, &sConfigIC, TIM_CHANNEL_3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  if (HAL_TIM_IC_ConfigChannel(&htim8, &sConfigIC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
 
 }
 
@@ -581,10 +679,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB0 PB1 PB2 PB12 
-                           PB13 PB15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_12 
-                          |GPIO_PIN_13|GPIO_PIN_15;
+  /*Configure GPIO pin : PB2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB12 PB13 PB15 */
+  GPIO_InitStruct.Pin = GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_15;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -603,10 +705,45 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+
 }
 
 /* USER CODE BEGIN 4 */
-
+void vLED0Task( void *pvParameters )  
+{  
+  TickType_t xLastWakeTime;
+	const TickType_t timeIncreament = 1000;
+	xLastWakeTime = xTaskGetTickCount();
+	for( ;; )  
+  {  
+//    send_buffer(data, 18);
+//		LED0_ON();  
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
+ //   LED0_OFF();  
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
+  }  
+}  
+void vLED1Task( void *pvParameters )  
+{  
+  TickType_t xLastWakeTime;
+	const TickType_t timeIncreament = 1000;
+	xLastWakeTime = xTaskGetTickCount();
+	for( ;; )  
+  {  
+//    LED0_ON(); 
+//		TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)		
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
+//    LED0_OFF();  
+		
+    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
+  }  
+}  
 /* USER CODE END 4 */
 
 /* StartDefaultTask function */

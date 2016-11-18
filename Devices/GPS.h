@@ -2,7 +2,7 @@
 #define GPS_H
 void GPSInit(void);
 
-void UsartReceive_IDLE(void);
+void GPSReceive_IDLE(void);
 
 struct _gps{
 	int lat;

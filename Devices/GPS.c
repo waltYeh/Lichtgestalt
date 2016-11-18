@@ -11,39 +11,39 @@ struct _gps gps;
 unsigned char gps_buffer0[GPS_BUFFER_SIZE];//change bigger?
 unsigned char gps_buffer1[GPS_BUFFER_SIZE];
 unsigned int data_len;
-unsigned char gpsbuffernumber=0;
-unsigned int gps_buf_ptr=0;
-//stores the array offset of the last received byte
-unsigned int l_buf_ptr=0;
-unsigned char buf_ptr_buffer=0;
-unsigned char l_buf_ptr_buffer=0;
-unsigned int package_len=0;
-//length between two timouts
-
-unsigned char buffer_change_times=0;
+unsigned char buffer_num=0;
 //cleared at timeout, ++ during dma interrupt
 static void GPSTask( void *pvParameters );
 
-//static void GPSTask( void *pvParameters ); 
-void GPSTask( void *pvParameters ); 
 
-void UsartReceive_IDLE(void)  
+void GPSReceive_IDLE(void)  
 {  
-    uint32_t temp;  
+  //  uint32_t temp;  
   
-    if((__HAL_UART_GET_FLAG(&huart5,UART_FLAG_IDLE) != RESET))  
-    {   
-        __HAL_UART_CLEAR_IDLEFLAG(&huart5);  
-        HAL_UART_DMAStop(&huart5);  
-        temp = huart5.hdmarx->Instance->NDTR;  
-        data_len =  GPS_BUFFER_SIZE - temp;     
-        HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE);  
-    }  
+	if((__HAL_UART_GET_FLAG(&huart5,UART_FLAG_IDLE) != RESET)){   
+		__HAL_UART_CLEAR_IDLEFLAG(&huart5);  
+		HAL_UART_DMAStop(&huart5);  
+       // temp = huart5.hdmarx->Instance->NDTR;  
+		data_len =  GPS_BUFFER_SIZE - huart5.hdmarx->Instance->NDTR;             
+		buffer_num = (!buffer_num) & 1;//either 0 or 1			
+		if(buffer_num == 0){
+			HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE); 
+		}
+		else{
+			HAL_UART_Receive_DMA(&huart5,gps_buffer1,GPS_BUFFER_SIZE); 
+		}		
+	}  
 }  
 void GPSInit(void)
 {
+	__HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE);
 	xTaskCreate( GPSTask, "GPS", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
-	HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE); 
+	if(buffer_num == 0){
+		HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE); 
+	}
+	else{
+		HAL_UART_Receive_DMA(&huart5,gps_buffer1,GPS_BUFFER_SIZE); 
+	}		
 }
 void GPSTask( void *pvParameters )
 {
@@ -102,20 +102,15 @@ void get_gps_data(void)//read the data we want in gps_buffer[160]
 	int gps_temp_data[2]={0,0};//to store unsigned LAT and LON, and wait for the NSEW letter
 	unsigned char gps_in;
 	unsigned int i,j=0;
-	unsigned int reading_ptr = l_buf_ptr;
-	unsigned char reading_buf = l_buf_ptr_buffer;	
-	for(j=0;j<package_len;j++){
-		reading_ptr++;
-		if(reading_ptr > GPS_BUFFER_SIZE - 1){
-			reading_ptr = 0;
-			reading_buf = (!reading_buf) & 1;//either 0 or 1
-		}
-		if(reading_buf == 0){
-			gps_in=gps_buffer0[reading_ptr]; 
+
+	for(j=0;j<data_len;j++){
+		if(buffer_num == 0){
+			gps_in=gps_buffer0[j]; 
 		}
 		else{
-			gps_in=gps_buffer1[reading_ptr]; 
+			gps_in=gps_buffer1[j]; 
 		}		
+		
 		if(gps_in=='$'){
 			string_offset=0;
 			received_type=0;

@@ -38,6 +38,7 @@
 
 /* USER CODE BEGIN 0 */
 #include "../Devices/GPS.h"
+#include "../Devices/data_link.h"
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -50,6 +51,8 @@ extern I2C_HandleTypeDef hi2c2;
 extern DMA_HandleTypeDef hdma_spi3_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern SPI_HandleTypeDef hspi3;
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim8;
 extern DMA_HandleTypeDef hdma_uart5_rx;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
@@ -177,6 +180,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles EXTI line2 interrupt.
+*/
+void EXTI2_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI2_IRQn 0 */
+	HAL_GPIO_EXTI_Callback(GPIO_PIN_2);
+  /* USER CODE END EXTI2_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
+  /* USER CODE BEGIN EXTI2_IRQn 1 */
+
+  /* USER CODE END EXTI2_IRQn 1 */
+}
+
+/**
 * @brief This function handles DMA1 stream0 global interrupt.
 */
 void DMA1_Stream0_IRQHandler(void)
@@ -261,6 +278,20 @@ void TIM1_UP_TIM10_IRQHandler(void)
 }
 
 /**
+* @brief This function handles TIM4 global interrupt.
+*/
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+
+  /* USER CODE END TIM4_IRQn 1 */
+}
+
+/**
 * @brief This function handles I2C1 event interrupt.
 */
 void I2C1_EV_IRQHandler(void)
@@ -298,8 +329,38 @@ void USART1_IRQHandler(void)
   /* USER CODE END USART1_IRQn 0 */
   HAL_UART_IRQHandler(&huart1);
   /* USER CODE BEGIN USART1_IRQn 1 */
-
+	DataLinkReceive_IDLE();
   /* USER CODE END USART1_IRQn 1 */
+}
+
+/**
+* @brief This function handles EXTI line[15:10] interrupts.
+*/
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+	//13 as UOUT
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_12);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_15);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
+}
+
+/**
+* @brief This function handles TIM8 capture compare interrupt.
+*/
+void TIM8_CC_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM8_CC_IRQn 0 */
+	HAL_TIM_IC_CaptureCallback(&htim8);//identify the channel?
+  /* USER CODE END TIM8_CC_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim8);
+  /* USER CODE BEGIN TIM8_CC_IRQn 1 */
+
+  /* USER CODE END TIM8_CC_IRQn 1 */
 }
 
 /**
@@ -340,7 +401,7 @@ void UART5_IRQHandler(void)
   /* USER CODE END UART5_IRQn 0 */
   HAL_UART_IRQHandler(&huart5);
   /* USER CODE BEGIN UART5_IRQn 1 */
-	UsartReceive_IDLE();
+	GPSReceive_IDLE();
   /* USER CODE END UART5_IRQn 1 */
 }
 

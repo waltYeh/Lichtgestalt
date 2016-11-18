@@ -57,3 +57,4 @@ autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/que
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 autopilot\stm32f4xx_it.o: ../Src/../Devices/GPS.h
+autopilot\stm32f4xx_it.o: ../Src/../Devices/data_link.h

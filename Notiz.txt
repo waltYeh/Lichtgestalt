@@ -1,0 +1,13 @@
+PWMA TIM2 500Hz, Resolution 0.5us
+PWMB TIM3 100Hz, Resolution 0.5us
+Internal TIM4 clock 1000Hz reset(interrupt) Resol 0.125us
+PPM TIM8 capture clock 50Hz Resol 0.5us PC8->CH3, PC9->CH4
+
+USB_out PB13 HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+USB_in PB14 output pin
+
+GPS RX PD2 TX PC12 USART5
+
+XBee RX PB7 TX PB6 USART1
+
+PWM PA5,1,2,3 TIM2
