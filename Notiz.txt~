@@ -11,12 +11,3 @@ GPS RX PD2 TX PC12 USART5
 XBee RX PB7 TX PB6 USART1
 
 PWM PA5,1,2,3 TIM2
-
-
-SPI
-SPI3 PA4 NSS PB5 MOSI PC11 MISO PC10 SCK 
-http://blacbird.de/tutorial-stm32-cubemx-spi
-
-I2C
-Compass I2C1
-PB8 SCL PB9 SDA

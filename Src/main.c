@@ -41,6 +41,8 @@
 #include "../Devices/GPS.h"
 #include "../Devices/receiver_ppm.h"
 #include "../Devices/battery.h"
+#include "../Devices/mpu6000_spi.h"
+#include "../Devices/hmc5883l_i2c.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -60,6 +62,7 @@ DMA_HandleTypeDef hdma_spi3_tx;
 TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
+TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim8;
 
 UART_HandleTypeDef huart5;
@@ -95,6 +98,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_TIM8_Init(void);
+static void MX_TIM5_Init(void);
 void StartDefaultTask(void const * argument);
 
 void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
@@ -144,6 +148,7 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM4_Init();
   MX_TIM8_Init();
+  MX_TIM5_Init();
 
   /* USER CODE BEGIN 2 */
 	
@@ -174,6 +179,10 @@ int main(void)
 	data_link_init();
 	PPM_init();
 	battery_init();
+	mpu6000_cfg();
+	hmc5883l_cfg();
+	mpu_fast_init();
+	hmc_fast_init();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 
@@ -343,7 +352,7 @@ static void MX_SPI3_Init(void)
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi3.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_64;
   hspi3.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi3.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi3.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -485,6 +494,38 @@ static void MX_TIM4_Init(void)
   sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+}
+
+/* TIM5 init function */
+static void MX_TIM5_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim5.Instance = TIM5;
+  htim5.Init.Prescaler = 0;
+  htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim5.Init.Period = 0;
+  htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim5) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim5, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim5, &sMasterConfig) != HAL_OK)
   {
     Error_Handler();
   }
