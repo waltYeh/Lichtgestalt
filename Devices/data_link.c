@@ -2,7 +2,7 @@
 #include "string.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 29
 #define RX_BUF_SIZE 64
 unsigned char tx_buffer[TX_BUF_SIZE];
@@ -14,28 +14,28 @@ short data[9]={1,2,3,4,5,6,7,8,9};
 static void vDataLinkTask( void *pvParameters ) ;
 void data_link_init(void)
 {
-	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
 	xTaskCreate( vDataLinkTask, "XBee", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 	if(xbee_buffer_num == 0){
-		HAL_UART_Receive_DMA(&huart1,rx_buffer0,RX_BUF_SIZE); 
+		HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
 	}
 	else{
-		HAL_UART_Receive_DMA(&huart1,rx_buffer0,RX_BUF_SIZE); 
+		HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
 	}	
 }
 void DataLinkReceive_IDLE(void)
 {
-	if((__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE) != RESET)){   
-		__HAL_UART_CLEAR_IDLEFLAG(&huart1);  
-		HAL_UART_DMAStop(&huart1);  
+	if((__HAL_UART_GET_FLAG(&huart2,UART_FLAG_IDLE) != RESET)){   
+		__HAL_UART_CLEAR_IDLEFLAG(&huart2);  
+		HAL_UART_DMAStop(&huart2);  
        // temp = huart5.hdmarx->Instance->NDTR;  
-		xbee_data_len =  RX_BUF_SIZE - huart1.hdmarx->Instance->NDTR;             
+		xbee_data_len =  RX_BUF_SIZE - huart2.hdmarx->Instance->NDTR;             
 		xbee_buffer_num = (!xbee_buffer_num) & 1;//either 0 or 1			
 		if(xbee_buffer_num == 0){
-			HAL_UART_Receive_DMA(&huart1,rx_buffer0,RX_BUF_SIZE); 
+			HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
 		}
 		else{
-			HAL_UART_Receive_DMA(&huart1,rx_buffer1,RX_BUF_SIZE); 
+			HAL_UART_Receive_DMA(&huart2,rx_buffer1,RX_BUF_SIZE); 
 		}		
 	}  
 }
@@ -62,7 +62,7 @@ void send_buffer(void *data, unsigned short len)
 	memcpy(tx_buffer+6,data,18);
 	memcpy(tx_buffer+24,&crc_result,2);
 	memcpy(tx_buffer+26,protocol_last,3);
-	HAL_UART_Transmit_DMA(&huart1, tx_buffer, TX_BUF_SIZE);
+	HAL_UART_Transmit_DMA(&huart2, tx_buffer, TX_BUF_SIZE);
 }
 void get_xbee_data(void)
 {

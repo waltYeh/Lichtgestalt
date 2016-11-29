@@ -1,12 +1,14 @@
 #include "hmc5883l_i2c.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "motor_pwm.h"
 extern I2C_HandleTypeDef hi2c1;
 
 //uint8_t mag_i2c_tx[6] = {0,0,0,0,0,0};
 uint8_t mag_i2c_rx[6];
 //uint8_t acc_gyr_tx[15];
 short mag_data[3];
+//short mag_queue[3][20];
 
 static void vHMC5883LTask( void *pvParameters ) ;
 void hmc5883l_cfg(void)
@@ -39,19 +41,25 @@ void hmc_fast_init(void)
 void vHMC5883LTask( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 100;
+	const TickType_t timeIncreament = 14;//max rate is 75Hz
+	unsigned int duty[4]={1000,1500,2000,2500};
 	xLastWakeTime = xTaskGetTickCount();
-	for( ;; )  
-  {  
-  //  hmc5883l_read_all();
+	for( ;; )  {  
 		hmc5883l_dma_start();
     vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
+		motor_pwm2_output(duty);
   }  
 }
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	int i;
+//	static int j=0;
+//	j++;
+//	if(j==20)
+//		j=0;
 	for (i=0; i<3; i++){
 		mag_data[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
+//		mag_queue[i][j] = mag_data[i];
 	}
+	
 }

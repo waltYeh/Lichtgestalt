@@ -41,6 +41,48 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define EXTI13_MAG_RDY_Pin GPIO_PIN_13
+#define EXTI13_MAG_RDY_GPIO_Port GPIOC
+#define LED2_Pin GPIO_PIN_14
+#define LED2_GPIO_Port GPIOC
+#define LED1_Pin GPIO_PIN_3
+#define LED1_GPIO_Port GPIOC
+#define USART2_TX_XBee_Pin GPIO_PIN_2
+#define USART2_TX_XBee_GPIO_Port GPIOA
+#define USART2_RX_XBee_Pin GPIO_PIN_3
+#define USART2_RX_XBee_GPIO_Port GPIOA
+#define TIM3_CH3_PWM_Pin GPIO_PIN_0
+#define TIM3_CH3_PWM_GPIO_Port GPIOB
+#define TIM3_CH4_PWM_Pin GPIO_PIN_1
+#define TIM3_CH4_PWM_GPIO_Port GPIOB
+#define EXTI2_SafeBut_Pin GPIO_PIN_2
+#define EXTI2_SafeBut_GPIO_Port GPIOB
+#define LED3_Pin GPIO_PIN_15
+#define LED3_GPIO_Port GPIOB
+#define TIM3_CH1_PWM_Pin GPIO_PIN_6
+#define TIM3_CH1_PWM_GPIO_Port GPIOC
+#define TIM3_CH2_PWM_Pin GPIO_PIN_7
+#define TIM3_CH2_PWM_GPIO_Port GPIOC
+#define TIM8_CH3_PPM_Pin GPIO_PIN_8
+#define TIM8_CH3_PPM_GPIO_Port GPIOC
+#define USB_PP_Pin GPIO_PIN_10
+#define USB_PP_GPIO_Port GPIOA
+#define USB_OUT_Pin GPIO_PIN_10
+#define USB_OUT_GPIO_Port GPIOC
+#define USB_IN_Pin GPIO_PIN_11
+#define USB_IN_GPIO_Port GPIOC
+#define USART5_TX_IBUS_Pin GPIO_PIN_12
+#define USART5_TX_IBUS_GPIO_Port GPIOC
+#define USART5_RX_IBUS_Pin GPIO_PIN_2
+#define USART5_RX_IBUS_GPIO_Port GPIOD
+#define USART1_TX_GPS_Pin GPIO_PIN_6
+#define USART1_TX_GPS_GPIO_Port GPIOB
+#define USART1_RX_GPS_Pin GPIO_PIN_7
+#define USART1_RX_GPS_GPIO_Port GPIOB
+#define I2C1_SCL_MAG_Pin GPIO_PIN_8
+#define I2C1_SCL_MAG_GPIO_Port GPIOB
+#define I2C1_SDA_MAG_Pin GPIO_PIN_9
+#define I2C1_SDA_MAG_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

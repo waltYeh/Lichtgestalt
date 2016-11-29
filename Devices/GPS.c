@@ -6,7 +6,7 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #define GPS_BUFFER_SIZE 512
-extern UART_HandleTypeDef huart5;
+extern UART_HandleTypeDef huart1;
 struct _gps gps;
 unsigned char gps_buffer0[GPS_BUFFER_SIZE];//change bigger?
 unsigned char gps_buffer1[GPS_BUFFER_SIZE];
@@ -20,29 +20,29 @@ void GPSReceive_IDLE(void)
 {  
   //  uint32_t temp;  
   
-	if((__HAL_UART_GET_FLAG(&huart5,UART_FLAG_IDLE) != RESET)){   
-		__HAL_UART_CLEAR_IDLEFLAG(&huart5);  
-		HAL_UART_DMAStop(&huart5);  
-       // temp = huart5.hdmarx->Instance->NDTR;  
-		data_len =  GPS_BUFFER_SIZE - huart5.hdmarx->Instance->NDTR;             
+	if((__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE) != RESET)){   
+		__HAL_UART_CLEAR_IDLEFLAG(&huart1);  
+		HAL_UART_DMAStop(&huart1);  
+       // temp = huart1.hdmarx->Instance->NDTR;  
+		data_len =  GPS_BUFFER_SIZE - huart1.hdmarx->Instance->NDTR;             
 		buffer_num = (!buffer_num) & 1;//either 0 or 1			
 		if(buffer_num == 0){
-			HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE); 
+			HAL_UART_Receive_DMA(&huart1,gps_buffer0,GPS_BUFFER_SIZE); 
 		}
 		else{
-			HAL_UART_Receive_DMA(&huart5,gps_buffer1,GPS_BUFFER_SIZE); 
+			HAL_UART_Receive_DMA(&huart1,gps_buffer1,GPS_BUFFER_SIZE); 
 		}		
 	}  
 }  
 void GPSInit(void)
 {
-	__HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE);
+	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
 	xTaskCreate( GPSTask, "GPS", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 	if(buffer_num == 0){
-		HAL_UART_Receive_DMA(&huart5,gps_buffer0,GPS_BUFFER_SIZE); 
+		HAL_UART_Receive_DMA(&huart1,gps_buffer0,GPS_BUFFER_SIZE); 
 	}
 	else{
-		HAL_UART_Receive_DMA(&huart5,gps_buffer1,GPS_BUFFER_SIZE); 
+		HAL_UART_Receive_DMA(&huart1,gps_buffer1,GPS_BUFFER_SIZE); 
 	}		
 }
 void GPSTask( void *pvParameters )
