@@ -1395,7 +1395,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
 I (../Src/../Devices/GPS.h)(0x581A709B)
 I (../Src/../Devices/data_link.h)(0x581A726D)
-F (../Src/main.c)(0x583A5595)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\main.o --omf_browse autopilot\main.crf --depend autopilot\main.d)
+F (../Src/main.c)(0x58401359)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\main.o --omf_browse autopilot\main.crf --depend autopilot\main.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
 I (../Inc/mxconstants.h)(0x583A4F06)
@@ -1460,8 +1460,12 @@ I (../Src/../Devices/motor_pwm.h)(0x581A7498)
 I (../Src/../Devices/GPS.h)(0x581A709B)
 I (../Src/../Devices/receiver_ppm.h)(0x582E5981)
 I (../Src/../Devices/battery.h)(0x582EA454)
-I (../Src/../Devices/mpu6000_spi.h)(0x582F4B1D)
-I (../Src/../Devices/hmc5883l_i2c.h)(0x582FC45B)
+I (../Src/../Devices/mpu6000_spi.h)(0x584018FE)
+I (../Src/../Devices/hmc5883l_i2c.h)(0x583FB718)
+I (../Src/../Modules/sensors_task.h)(0x584011EC)
+I (../Src/../Modules/stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (../Src/../Modules/stabilizer.h)(0x583F107F)
 F (../Src/stm32f4xx_hal_timebase_TIM.c)(0x583A4F05)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\stm32f4xx_hal_timebase_tim.o --omf_browse autopilot\stm32f4xx_hal_timebase_tim.crf --depend autopilot\stm32f4xx_hal_timebase_tim.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
@@ -1743,7 +1747,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x581AA2D8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x581AA2D8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x581AA2D8)
 F (startup_stm32f405xx.s)(0x583A4F0A)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1" -I..\Inc-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include--pd "__UVISION_VERSION SETA 516" --pd "_RTE_ SETA 1" --pd "STM32F405xx SETA 1"--list startup_stm32f405xx.lst --xref -o autopilot\startup_stm32f405xx.o --depend autopilot\startup_stm32f405xx.d)
-F (..\Devices\GPS.c)(0x583520E1)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\gps.o --omf_browse autopilot\gps.crf --depend autopilot\gps.d)
+F (..\Devices\GPS.c)(0x583FAB0A)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\gps.o --omf_browse autopilot\gps.crf --depend autopilot\gps.d)
 I (..\Devices\GPS.h)(0x581A709B)
 I (..\Devices\../Modules/commons.h)(0x57EE97B4)
 I (..\Devices\../Major/platform.h)(0x5800443B)
@@ -1803,7 +1807,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
-F (..\Devices\data_link.c)(0x58352012)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\data_link.o --omf_browse autopilot\data_link.crf --depend autopilot\data_link.d)
+F (..\Devices\data_link.c)(0x583F2D5B)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\data_link.o --omf_browse autopilot\data_link.crf --depend autopilot\data_link.d)
 I (..\Devices\data_link.h)(0x581A726D)
 I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\string.h)(0x55AEF5F2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
@@ -1860,6 +1864,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
+I (..\Devices\../config/config.h)(0x583F354F)
 F (..\Devices\motor_pwm.c)(0x58352028)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\motor_pwm.o --omf_browse autopilot\motor_pwm.crf --depend autopilot\motor_pwm.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
@@ -1901,7 +1906,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x581AA2D8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x581AA2D8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x581AA2D8)
 I (..\Devices\motor_pwm.h)(0x581A7498)
-F (..\Devices\battery.c)(0x582EA30C)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\battery.o --omf_browse autopilot\battery.crf --depend autopilot\battery.d)
+F (..\Devices\battery.c)(0x58402447)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\battery.o --omf_browse autopilot\battery.crf --depend autopilot\battery.d)
 I (..\Devices\battery.h)(0x582EA454)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
@@ -1957,8 +1962,15 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
-F (..\Devices\mpu6000_spi.c)(0x58351FEF)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\mpu6000_spi.o --omf_browse autopilot\mpu6000_spi.crf --depend autopilot\mpu6000_spi.d)
-I (..\Devices\mpu6000_spi.h)(0x582F4B1D)
+I (..\Devices\../config/config.h)(0x583F354F)
+I (..\Devices\../Modules/stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+F (..\Devices\mpu6000_spi.c)(0x58401D85)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\mpu6000_spi.o --omf_browse autopilot\mpu6000_spi.crf --depend autopilot\mpu6000_spi.d)
+I (..\Devices\mpu6000_spi.h)(0x584018FE)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (..\Devices\../Modules/sensors_task.h)(0x584011EC)
+I (..\Devices\../Modules/stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
 I (../Inc/mxconstants.h)(0x583A4F06)
@@ -1967,7 +1979,6 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h)(0x581AA2D8)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x581AA260)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h)(0x581AA260)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x581AA262)
-I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
 I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x581AA262)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x581AA262)
 I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x581AA262)
@@ -2013,8 +2024,13 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
-F (..\Devices\hmc5883l_i2c.c)(0x583A5240)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\hmc5883l_i2c.o --omf_browse autopilot\hmc5883l_i2c.crf --depend autopilot\hmc5883l_i2c.d)
-I (..\Devices\hmc5883l_i2c.h)(0x582FC45B)
+I (..\Devices\../config/config.h)(0x583F354F)
+F (..\Devices\hmc5883l_i2c.c)(0x583FAAFA)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\hmc5883l_i2c.o --omf_browse autopilot\hmc5883l_i2c.crf --depend autopilot\hmc5883l_i2c.d)
+I (..\Devices\hmc5883l_i2c.h)(0x583FB718)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (..\Devices\../Modules/sensors_task.h)(0x584011EC)
+I (..\Devices\../Modules/stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
 I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
 I (../Inc/mxconstants.h)(0x583A4F06)
@@ -2023,7 +2039,6 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h)(0x581AA2D8)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x581AA260)
 I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h)(0x581AA260)
 I (../Drivers/CMSIS/Include/core_cm4.h)(0x581AA262)
-I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
 I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x581AA262)
 I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x581AA262)
 I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x581AA262)
@@ -2070,6 +2085,7 @@ I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
 I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
 I (..\Devices\motor_pwm.h)(0x581A7498)
+I (..\Devices\../config/config.h)(0x583F354F)
 F (..\Devices\receiver_ppm.c)(0x582E8F4E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\receiver_ppm.o --omf_browse autopilot\receiver_ppm.crf --depend autopilot\receiver_ppm.d)
 I (..\Devices\receiver_ppm.h)(0x582E5981)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
@@ -2113,4 +2129,126 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x581AA2D8)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x581AA2D8)
 F (..\Devices\ms5611_i2c.c)(0x582EA5B3)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\ms5611_i2c.o --omf_browse autopilot\ms5611_i2c.crf --depend autopilot\ms5611_i2c.d)
 I (..\Devices\ms5611_i2c.h)(0x582EA670)
-F (..\Modules\attitude_estimation.c)(0x57FFB15C)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\attitude_estimation.o --omf_browse autopilot\attitude_estimation.crf --depend autopilot\attitude_estimation.d)
+F (..\Modules\system.c)(0x583FAAFA)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\system.o --omf_browse autopilot\system.crf --depend autopilot\system.d)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x581AA265)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stddef.h)(0x55AEF5F2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (../Inc/FreeRTOSConfig.h)(0x583A4F01)
+I (../Inc/mxconstants.h)(0x583A4F06)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
+I (..\Modules\../config/config.h)(0x583F354F)
+I (..\Modules\system.h)(0x583F1326)
+F (..\Modules\stabilizer.c)(0x584029CE)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\stabilizer.o --omf_browse autopilot\stabilizer.crf --depend autopilot\stabilizer.d)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\math.h)(0x55AEF5F2)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x581AA265)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stddef.h)(0x55AEF5F2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (../Inc/FreeRTOSConfig.h)(0x583A4F01)
+I (../Inc/mxconstants.h)(0x583A4F06)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x581AA265)
+I (..\Modules\system.h)(0x583F1326)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (..\Modules\../config/config.h)(0x583F354F)
+I (..\Modules\attitude_estimator.h)(0x584026E7)
+I (..\Modules\stabilizer_types.h)(0x584026D2)
+I (..\Modules\controller.h)(0x5840284C)
+I (..\Modules\motor_mixer.h)(0x58402943)
+I (..\Modules\sensors_task.h)(0x584011EC)
+I (..\Modules\stabilizer.h)(0x583F107F)
+F (..\Modules\sensors_task.c)(0x5840242E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\sensors_task.o --omf_browse autopilot\sensors_task.crf --depend autopilot\sensors_task.d)
+I (..\Modules\../Devices/hmc5883l_i2c.h)(0x583FB718)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (..\Modules\../Devices/mpu6000_spi.h)(0x584018FE)
+I (..\Modules\low_pass_filter.h)(0x583FD360)
+I (..\Modules\sensors_task.h)(0x584011EC)
+I (..\Modules\stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x581AA2D8)
+I (../Inc/stm32f4xx_hal_conf.h)(0x583A4F06)
+I (../Inc/mxconstants.h)(0x583A4F06)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h)(0x581AA2D8)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h)(0x581AA260)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f405xx.h)(0x581AA260)
+I (../Drivers/CMSIS/Include/core_cm4.h)(0x581AA262)
+I (../Drivers/CMSIS/Include/core_cmInstr.h)(0x581AA262)
+I (../Drivers/CMSIS/Include/cmsis_armcc.h)(0x581AA262)
+I (../Drivers/CMSIS/Include/core_cmFunc.h)(0x581AA262)
+I (../Drivers/CMSIS/Include/core_cmSimd.h)(0x581AA262)
+I (../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h)(0x581AA260)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h)(0x581AA2D8)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdio.h)(0x55AEF5F2)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h)(0x581AA2D8)
+I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h)(0x581AA2D8)
+I (../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h)(0x581AA265)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stddef.h)(0x55AEF5F2)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h)(0x581AA265)
+I (../Inc/FreeRTOSConfig.h)(0x583A4F01)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F/portmacro.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/task.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/list.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/queue.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h)(0x581AA265)
+I (../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h)(0x581AA265)
+I (..\Modules\../config/config.h)(0x583F354F)
+F (..\Modules\low_pass_filter.c)(0x583FD367)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\low_pass_filter.o --omf_browse autopilot\low_pass_filter.crf --depend autopilot\low_pass_filter.d)
+I (..\Modules\low_pass_filter.h)(0x583FD360)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\math.h)(0x55AEF5F2)
+F (..\Modules\commander.c)(0x58402993)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\commander.o --omf_browse autopilot\commander.crf --depend autopilot\commander.d)
+I (..\Modules\commander.h)(0x5840299A)
+F (..\Modules\motor_mixer.c)(0x58402943)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\motor_mixer.o --omf_browse autopilot\motor_mixer.crf --depend autopilot\motor_mixer.d)
+I (..\Modules\motor_mixer.h)(0x58402943)
+I (..\Modules\stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+F (..\Modules\attitude_estimator.c)(0x584026E7)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\attitude_estimator.o --omf_browse autopilot\attitude_estimator.crf --depend autopilot\attitude_estimator.d)
+I (..\Modules\stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)
+I (..\Modules\attitude_estimator.h)(0x584026E7)
+F (..\Modules\controller.c)(0x58402A12)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I../Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I../Middlewares/ST/STM32_USB_Device_Library/Core/Inc -I../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include --C99-I F:\HauptOrdner\dasLaaboratorium\STM_AutoPilot\STM32\STMGenerated\Swarm\MDK-ARM\RTE-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include-I F:\SoftwareOrdner\Keil5\installed\ARM\PACK\STM32F4xx\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="516" -D_RTE_ -DSTM32F405xx -DUSE_HAL_DRIVER -DSTM32F405xx --C99-o autopilot\controller.o --omf_browse autopilot\controller.crf --depend autopilot\controller.d)
+I (..\Modules\controller.h)(0x5840284C)
+I (..\Modules\stabilizer_types.h)(0x584026D2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdint.h)(0x55AEF5F2)
+I (F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\include\stdbool.h)(0x55AEF5F2)

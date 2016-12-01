@@ -1,7 +1,9 @@
 #ifndef MPU6000_H
 #define MPU6000_H
+#include <stdint.h>
 void mpu6000_cfg(void);
 void mpu_fast_init(void);
+void mpu6000_dma_start(uint8_t *pRxData, uint16_t Size);
 
 #define IMU_ADD 0x00680000
 #define MPU_ADDR 0x68

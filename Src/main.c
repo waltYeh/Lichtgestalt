@@ -43,6 +43,8 @@
 #include "../Devices/battery.h"
 #include "../Devices/mpu6000_spi.h"
 #include "../Devices/hmc5883l_i2c.h"
+#include "../Modules/sensors_task.h"
+#include "../Modules/stabilizer.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -176,6 +178,8 @@ int main(void)
 	hmc5883l_cfg();
 	mpu_fast_init();
 	hmc_fast_init();
+	sensorsTaskInit();
+	stabilizerInit();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 

@@ -732,9 +732,44 @@
           <GroupName>Modules</GroupName>
           <Files>
             <File>
-              <FileName>attitude_estimation.c</FileName>
+              <FileName>system.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Modules\attitude_estimation.c</FilePath>
+              <FilePath>..\Modules\system.c</FilePath>
+            </File>
+            <File>
+              <FileName>stabilizer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\stabilizer.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensors_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\sensors_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>low_pass_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\low_pass_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>commander.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\commander.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor_mixer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\motor_mixer.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_estimator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\attitude_estimator.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\controller.c</FilePath>
             </File>
           </Files>
         </Group>

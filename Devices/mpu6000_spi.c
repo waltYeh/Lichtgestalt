@@ -1,13 +1,15 @@
 #include "mpu6000_spi.h"
+#include "../Modules/sensors_task.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "../config/config.h"
 extern SPI_HandleTypeDef hspi1;
 uint8_t acc_gyr_spi_tx[15] = {(1<<7)|(0x3B), 0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-uint8_t acc_gyr_spi_rx[15];
+//uint8_t acc_gyr_spi_rx[15];
 //uint8_t acc_gyr_tx[15];
-short a_g_data[6];
+//short a_g_data[6];
 //short a_g_queue[6][20];
-static void vMPU6000Task( void *pvParameters ) ;
+//static void vMPU6000Task( void *pvParameters ) ;
 void mpu6000_cfg(void)
 {
 	uint8_t who_am_i_tx[2] = {(1<<7)|RA_WHO_AM_I, 0};
@@ -20,6 +22,7 @@ void mpu6000_cfg(void)
 	uint8_t user_ctrl[2] = {RA_USER_CTRL, 0x0};
 	uint8_t int_pin_cfg[2] = {RA_INT_PIN_CFG, 0x0};
 	uint8_t int_enable[2] = {RA_INT_ENABLE, 0x0};
+	HAL_Delay(10);
 	__HAL_SPI_ENABLE(&hspi1);
 	HAL_SPI_TransmitReceive(&hspi1, who_am_i_tx, dummy_rcv, 2, 1);
 	__HAL_SPI_DISABLE(&hspi1);
@@ -56,6 +59,7 @@ void mpu6000_cfg(void)
 	HAL_SPI_TransmitReceive(&hspi1, int_enable, dummy_rcv, 2, 1);
 	__HAL_SPI_DISABLE(&hspi1);
 }
+/*
 void mpu6000_read_all(void)
 {
 	uint8_t acc_gyr_tx[15];
@@ -74,22 +78,24 @@ void mpu6000_read_all(void)
 		a_g_data[i+3] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
 	}
 }
-void mpu6000_dma_start(void)
+*/
+void mpu6000_dma_start(uint8_t *pRxData, uint16_t Size)
 {
 	__HAL_SPI_ENABLE(&hspi1);
-	HAL_SPI_TransmitReceive_DMA(&hspi1, acc_gyr_spi_tx, acc_gyr_spi_rx, 15);
+	HAL_SPI_TransmitReceive_DMA(&hspi1, acc_gyr_spi_tx, pRxData, Size);
 //	__HAL_SPI_ENABLE_IT(&hspi1, (SPI_IT_TXE | SPI_IT_RXNE | SPI_IT_ERR));
 
 }
 
 void mpu_fast_init(void)
 {
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_4;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_8;
 	
   HAL_SPI_Init(&hspi1);
 
-	xTaskCreate( vMPU6000Task, "MPU6000", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+4, NULL );  
+//	xTaskCreate( vMPU6000Task, "MPU6000", configMINIMAL_STACK_SIZE, NULL, MPU_TASK_PRI, NULL );  
 }
+/*
 void vMPU6000Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
@@ -100,18 +106,16 @@ void vMPU6000Task( void *pvParameters )
 		vTaskDelayUntil(&xLastWakeTime, timeIncreament); 
 	}  
 }
+*/
+
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-	int i;
+
 //	static int j=0;
 	
 	__HAL_SPI_DISABLE(&hspi1);
-	for (i=0; i<3; i++){
-		a_g_data[i] = ((short)acc_gyr_spi_rx[2*i+1]<<8)|(short)acc_gyr_spi_rx[2*i+2];
-	}
-	for (i=0; i<3; i++){
-		a_g_data[i+3] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
-	}
+	mpu6000Callback();
+
 //	if(j%2 ==0)
 //		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);  
 //	else

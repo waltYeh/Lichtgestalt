@@ -55,7 +55,14 @@
 "autopilot\hmc5883l_i2c.o"
 "autopilot\receiver_ppm.o"
 "autopilot\ms5611_i2c.o"
-"autopilot\attitude_estimation.o"
+"autopilot\system.o"
+"autopilot\stabilizer.o"
+"autopilot\sensors_task.o"
+"autopilot\low_pass_filter.o"
+"autopilot\commander.o"
+"autopilot\motor_mixer.o"
+"autopilot\attitude_estimator.o"
+"autopilot\controller.o"
 --library_type=microlib --strict --scatter "AutoPilot\AutoPilot.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

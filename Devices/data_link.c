@@ -2,6 +2,7 @@
 #include "string.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "../config/config.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 29
 #define RX_BUF_SIZE 64
@@ -15,7 +16,7 @@ static void vDataLinkTask( void *pvParameters ) ;
 void data_link_init(void)
 {
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
-	xTaskCreate( vDataLinkTask, "XBee", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
+	xTaskCreate( vDataLinkTask, "XBee", configMINIMAL_STACK_SIZE, NULL, XBEE_TX_TASK_PRI, NULL );  
 	if(xbee_buffer_num == 0){
 		HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
 	}
