@@ -6,7 +6,7 @@
 extern ADC_HandleTypeDef hadc1;
 //unsigned int bat_volt = 0;
 static xQueueHandle bat_q;
-battery_t bat;
+static battery_t bat;
 static void vAdcTask(void *pvParameters);
 void battery_init(void)
 {

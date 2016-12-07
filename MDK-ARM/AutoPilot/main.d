@@ -61,6 +61,8 @@ autopilot\main.o: ../Inc/usbd_conf.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
 autopilot\main.o: ../Src/../Devices/data_link.h
+autopilot\main.o: ../Src/../Devices/../Modules/stabilizer_types.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdbool.h
 autopilot\main.o: ../Src/../Devices/motor_pwm.h
 autopilot\main.o: ../Src/../Devices/GPS.h
 autopilot\main.o: ../Src/../Devices/receiver_ppm.h
@@ -68,6 +70,4 @@ autopilot\main.o: ../Src/../Devices/battery.h
 autopilot\main.o: ../Src/../Devices/mpu6000_spi.h
 autopilot\main.o: ../Src/../Devices/hmc5883l_i2c.h
 autopilot\main.o: ../Src/../Modules/sensors_task.h
-autopilot\main.o: ../Src/../Modules/stabilizer_types.h
-autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdbool.h
 autopilot\main.o: ../Src/../Modules/stabilizer.h

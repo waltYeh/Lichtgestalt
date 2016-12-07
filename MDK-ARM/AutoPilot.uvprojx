@@ -371,7 +371,7 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--C99</MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F405xx</Define>
+              <Define>USE_HAL_DRIVER,STM32F405xx,ARM_MATH_CM4,__FPU_PRESENT=1,__CC_ARM</Define>
               <Undefine></Undefine>
               <IncludePath>../Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                    ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;                    ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                    ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;                    ../Middlewares/Third_Party/FreeRTOS/Source/include;                    ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;                    ../Drivers/CMSIS/Include;                    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
@@ -671,6 +671,36 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/CMSIS//Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c</FilePath>
             </File>
+            <File>
+              <FileName>arm_mat_trans_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_trans_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_mult_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_mult_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_sub_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_sub_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_init_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_init_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_scale_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_scale_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_std_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\StatisticsFunctions\arm_std_f32.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -726,6 +756,16 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\ms5611_i2c.c</FilePath>
             </File>
+            <File>
+              <FileName>xbee_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\xbee_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\led.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -775,6 +815,16 @@
         </Group>
         <Group>
           <GroupName>HighDriver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Commons</GroupName>
+          <Files>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Commons\utils.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

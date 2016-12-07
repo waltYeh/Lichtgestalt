@@ -2,15 +2,10 @@
 #define PLATFORM_H
 
 /******Board Version*****/
-#define BOARD_V5 1
-#define BOARD_V4 0
+#define BOARD_LICHTBRD_V1 1
 
 /******Air Frame*****/
-#define AIRFRAME_F450 0
-#define AIRFRAME_XINSONG 0
-#define AIRFRAME_F330 0
-#define AIRFRAME_F240 1
-
+#define AIRFRAME_LICHT160 1
 #if AIRFRAME_F450
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 1300//g
@@ -18,6 +13,7 @@
 	#define D2_SQRT2 636//(2*D)/SQRT2_2D
 	#define FORCE_TORQUE_RATIO 15//torq=c*f
 	#define CROSS 1
+	#define MOTOR_POWER 310
 #elif AIRFRAME_XINSONG
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 1200//g
@@ -25,6 +21,7 @@
 	#define D2_SQRT2 636//(2*D)/SQRT2_2D
 	#define FORCE_TORQUE_RATIO 15//torq=c*f
 	#define CROSS 1
+	#define MOTOR_POWER 410
 #elif AIRFRAME_F330
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 1100//actually 920g
@@ -32,6 +29,7 @@
 	#define D2_SQRT2 467//(2*D)/SQRT2_2D
 	#define FORCE_TORQUE_RATIO 15
 	#define CROSS 1
+	#define MOTOR_POWER 300
 #elif AIRFRAME_F240
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 720
@@ -39,40 +37,43 @@
 	#define D2_SQRT2 339//(2*D)/SQRT2_2D
 	#define FORCE_TORQUE_RATIO 15
 	#define PLUS 1
+	#define MOTOR_POWER 120
+#elif AIRFRAME_LICHT160
+	#define THRCMDRATIO 1
+	#define VEHICLE_MASS 240
+	#define ROTOR_DIST 160//mm
+	#define ONE_2_ROTOR_DIST 0.003125f//1/(2*d)
+	#define D2_SQRT2 226//(2*D)/SQRT2_2D
+	#define FORCE_TORQUE_RATIO 15
+	#define ONE_4_F_T_RATIO 0.01667f
+	#define PLUS 1
+	#define MOTOR_POWER 310
 #endif
 /******Sensors Used*****/
 #define IMU_MPU6000 1
-#define IMU_ANALOG 0
-
-#define GPS_M8N 0
-#define GPS_LEA6H 1
+#define GPS_M8N 1
+#define GPS_LEA6H 0
 
 #define COMPASS_HMC 1
-#define COMPASS_MPU 0
 
 #define BARO_I2C 1
 #define BARO_SPI 0
 
 /******Driver Options*****/
-#define USB_TEST 0
-#define I2C_CONTI 0
-#define PPM_STORE 1
-#define PWM16 1
+
 
 /******Algorithm Options*****/
-#define ATT_OLD 0
-#define ATT_NEW 0
+#define ATT_COMP 0
+#define ATT_EKF 0
 #define ATT_MADGWICK 1
-#define ATT_ORIGINAL_MAD 0
-#define MAG_PITCH_ROLL 0
+
 
 /******Flight Modes*****/
-#define INDOOR 0
-#define OUTDOOR 1
+#define INDOOR 1
+#define OUTDOOR 0
 #define ON_FLIGHT 1
 #define OFF_FLIGHT 0
 #define WAIT_GPS 0
-#define OFFBOARD_AVAIL 0
 
 #define FREQ_1000HZ 1
 

@@ -11,11 +11,15 @@
 uint8_t acc_gyr_spi_rx[15];
 uint8_t mag_i2c_rx[6];
 	
-vec3i16_t acc_raw;
-vec3i16_t gyr_raw;	
-vec3i16_t mag_raw;
-	
-marg_t marg_data;
+static vec3i16_t acc_raw;
+static vec3i16_t gyr_raw;	
+static vec3i16_t mag_raw;
+
+static vec3i16_t acc_bias={0,0,0};
+static vec3i16_t gyr_bias={0,0,0};	
+static vec3i16_t mag_bias={0,0,0};
+
+static marg_t marg_data;
 
 //static xQueueHandle acc_raw_q;
 //static xQueueHandle gyr_raw_q;
@@ -32,7 +36,7 @@ IIRFilter iir_ay={0.0,0.0,0.0,
 IIRFilter iir_az={0.0,0.0,0.0,
 				0.0,0.0,0.0,
 				0.0,0.0};
-	
+
 static void sensorsTrigerTask( void *pvParameters ) ;
 static void sensorsProcessTask( void *pvParameters ) ;
 void acc_process(vec3i16_t* input, vec3f_t* output);
@@ -100,8 +104,8 @@ void sensorsProcessTask( void *pvParameters )
 			for (i=0; i<3; i++){
 				gyr_raw.v[i] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
 			}
-			acc_raw.timestamp = xTaskGetTickCount();
-			gyr_raw.timestamp = xTaskGetTickCount();
+//			acc_raw.timestamp = xTaskGetTickCount();
+//			gyr_raw.timestamp = xTaskGetTickCount();
 			acc_process(&acc_raw, &(marg_data.acc));
 			gyr_process(&gyr_raw, &(marg_data.gyr));
 			
@@ -114,7 +118,7 @@ void sensorsProcessTask( void *pvParameters )
 				for (i=0; i<3; i++){
 					mag_raw.v[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
 				}
-				mag_raw.timestamp = xTaskGetTickCount();
+//				mag_raw.timestamp = xTaskGetTickCount();
 				mag_process(&mag_raw, &(marg_data.mag));
 				marg_data.mag_updated = true;
 			//	xQueueOverwrite(mag_raw_q, &mag_raw);
@@ -124,27 +128,35 @@ void sensorsProcessTask( void *pvParameters )
 		}
 	}  
 }
-
+void gyro_calibrate(vec3f_t* avr_gyr)
+{
+	unsigned int i;
+	for(i = 0; i < 3; i++){
+		gyr_bias.v[i] = 0;
+	}
+	
+}
 void acc_process(vec3i16_t* input, vec3f_t* output)
 {
 	//swap, bias, lpf
-	output->v[0] = input->v[0];
-	output->v[1] = input->v[1];
-	output->v[2] = input->v[2];
+	output->x = input->x + acc_bias.x;
+	output->y = -input->y + acc_bias.y;
+	output->z = -input->z + acc_bias.z;
 }
 void gyr_process(vec3i16_t* input, vec3f_t* output)
 {
 	//swap, bias, lpf
-	output->v[0] = input->v[0];
-	output->v[1] = input->v[1];
-	output->v[2] = input->v[2];
+//	int32_t temp;
+	output->x = input->x + gyr_bias.x;
+	output->y = -input->y + gyr_bias.y;
+	output->z = -input->z + gyr_bias.z;
 }
 void mag_process(vec3i16_t* input, vec3f_t* output)
 {
 	//swap, bias
-	output->v[0] = input->v[0];
-	output->v[1] = input->v[1];
-	output->v[2] = input->v[2];
+	output->x = input->x + mag_bias.x;
+	output->y = input->y + mag_bias.y;
+	output->z = input->z + mag_bias.z;
 }
 void mpu6000Callback(void)
 {

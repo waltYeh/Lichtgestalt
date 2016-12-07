@@ -7,7 +7,7 @@
 
 /* Orientation as a quaternion */
 typedef struct quaternion_s {
-  uint32_t timestamp;
+//  uint32_t timestamp;
   union {
     struct {
       float q0;
@@ -25,13 +25,13 @@ typedef struct quaternion_s {
 } quaternion_t;
 
 typedef struct rotation_s {
-  uint32_t timestamp;  // Timestamp when the data was computed
+//  uint32_t timestamp;  // Timestamp when the data was computed
 	float R[3][3];
 } rotation_t;
 
 /* x,y,z vector */
 struct vec3f_s {
-  uint32_t timestamp; // Timestamp when the data was computed
+//  uint32_t timestamp; // Timestamp when the data was computed
 	union {
     struct {
       float R;
@@ -51,7 +51,7 @@ typedef struct vec3f_s vec3f_t;
 //typedef struct vec3f_s euler_t;
 //typedef struct vec3f_s angularRate_t;
 struct vec3i16_s {
-	uint32_t timestamp;
+//	uint32_t timestamp;
 	union {
    struct {
          int16_t x;
@@ -77,12 +77,12 @@ typedef struct battery_s {
   uint16_t voltage;
 } battery_t;//used in queue
 
-typedef struct state_s {
-//  euler_t Euler;
+typedef struct stateAtt_s {
+	vec3f_t Euler;
 	quaternion_t Q;
 	rotation_t R;
 	vec3f_t rate;
-} state_t;//used in queue
+} stateAtt_t;//used in queue
 
 typedef struct command_s {
 	quaternion_t Q;
@@ -104,7 +104,23 @@ typedef enum mode_e {
   modeAbs,
   modeVelocity
 } mode_t;
-
+typedef struct PID_s {
+	float Err;
+	float RateErr;
+	float l_RateErr;
+	float int_RateErr;
+	float P;		
+	float Prate;
+	float Irate;
+	float Drate;
+	uint32_t loop_rate;
+}PID_t;
+//extern PID_t rollPID;
+//extern PID_t pitchPID;
+//extern PID_t yawPID;
+//extern PID_t altPID;
+//extern PID_t pos_xPID;
+//extern PID_t pos_yPID;
 // Frequencies to bo used with the RATE_DO_EXECUTE_HZ macro. Do NOT use an arbitrary number.
 #define RATE_1000_HZ 1000
 #define RATE_500_HZ 500

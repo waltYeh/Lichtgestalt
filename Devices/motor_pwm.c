@@ -20,7 +20,7 @@ void motor_init(void)
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4);
 }
-void motor_pwm2_output(const unsigned int duty[4])
+void motor_pwm_output(const unsigned short duty[4])
 {
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty[0]);
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, duty[1]);
