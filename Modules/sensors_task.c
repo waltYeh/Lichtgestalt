@@ -7,7 +7,7 @@
 
 #include "../config/config.h"
 #include "stabilizer_types.h"
-
+#include "../Devices/motor_pwm.h"
 uint8_t acc_gyr_spi_rx[15];
 uint8_t mag_i2c_rx[6];
 	
@@ -77,11 +77,20 @@ void sensorsTaskInit(void)
 }
 void sensorsTrigerTask( void *pvParameters )
 {
+	unsigned short duty[4]={1000,1000,1000,1000};
+	unsigned int tick = 0, i=0;
 	uint32_t mag_cnt = 0;
 	TickType_t xLastWakeTime;
 	const TickType_t timeIncreament = 1;//1ms
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
+		tick++;
+		if(tick>5000)
+			tick = 0;
+		for(i=0;i<4;i++){
+//			duty[i] = 1500-tick/10;
+		}
+		motor_pwm_output(duty);
 		mpu6000_dma_start(acc_gyr_spi_rx, 15);
 		mag_cnt ++;
 		if(mag_cnt == 14){

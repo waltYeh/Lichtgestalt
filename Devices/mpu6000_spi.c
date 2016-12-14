@@ -3,9 +3,13 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
+#define SEL()   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);  
+#define DSEL()  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);  
+//#define SEL()  __HAL_SPI_ENABLE(&hspi1);
+//#define DSEL() __HAL_SPI_DISABLE(&hspi1);
 extern SPI_HandleTypeDef hspi1;
 uint8_t acc_gyr_spi_tx[15] = {(1<<7)|(0x3B), 0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-//uint8_t acc_gyr_spi_rx[15];
+//uint8_t acc_gyr_local_rx[15];//uint8_t acc_gyr_spi_rx[15];
 //uint8_t acc_gyr_tx[15];
 //short a_g_data[6];
 //short a_g_queue[6][20];
@@ -23,41 +27,41 @@ void mpu6000_cfg(void)
 	uint8_t int_pin_cfg[2] = {RA_INT_PIN_CFG, 0x0};
 	uint8_t int_enable[2] = {RA_INT_ENABLE, 0x0};
 	HAL_Delay(10);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, who_am_i_tx, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, pwr_manage, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, smplrt_div, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, config, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, gyro_cfg, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, accel_cfg, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, user_ctrl, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, int_pin_cfg, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	HAL_Delay(1);
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, int_enable, dummy_rcv, 2, 1);
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 }
 /*
 void mpu6000_read_all(void)
@@ -68,20 +72,20 @@ void mpu6000_read_all(void)
 	for (i=1; i<15; i++){
 		acc_gyr_tx[i] = 0;
 	}
-	__HAL_SPI_ENABLE(&hspi1);
-	HAL_SPI_TransmitReceive(&hspi1, acc_gyr_tx, acc_gyr_spi_rx, 15, 5);
-	__HAL_SPI_DISABLE(&hspi1);
+	SEL();
+	HAL_SPI_TransmitReceive(&hspi1, acc_gyr_tx, acc_gyr_local_rx, 15, 5);
+	DSEL();
 	for (i=0; i<3; i++){
-		a_g_data[i] = ((short)acc_gyr_spi_rx[2*i+1]<<8)|(short)acc_gyr_spi_rx[2*i+2];
+		a_g_data[i] = ((short)acc_gyr_local_rx[2*i+1]<<8)|(short)acc_gyr_local_rx[2*i+2];
 	}
 	for (i=0; i<3; i++){
-		a_g_data[i+3] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
+		a_g_data[i+3] = ((short)acc_gyr_local_rx[2*i+9]<<8)|(short)acc_gyr_local_rx[2*i+10];
 	}
 }
 */
 void mpu6000_dma_start(uint8_t *pRxData, uint16_t Size)
 {
-	__HAL_SPI_ENABLE(&hspi1);
+	SEL();
 	HAL_SPI_TransmitReceive_DMA(&hspi1, acc_gyr_spi_tx, pRxData, Size);
 //	__HAL_SPI_ENABLE_IT(&hspi1, (SPI_IT_TXE | SPI_IT_RXNE | SPI_IT_ERR));
 
@@ -102,18 +106,19 @@ void vMPU6000Task( void *pvParameters )
 	const TickType_t timeIncreament = 1;//1ms
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
-		mpu6000_dma_start();
+//		mpu6000_dma_start(acc_gyr_local_rx, 15);
+		mpu6000_read_all();
 		vTaskDelayUntil(&xLastWakeTime, timeIncreament); 
 	}  
 }
-*/
 
+*/
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 
 //	static int j=0;
 	
-	__HAL_SPI_DISABLE(&hspi1);
+	DSEL();
 	mpu6000Callback();
 
 //	if(j%2 ==0)

@@ -82,7 +82,7 @@ bool stabilizerTest(void)
 }
 void stabilizerReady2Fly(void)
 {
-	while(stabilizerTest()==false);
+//	while(stabilizerTest()==false);
 	xTaskCreate(stabilizerTask, "stabilizer", STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
 }
 
@@ -144,10 +144,10 @@ static void stabilizerInitTask(void* param)
 				avr_gyr.v[i] /= AVERAGE_SAMPLES;
 				avr_mag.v[i] /= AVERAGE_SAMPLES;
 	/*********************/
-				quarternion_init(&avr_acc, &avr_mag, &state);
-				gyro_calibrate(&avr_gyr);
+//				quarternion_init(&avr_acc, &avr_mag, &state);
+//				gyro_calibrate(&avr_gyr);
 				stabilizerReady2Fly();
-				data_send_start();
+//				data_send_start();
 //				isInit = true;
 				vTaskDelete(NULL);
 	/*********************/
@@ -170,9 +170,9 @@ static void stabilizerTask(void* param)
 			acc[i] = marg.acc.v[i];
 			gyr[i] = marg.gyr.v[i];
 		}
-		stateEstimator(&state, &marg, &motion_acc);
-		stateController(&output, &state, &setpoint);
-		powerDistribution(&output);
+//		stateEstimator(&state, &marg, &motion_acc);
+//		stateController(&output, &state, &setpoint);
+//		powerDistribution(&output);
 /*
 #ifdef ESTIMATOR_TYPE_kalman
     stateEstimatorUpdate(&state, &sensorData, &control);

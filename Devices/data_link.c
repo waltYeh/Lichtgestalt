@@ -15,7 +15,9 @@ unsigned char decoding_buffer[RX_BUF_SIZE];
 unsigned int xbee_data_len;
 unsigned char xbee_buffer_num=0;
 unsigned char xbee_buf2read_num=0;
-short data[9]={1,2,3,4,5,6,7,8,9};
+unsigned char data2send[17]=
+	{0x10,0x22,0x00,0x13,0xA2,0x00,0x41,0x4E,0x6D,
+	0x61,0xFF,0xFE,0x00,0x00,0x41,0x42,0x38};
 static xQueueHandle command_q;
 static xQueueHandle motion_acc_q;
 static command_t command;
@@ -50,12 +52,15 @@ void DataLinkReceive_IDLE(void)
 		HAL_UART_DMAStop(&huart2);  
        // temp = huart5.hdmarx->Instance->NDTR;  
 		xbee_data_len =  RX_BUF_SIZE - huart2.hdmarx->Instance->NDTR;             
+		
+	/*	
 		xbee_buf2read_num = xbee_buffer_num;
 		portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 		xSemaphoreGiveFromISR(dataReceived, &xHigherPriorityTaskWoken);
 		if (xHigherPriorityTaskWoken)
 			portYIELD();
 		
+	*/	
 		xbee_buffer_num = (!xbee_buffer_num) & 1;//either 0 or 1			
 		if(xbee_buffer_num == 0){
 			HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
@@ -76,7 +81,7 @@ void vDataSendTask( void *pvParameters )
 	const TickType_t timeIncreament = 1000;
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
-		send_buffer(data, 18);
+		send_buffer(data2send, 17);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
 }
@@ -96,17 +101,26 @@ void vDataReceiveTask( void *pvParameters )
 } 
 void send_buffer(void *data, unsigned short len)
 {
-	unsigned char protocol_head[3]={'>','*','>'};
-	unsigned char protocol_last[3]={'<','#','<'};
-	unsigned char packetdescriptor='c';
-	short crc_result = crc16(data,len);
-	memcpy(tx_buffer,protocol_head,3);
-	memcpy(tx_buffer+3,&len,2);
-	memcpy(tx_buffer+5,&packetdescriptor, 1);
-	memcpy(tx_buffer+6,data,18);
-	memcpy(tx_buffer+24,&crc_result,2);
-	memcpy(tx_buffer+26,protocol_last,3);
-	HAL_UART_Transmit_DMA(&huart2, tx_buffer, TX_BUF_SIZE);
+//	unsigned char protocol_head[3]={'>','*','>'};
+//	unsigned char protocol_last[3]={'<','#','<'};
+//	unsigned char packetdescriptor='c';
+//	short crc_result = crc16(data,len);
+	unsigned char start_delimiter = 0x7E;
+	unsigned char length = len;
+	unsigned char zero = 0;
+	unsigned char checksum = 0;
+	unsigned char i = 0;
+	for(i=0;i<len;i++){
+		checksum += *((unsigned char *)(data)+i);
+	}
+	checksum = 0xFF-checksum;
+	memcpy(tx_buffer,&start_delimiter,1);
+	memcpy(tx_buffer+1,&zero,1);
+	memcpy(tx_buffer+2,&length,1);
+	memcpy(tx_buffer+3,data, len);
+	memcpy(tx_buffer+3+len,&checksum,1);
+
+	HAL_UART_Transmit_DMA(&huart2, tx_buffer, len+4);
 }
 void get_xbee_data(void)
 {
