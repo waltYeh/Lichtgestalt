@@ -20,7 +20,8 @@ static vec3i16_t gyr_bias={0,0,0};
 static vec3i16_t mag_bias={0,0,0};
 
 static marg_t marg_data;
-
+//short a_g_queue[6][20];
+//short mag_queue[3][20];
 //static xQueueHandle acc_raw_q;
 //static xQueueHandle gyr_raw_q;
 //static xQueueHandle mag_raw_q;
@@ -77,20 +78,21 @@ void sensorsTaskInit(void)
 }
 void sensorsTrigerTask( void *pvParameters )
 {
-	unsigned short duty[4]={1000,1000,1000,1000};
-	unsigned int tick = 0, i=0;
+//	unsigned short duty[4]={1000,1000,1000,1000};
+//	unsigned int tick = 0, i=0;
 	uint32_t mag_cnt = 0;
 	TickType_t xLastWakeTime;
 	const TickType_t timeIncreament = 1;//1ms
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
-		tick++;
+/*		tick++;
 		if(tick>5000)
 			tick = 0;
 		for(i=0;i<4;i++){
 //			duty[i] = 1500-tick/10;
 		}
 		motor_pwm_output(duty);
+		*/
 		mpu6000_dma_start(acc_gyr_spi_rx, 15);
 		mag_cnt ++;
 		if(mag_cnt == 14){
@@ -102,35 +104,43 @@ void sensorsTrigerTask( void *pvParameters )
 }
 void sensorsProcessTask( void *pvParameters )
 {
+//	static int j = 0;//varify if no repetation of raw data
 	for( ;; ){  
 		if (pdTRUE == xSemaphoreTake(imuDataReady, portMAX_DELAY)){
 			int i;
-//			vec3i16_t acc_raw;
-//			vec3i16_t gyr_raw;
 			for (i=0; i<3; i++){
 				acc_raw.v[i] = ((short)acc_gyr_spi_rx[2*i+1]<<8)|(short)acc_gyr_spi_rx[2*i+2];
 			}
 			for (i=0; i<3; i++){
 				gyr_raw.v[i] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
 			}
-//			acc_raw.timestamp = xTaskGetTickCount();
-//			gyr_raw.timestamp = xTaskGetTickCount();
+/*	j++;
+	if(j==20)
+		j=0;
+	for (i=0; i<3; i++)	
+		a_g_queue[i][j] = acc_raw.v[i];
+	
+	for (i=0; i<3; i++)	
+		a_g_queue[i+3][j] = gyr_raw.v[i];
+	*/
 			acc_process(&acc_raw, &(marg_data.acc));
 			gyr_process(&gyr_raw, &(marg_data.gyr));
-			
-	//		xQueueOverwrite(acc_raw_q, &acc_raw);
-	//		xQueueOverwrite(gyr_raw_q, &gyr_raw);
 			if (magDataReady == true){
 				magDataReady = false;
 				int i;
-			//	mag_raw_t mag_raw;
 				for (i=0; i<3; i++){
 					mag_raw.v[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
 				}
+/*
+	j++;
+	if(j==20)
+		j=0;
+	for (i=0; i<3; i++)	
+		mag_queue[i][j] = mag_raw.v[i];
+*/
 //				mag_raw.timestamp = xTaskGetTickCount();
 				mag_process(&mag_raw, &(marg_data.mag));
 				marg_data.mag_updated = true;
-			//	xQueueOverwrite(mag_raw_q, &mag_raw);
 			}
 			xQueueOverwrite(marg_q, &marg_data);
 			marg_data.mag_updated = false;
@@ -141,7 +151,7 @@ void gyro_calibrate(vec3f_t* avr_gyr)
 {
 	unsigned int i;
 	for(i = 0; i < 3; i++){
-		gyr_bias.v[i] = 0;
+		gyr_bias.v[i] = -avr_gyr->v[i];
 	}
 	
 }
@@ -163,9 +173,9 @@ void gyr_process(vec3i16_t* input, vec3f_t* output)
 void mag_process(vec3i16_t* input, vec3f_t* output)
 {
 	//swap, bias
-	output->x = input->x + mag_bias.x;
-	output->y = input->y + mag_bias.y;
-	output->z = input->z + mag_bias.z;
+	output->x = -input->x + mag_bias.x;
+	output->y = -input->z + mag_bias.y;
+	output->z = input->y + mag_bias.z;
 }
 void mpu6000Callback(void)
 {

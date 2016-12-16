@@ -10,8 +10,8 @@ extern UART_HandleTypeDef huart1;
 struct _gps gps;
 unsigned char gps_buffer0[GPS_BUFFER_SIZE];//change bigger?
 unsigned char gps_buffer1[GPS_BUFFER_SIZE];
-unsigned int data_len;
-unsigned char buffer_num=0;
+static unsigned int data_len;
+static unsigned char buffer_num=0;
 //cleared at timeout, ++ during dma interrupt
 static void GPSTask( void *pvParameters );
 

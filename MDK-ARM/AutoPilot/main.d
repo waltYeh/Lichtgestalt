@@ -67,6 +67,7 @@ autopilot\main.o: ../Src/../Devices/motor_pwm.h
 autopilot\main.o: ../Src/../Devices/GPS.h
 autopilot\main.o: ../Src/../Devices/receiver_ppm.h
 autopilot\main.o: ../Src/../Devices/battery.h
+autopilot\main.o: ../Src/../Devices/led.h
 autopilot\main.o: ../Src/../Devices/mpu6000_spi.h
 autopilot\main.o: ../Src/../Devices/hmc5883l_i2c.h
 autopilot\main.o: ../Src/../Modules/sensors_task.h

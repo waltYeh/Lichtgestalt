@@ -56,10 +56,6 @@ void powerDistribution(output_t* output)
 			[        c,       -c,        c,      -c]			[ 1/4,  sqrt2/(4*d),  sqrt2/(4*d), -1/(4*c)]
 		d=D/2
 		torq=c*f*/
-		motorForce[0] = (output.thrustForce>>2) + (-output.pitchMmt + output.rollMmt) / D2_SQRT2 + output.yawMmt / (FORCE_TORQUE_RATIO<<2);
-		motorForce[1] = (output.thrustForce>>2) + (-output.pitchMmt - output.rollMmt) / D2_SQRT2 - output.yawMmt / (FORCE_TORQUE_RATIO<<2);
-		motorForce[2] = (output.thrustForce>>2) + (output.pitchMmt - output.rollMmt) / D2_SQRT2 + output.yawMmt / (FORCE_TORQUE_RATIO<<2);
-		motorForce[3] = (output.thrustForce>>2) + (output.pitchMmt + output.rollMmt) / D2_SQRT2 - output.yawMmt / (FORCE_TORQUE_RATIO<<2);
 	#endif		
 		force2output(motorForce, motorDuty, bat.voltage);
 	}

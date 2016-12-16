@@ -24,12 +24,13 @@
 #define XBEE_TX_TASK_PRI 2
 #define XBEE_RX_TASK_PRI 2
 #define ADC_TASK_PRI 1
-
+#define LED_TASK_PRI 1
 
 //Task stack sizes
 #define SYSTEM_TASK_STACKSIZE         (2* configMINIMAL_STACK_SIZE)
 #define CMD_TASK_STACKSIZE            configMINIMAL_STACK_SIZE
 #define ADC_TASK_STACKSIZE            configMINIMAL_STACK_SIZE
+#define LED_TASK_STACKSIZE            configMINIMAL_STACK_SIZE
 #define PM_TASK_STACKSIZE             configMINIMAL_STACK_SIZE
 #define CRTP_TX_TASK_STACKSIZE        configMINIMAL_STACK_SIZE
 #define CRTP_RX_TASK_STACKSIZE        configMINIMAL_STACK_SIZE

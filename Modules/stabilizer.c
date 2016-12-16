@@ -21,6 +21,16 @@
 //#include "controller.h"
 //#include "power_distribution.h"
 //static bool isInit = false;
+#include "stm32f4xx_hal.h"
+#define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET)
+#define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET) 
+
+#define LED2_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET) 
+#define LED2_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET)
+
+#define LED3_ON()   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET) 
+#define LED3_OFF()  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET)
+
 static marg_t marg;
 static stateAtt_t state;
 static output_t output;
@@ -62,8 +72,6 @@ void stabilizerInit(void)
 	/*  if(isInit)
     return;
 
-//sensorsInit();
-//stateEstimatorInit();
 //stateControllerInit();
 //powerDistributionInit();
   isInit = true;*/
@@ -92,10 +100,13 @@ static void stabilizerInitTask(void* param)
 	//record only after stable
 //	uint32_t tick = 0;
 	#define STD_BLOCK_LEN 25
-	#define AVERAGE_SAMPLES 150
-	#define ACC_STEADY_STD 0.1f
-	#define GYR_STEADY_STD 0.05f
-	#define MAG_STEADY_STD 0.1f
+	#define AVERAGE_SAMPLES 150//2sec
+//	#define ACC_STEADY_STD 0.1f
+//	#define GYR_STEADY_STD 0.05f
+//	#define MAG_STEADY_STD 0.1f
+	#define ACC_STEADY_STD 50.0f
+	#define GYR_STEADY_STD 50.0f
+	#define MAG_STEADY_STD 50.0f
 	int i;
 	unsigned int p_block = 0;
 	bool state_steady = false;
@@ -124,6 +135,7 @@ static void stabilizerInitTask(void* param)
 				state_steady &= judge_steady(mag_block[i], STD_BLOCK_LEN, MAG_STEADY_STD);
 			}
 			if(state_steady){
+				LED1_ON();
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] += marg.acc.v[i];
 					avr_gyr.v[i] += marg.gyr.v[i];
@@ -132,6 +144,7 @@ static void stabilizerInitTask(void* param)
 				usable_data_cnt++;
 			}
 			else{
+				LED1_OFF();
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] = 0;
 					avr_gyr.v[i] = 0;
@@ -140,14 +153,17 @@ static void stabilizerInitTask(void* param)
 				usable_data_cnt = 0;
 			}
 			if(usable_data_cnt == AVERAGE_SAMPLES){
-				avr_acc.v[i] /= AVERAGE_SAMPLES;
-				avr_gyr.v[i] /= AVERAGE_SAMPLES;
-				avr_mag.v[i] /= AVERAGE_SAMPLES;
+				LED1_OFF();
+				for(i = 0; i<3; i++){
+					avr_acc.v[i] /= AVERAGE_SAMPLES;
+					avr_gyr.v[i] /= AVERAGE_SAMPLES;
+					avr_mag.v[i] /= AVERAGE_SAMPLES;
+				}
 	/*********************/
-//				quarternion_init(&avr_acc, &avr_mag, &state);
-//				gyro_calibrate(&avr_gyr);
+				quarternion_init(&avr_acc, &avr_mag, &state);
+				gyro_calibrate(&avr_gyr);
 				stabilizerReady2Fly();
-//				data_send_start();
+				data_send_start();
 //				isInit = true;
 				vTaskDelete(NULL);
 	/*********************/
@@ -170,9 +186,9 @@ static void stabilizerTask(void* param)
 			acc[i] = marg.acc.v[i];
 			gyr[i] = marg.gyr.v[i];
 		}
-//		stateEstimator(&state, &marg, &motion_acc);
-//		stateController(&output, &state, &setpoint);
-//		powerDistribution(&output);
+		stateEstimator(&state, &marg, &motion_acc);
+		stateController(&output, &state, &setpoint);
+		powerDistribution(&output);
 /*
 #ifdef ESTIMATOR_TYPE_kalman
     stateEstimatorUpdate(&state, &sensorData, &control);
@@ -189,5 +205,14 @@ static void stabilizerTask(void* param)
     powerDistribution(&control);
 */
 		tick++;
+		if(tick==500){
+			LED1_ON();
+		}
+		if(tick==1000){
+			LED1_OFF();
+			tick=0;
+		}
+		
+		
 	}
 }

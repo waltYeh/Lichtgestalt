@@ -21,6 +21,7 @@ typedef struct quaternion_s {
       float z;
       float w;
     };
+	float q[4];
   };
 } quaternion_t;
 
@@ -98,6 +99,20 @@ typedef struct output_s {
 	vec3f_t moment;
 	float thrust;
 } output_t;//used in queue
+
+typedef struct agent_s {
+	unsigned int coord_addr_h;
+	unsigned int coord_addr_l;
+	unsigned int self_addr_h;
+	unsigned int self_addr_l;
+	unsigned int agent_addr;
+} agent_t;
+
+typedef struct calib_s {
+	vec3i16_t acc_bias;
+	vec3i16_t gyr_bias;	
+	vec3i16_t mag_bias;
+} calib_t;
 
 typedef enum mode_e {
   modeDisable = 0,

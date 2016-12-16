@@ -41,6 +41,7 @@
 #include "../Devices/GPS.h"
 #include "../Devices/receiver_ppm.h"
 #include "../Devices/battery.h"
+#include "../Devices/led.h"
 #include "../Devices/mpu6000_spi.h"
 #include "../Devices/hmc5883l_i2c.h"
 #include "../Modules/sensors_task.h"
@@ -102,12 +103,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-#define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);  
-#define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);  
-static void vLED1Task( void *pvParameters ); 
-#define LED2_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);  
-#define LED2_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);  
-static void vLED2Task( void *pvParameters ); 
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -170,9 +166,10 @@ int main(void)
 //	xTaskCreate( vLED1Task, "LED0", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 //  xTaskCreate( vLED2Task, "LED1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 //  GPSInit();
+	led_init();
 	motor_init();
 	data_link_init();
-	data_send_start();
+//	data_send_start();
 	PPM_init();
 	battery_init();
 	mpu6000_cfg();
@@ -180,7 +177,7 @@ int main(void)
 	mpu_fast_init();
 	hmc_fast_init();
 	sensorsTaskInit();
-//	stabilizerInit();
+	stabilizerInit();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 
@@ -663,44 +660,16 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(USB_PP_GPIO_Port, USB_PP_Pin, GPIO_PIN_RESET);
 
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 9, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
 /* USER CODE BEGIN 4 */
-void vLED1Task( void *pvParameters )  
-{  
-  TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 1000;
-	xLastWakeTime = xTaskGetTickCount();
-	for( ;; )  
-  {  
-//    send_buffer(data, 18);
-//		LED1_ON();  
-    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
- //   LED1_OFF();  
-    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
-  }  
-}  
-void vLED2Task( void *pvParameters )  
-{  
-  TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 1000;
-	xLastWakeTime = xTaskGetTickCount();
-	for( ;; )  
-  {  
-//    LED2_ON(); 
-//		TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)		
-    vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
-//    LED2_OFF();  
-		
-    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
-  }  
-}  
+
 /* USER CODE END 4 */
 
 /* StartDefaultTask function */

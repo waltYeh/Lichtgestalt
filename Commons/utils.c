@@ -1,13 +1,13 @@
 #include "utils.h"
 #include <math.h>
-//#include "arm_math.h"
+#include "arm_math.h"
 #include "../Modules/stabilizer_types.h"
 void body2glob(const rotation_t* R, const vec3f_t* body, vec3f_t* glob, short dimension)
 {	
 	if(dimension == 2){
 		float yaw = -atan2(R->R[0][1], R->R[1][1]);
-		glob->x = body->x*cos(yaw) + body->y*sin(-yaw);
-		glob->y = body->x*sin(yaw) + body->y*cos(yaw); 
+		glob->x = body->x*arm_cos_f32(yaw) + body->y*arm_sin_f32(-yaw);
+		glob->y = body->x*arm_sin_f32(yaw) + body->y*arm_cos_f32(yaw); 
 	}
 	else if(dimension == 3){
 		glob->x = (body->x*R->R[0][0] + body->y*R->R[0][1] + body->z*R->R[0][2]);
@@ -19,8 +19,8 @@ void glob2body(const rotation_t* R, const vec3f_t* glob, vec3f_t* body, short di
 {	
 	if(dimension == 2){
 		float yaw = -atan2(R->R[0][1], R->R[1][1]);
-		body->x = glob->x*cos(yaw) + glob->y*sin(yaw);
-		body->y = glob->x*sin(-yaw) + glob->y*cos(yaw); 
+		body->x = glob->x*arm_cos_f32(yaw) + glob->y*arm_sin_f32(yaw);
+		body->y = glob->x*arm_sin_f32(-yaw) + glob->y*arm_cos_f32(yaw); 
 	}
 	else if(dimension == 3){
 		body->x = (glob->x*R->R[0][0] + glob->y*R->R[1][0] + glob->z*R->R[2][0]);
@@ -53,12 +53,12 @@ void rotation2euler(const rotation_t* R, vec3f_t* Euler)
 }
 void euler2rotation(const vec3f_t* Euler, rotation_t* R)
 {
-	float cp = cos(Euler->P);
-	float sp = sin(Euler->P);
-	float sr = sin(Euler->R);
-	float cr = cos(Euler->R);
-	float sy = sin(Euler->Y);
-	float cy = cos(Euler->Y);
+	float cp = arm_cos_f32(Euler->P);
+	float sp = arm_sin_f32(Euler->P);
+	float sr = arm_sin_f32(Euler->R);
+	float cr = arm_cos_f32(Euler->R);
+	float sy = arm_sin_f32(Euler->Y);
+	float cy = arm_cos_f32(Euler->Y);
 	R->R[0][0] = cp * cy;
 	R->R[0][1] = ((sr * sp * cy) - (cr * sy));
 	R->R[0][2] = ((cr * sp * cy) + (sr * sy));
@@ -71,6 +71,10 @@ void euler2rotation(const vec3f_t* Euler, rotation_t* R)
 }
 bool judge_steady(float* block, unsigned int len, float threshold)
 {
-	
-	return true;
+	float std;
+	arm_std_f32(block,len,&std);
+	if(std < threshold)
+		return true;
+	else
+		return false;
 }
