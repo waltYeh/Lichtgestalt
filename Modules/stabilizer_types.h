@@ -74,6 +74,10 @@ typedef struct margData_s {
 	bool mag_updated;
 } marg_t;//used in queue
 
+typedef struct rc_s {
+	int channels[16];
+} rc_t;
+
 typedef struct battery_s {
   uint16_t voltage;
 } battery_t;//used in queue

@@ -23,8 +23,10 @@
 #define CMD_TASK_PRI 2
 #define XBEE_TX_TASK_PRI 2
 #define XBEE_RX_TASK_PRI 2
+#define SBUS_TASK_PRI 2
 #define ADC_TASK_PRI 1
 #define LED_TASK_PRI 1
+#define EEPROM_TASK_PRI 1
 
 //Task stack sizes
 #define SYSTEM_TASK_STACKSIZE         (2* configMINIMAL_STACK_SIZE)

@@ -3,10 +3,12 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
-#define SEL()   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);  
-#define DSEL()  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);  
-//#define SEL()  __HAL_SPI_ENABLE(&hspi1);
-//#define DSEL() __HAL_SPI_DISABLE(&hspi1);
+/*
+#define SEL()   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET)
+#define DSEL()  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET) 
+//#define SEL()  __HAL_SPI_ENABLE(&hspi1)
+//#define DSEL() __HAL_SPI_DISABLE(&hspi1)
+*/
 extern SPI_HandleTypeDef hspi1;
 uint8_t acc_gyr_spi_tx[15] = {(1<<7)|(0x3B), 0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //uint8_t acc_gyr_local_rx[15];//uint8_t acc_gyr_spi_rx[15];
@@ -113,6 +115,7 @@ void vMPU6000Task( void *pvParameters )
 }
 
 */
+/*
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
 
@@ -132,3 +135,4 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 //		a_g_queue[i][j] = a_g_data[i];
 //	}
 }
+*/

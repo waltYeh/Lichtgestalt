@@ -40,7 +40,7 @@
 	#define MOTOR_POWER 120
 #elif AIRFRAME_LICHT160
 	#define THRCMDRATIO 1
-	#define VEHICLE_MASS 240
+	#define VEHICLE_MASS 220
 	#define ROTOR_DIST 160//mm
 	#define ONE_2_ROTOR_DIST 0.003125f//1/(2*d)
 	#define D2_SQRT2 226//(2*D)/SQRT2_2D
@@ -61,7 +61,12 @@
 
 /******Driver Options*****/
 
-
+/******Devices Options*****/
+#define XBEE_API 1
+#define XBEE_TRANS 0
+#define CMD_SBUS 1
+#define CMD_PPM 0
+#define CMD_XBEE 0
 /******Algorithm Options*****/
 #define ATT_COMP 0
 #define ATT_EKF 0
@@ -77,4 +82,9 @@
 
 #define FREQ_1000HZ 1
 
+#define MAX_ATT_MANUEL 0.698f//11437 40deg,0.698rad
+#define MAX_YAW_RATE 0.698f//14303 50.0
+#define MAX_YAW_RATE_MANEUL 0.698f
+#define YAWRATE_DEADZONE 0.17f
+#define BAT_WARNING 3500
 #endif

@@ -26,12 +26,15 @@ static int maximum_int32(int a, int b){
 static int maximum_f(float a, float b){
 	return (a>b?a:b);
 }
+
 void body2glob(const rotation_t* R, const vec3f_t* body, vec3f_t* glob, short dimension);
 void glob2body(const rotation_t* R, const vec3f_t* glob, vec3f_t* body, short dimension);//body=inv(R)*glob;
 void quaternion2rotation(const quaternion_t* Q, rotation_t* R);
 void rotation2euler(const rotation_t* R, vec3f_t* Euler);
 void euler2rotation(const vec3f_t* Euler, rotation_t* R);
 bool judge_steady(float* block, unsigned int len, float threshold);
+
+#define GRAVITY_M_S2 9.81f
 /*
 static float constrain(float value, const float minVal, const float maxVal)
 {

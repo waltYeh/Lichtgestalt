@@ -4,7 +4,7 @@
 #include "../Devices/motor_pwm.h"
 #include "../Commons/utils.h"
 #include "../Commons/platform.h"
-static battery_t bat={4000};
+
 
 void force2output(int force[4], unsigned short duty[4], unsigned int battery)
 //mNewton to 0~2400
@@ -22,9 +22,8 @@ void force2output(int force[4], unsigned short duty[4], unsigned int battery)
 	}
 }
 
-void powerDistribution(output_t* output)
+void powerDistribution(output_t* output, const battery_t * bat)
 {
-	batAcquire(&bat);
 	int motorForce[4] = {0,0,0,0};
 	unsigned short motorDuty[4] = {1000,1000,1000,1000};
 	short i;
@@ -57,7 +56,7 @@ void powerDistribution(output_t* output)
 		d=D/2
 		torq=c*f*/
 	#endif		
-		force2output(motorForce, motorDuty, bat.voltage);
+		force2output(motorForce, motorDuty, bat->voltage);
 	}
 	motor_pwm_output(motorDuty);
 }

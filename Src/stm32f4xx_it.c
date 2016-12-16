@@ -37,8 +37,10 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
-#include "../Devices/GPS.h"
+//#include "../Devices/GPS.h"
+#include "../Devices/rom.h"
 #include "../Devices/data_link.h"
+
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -284,7 +286,7 @@ void I2C2_EV_IRQHandler(void)
   /* USER CODE END I2C2_EV_IRQn 0 */
   HAL_I2C_EV_IRQHandler(&hi2c2);
   /* USER CODE BEGIN I2C2_EV_IRQn 1 */
-
+//	eeprom_IT_Callback();
   /* USER CODE END I2C2_EV_IRQn 1 */
 }
 

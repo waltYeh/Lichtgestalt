@@ -5,6 +5,7 @@
 #include "../config/config.h"
 #include "../Modules/stabilizer_types.h"
 #include "xbee_api.h"
+#include "../Commons/platform.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
 #define RX_BUF_SIZE 64
@@ -60,7 +61,7 @@ void vDataSendTask( void *pvParameters )
 	const TickType_t timeIncreament = 1000;
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
-		send_buffer(data2send);
+		send_data(data2send);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
 }
@@ -115,22 +116,31 @@ void vDataReceiveTask( void *pvParameters )
 		}
 	}  
 } 
-void send_buffer(void *data)
+void send_data(void *data)
+//no length argument because length is fixed for frames
 {
-	unsigned char content_len = encode_general(tx_buffer, data2send);
+	#if XBEE_API
+	unsigned char content_len = encode_general(tx_buffer, data);
 	api_tx_encode(tx_buffer, dest_addr_h, dest_addr_l);
 	api_pack_encode(tx_buffer, content_len+14);
 	HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
+	#elif XBEE_TRANS
+	tx_buffer[0]='h';
+	memcpy(tx_buffer+1,data,18);
+	tx_buffer[19]='\r';
+	tx_buffer[20]='\n';
+	HAL_UART_Transmit_DMA(&huart2, tx_buffer, 21);
+	#endif
 }
-void motionAccAcquire(vec3f_t *motion_acc)
+void xbee_motionAccAcquire(vec3f_t *motion_acc)
 {
 	xQueueReceive(motion_acc_q, motion_acc, 0);
 }
-void calibrationAcquire(calib_t *cal)
+void xbee_calibrationAcquire(calib_t *cal)
 {
 	xQueueReceive(cal_q, cal, 0);
 }
-void commandBlockingAcquire(command_t *cmd)
+void xbee_commandBlockingAcquire(command_t *cmd)
 {
 	xQueueReceive(command_q, cmd, portMAX_DELAY);
 }

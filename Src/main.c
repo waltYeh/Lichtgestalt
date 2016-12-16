@@ -39,10 +39,12 @@
 #include "../Devices/data_link.h"
 #include "../Devices/motor_pwm.h"
 #include "../Devices/GPS.h"
-#include "../Devices/receiver_ppm.h"
+//#include "../Devices/receiver_ppm.h"
 #include "../Devices/battery.h"
 #include "../Devices/led.h"
+#include "../Devices/receiver.h"
 #include "../Devices/mpu6000_spi.h"
+#include "../Devices/rom.h"
 #include "../Devices/hmc5883l_i2c.h"
 #include "../Modules/sensors_task.h"
 #include "../Modules/stabilizer.h"
@@ -169,8 +171,9 @@ int main(void)
 	led_init();
 	motor_init();
 	data_link_init();
+	receiver_init();
 //	data_send_start();
-	PPM_init();
+//	eeprom_init();
 	battery_init();
 	mpu6000_cfg();
 	hmc5883l_cfg();
@@ -321,9 +324,9 @@ static void MX_I2C2_Init(void)
 {
 
   hi2c2.Instance = I2C2;
-  hi2c2.Init.ClockSpeed = 100000;
+  hi2c2.Init.ClockSpeed = 400000;
   hi2c2.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c2.Init.OwnAddress1 = 0;
+  hi2c2.Init.OwnAddress1 = 160;
   hi2c2.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c2.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c2.Init.OwnAddress2 = 0;
@@ -496,11 +499,11 @@ static void MX_UART5_Init(void)
 {
 
   huart5.Instance = UART5;
-  huart5.Init.BaudRate = 10000;
-  huart5.Init.WordLength = UART_WORDLENGTH_8B;
-  huart5.Init.StopBits = UART_STOPBITS_1;
-  huart5.Init.Parity = UART_PARITY_NONE;
-  huart5.Init.Mode = UART_MODE_TX_RX;
+  huart5.Init.BaudRate = 100000;
+  huart5.Init.WordLength = UART_WORDLENGTH_9B;
+  huart5.Init.StopBits = UART_STOPBITS_2;
+  huart5.Init.Parity = UART_PARITY_EVEN;
+  huart5.Init.Mode = UART_MODE_RX;
   huart5.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart5.Init.OverSampling = UART_OVERSAMPLING_16;
   if (HAL_UART_Init(&huart5) != HAL_OK)

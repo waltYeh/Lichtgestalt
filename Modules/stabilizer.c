@@ -8,6 +8,7 @@
 //#include "log.h"
 //#include "param.h"
 #include "../Devices/data_link.h"
+#include "../Devices/battery.h"
 #include "attitude_estimator.h"
 #include "controller.h"
 #include "motor_mixer.h"
@@ -36,14 +37,13 @@ static stateAtt_t state;
 static output_t output;
 static setpoint_t setpoint;
 static vec3f_t motion_acc;
+static battery_t bat={4000};
 /*
-
 static sensorData_t sensorData;
-
 static control_t control;
 */
 float mag[3],acc[3],gyr[3];//debugging
-
+short bat_v;
 static void stabilizerTask(void* param);
 static void stabilizerInitTask(void* param);
 void stabilizerInit(void)
@@ -180,7 +180,7 @@ static void stabilizerTask(void* param)
 	while(1) {
 		vTaskDelayUntil(&lastWakeTime, F2T(RATE_MAIN_LOOP));
 		margAcquire(&marg);
-		motionAccAcquire(&motion_acc);
+		xbee_motionAccAcquire(&motion_acc);
 		for(int i=0;i<3;i++){
 			mag[i] = marg.mag.v[i];
 			acc[i] = marg.acc.v[i];
@@ -188,7 +188,9 @@ static void stabilizerTask(void* param)
 		}
 		stateEstimator(&state, &marg, &motion_acc);
 		stateController(&output, &state, &setpoint);
-		powerDistribution(&output);
+		batAcquire(&bat);
+		bat_v = bat.voltage;
+		powerDistribution(&output, &bat);
 /*
 #ifdef ESTIMATOR_TYPE_kalman
     stateEstimatorUpdate(&state, &sensorData, &control);

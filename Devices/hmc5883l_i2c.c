@@ -58,6 +58,7 @@ void vHMC5883LTask( void *pvParameters )
   }  
 }
 */
+/*
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 //	int i;
@@ -65,7 +66,10 @@ void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 //	j++;
 //	if(j==20)
 //		j=0;
-	hmc5883lCallback();
-
+	if(hi2c->Instance == hi2c1.Instance)
+		hmc5883lCallback();
+	if(hi2c->Instance == hi2c2.Instance)
+		eeprom_readCallback();
 	
 }
+*/

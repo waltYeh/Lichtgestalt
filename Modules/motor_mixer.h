@@ -2,6 +2,6 @@
 #define MOTOR_MIX_H
 
 #include "stabilizer_types.h"
-void powerDistribution(output_t* output);
+void powerDistribution(output_t* output, const battery_t * bat);
 
 #endif
