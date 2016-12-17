@@ -40,6 +40,7 @@
 //#include "../Devices/GPS.h"
 #include "../Devices/rom.h"
 #include "../Devices/data_link.h"
+#include "../Devices/receiver.h"
 
 /* USER CODE END 0 */
 
@@ -177,6 +178,20 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
+
+/**
+* @brief This function handles Flash global interrupt.
+*/
+void FLASH_IRQHandler(void)
+{
+  /* USER CODE BEGIN FLASH_IRQn 0 */
+
+  /* USER CODE END FLASH_IRQn 0 */
+  HAL_FLASH_IRQHandler();
+  /* USER CODE BEGIN FLASH_IRQn 1 */
+
+  /* USER CODE END FLASH_IRQn 1 */
+}
 
 /**
 * @brief This function handles EXTI line2 interrupt.
@@ -385,7 +400,7 @@ void UART5_IRQHandler(void)
   /* USER CODE END UART5_IRQn 0 */
   HAL_UART_IRQHandler(&huart5);
   /* USER CODE BEGIN UART5_IRQn 1 */
-	
+//	sbus_IDLE();
   /* USER CODE END UART5_IRQn 1 */
 }
 

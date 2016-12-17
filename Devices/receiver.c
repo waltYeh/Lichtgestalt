@@ -11,6 +11,7 @@ unsigned char sbus_buffer[SBUS_BUF_SIZE];
 static xSemaphoreHandle sbusReceived;
 static xQueueHandle rc_q;
 static rc_t rc;
+static unsigned char byte_cnt = 0;
 static void vSbusTask( void *pvParameters ) ;
 void receiver_init(void)
 {
@@ -24,14 +25,16 @@ void receiver_init(void)
 }
 void sbus_init(void)
 {
-	HAL_UART_Receive_IT(&huart5, sbus_buffer, SBUS_BUF_SIZE);
+	__HAL_UART_ENABLE_IT(&huart5, UART_IT_IDLE);
 	vSemaphoreCreateBinary( sbusReceived );
 	rc_q = xQueueCreate(1, sizeof(rc_t));
 	xTaskCreate( vSbusTask, "sbus", configMINIMAL_STACK_SIZE, NULL, SBUS_TASK_PRI, NULL ); 
+	HAL_UART_Receive_IT(&huart5, sbus_buffer, 1);
 }
 void ppm_init(void)
 {
 //	__HAL_TIM_ENABLE_IT(&htim8, TIM_IT_CC3);
+	rc_q = xQueueCreate(1, sizeof(rc_t));
 	HAL_TIM_IC_Start_IT (&htim8, TIM_CHANNEL_3);
 }
 void vSbusTask( void *pvParameters )
@@ -60,7 +63,10 @@ void vSbusTask( void *pvParameters )
 					rc.channels[i] -= 1024;
 				}
 				xQueueOverwrite(rc_q, &rc);
+				
 			}
+			byte_cnt=0;
+				HAL_UART_Receive_IT(&huart5, sbus_buffer, 1);
 		}
 	}
 }
@@ -89,16 +95,34 @@ void ppmCallback(GPIO_PinState state)
 		__HAL_TIM_SET_COUNTER(&htim8, 0);
 	}
 }
+
 void rcBlockingAcquire(rc_t *rc)
 {
 	xQueueReceive(rc_q, rc, portMAX_DELAY);
 }
+void rcAcquire(rc_t *rc)
+{
+	xQueueReceive(rc_q, rc, 0);
+}
+void sbus_IDLE(void)
+{
+	byte_cnt=0;
+	HAL_UART_Receive_IT(&huart5, sbus_buffer, 1);
+	
+}
 void sbusCallback(void)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
-	xSemaphoreGiveFromISR(sbusReceived, &xHigherPriorityTaskWoken);
-	if (xHigherPriorityTaskWoken)
-		portYIELD();
+	
+	if(byte_cnt < 24){
+		byte_cnt++;
+		HAL_UART_Receive_IT(&huart5, sbus_buffer+byte_cnt, 1);
+	}else{
+		byte_cnt = 0;
+		xSemaphoreGiveFromISR(sbusReceived, &xHigherPriorityTaskWoken);
+		if (xHigherPriorityTaskWoken)
+			portYIELD();
+	}
 }
 
 

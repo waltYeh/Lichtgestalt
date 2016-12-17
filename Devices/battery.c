@@ -23,7 +23,7 @@ unsigned int battery_get_voltage(void)
 {
 	unsigned int val; 
 	if(HAL_IS_BIT_SET(HAL_ADC_GetState(&hadc1), HAL_ADC_STATE_REG_EOC)){
-    val = HAL_ADC_GetValue(&hadc1) * 23 / 20;
+    val = HAL_ADC_GetValue(&hadc1) * 29 / 25;
 		//considering the voltage separation for battery
 	}
 //	bat_volt = val;

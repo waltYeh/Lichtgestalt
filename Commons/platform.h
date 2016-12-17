@@ -64,9 +64,11 @@
 /******Devices Options*****/
 #define XBEE_API 1
 #define XBEE_TRANS 0
-#define CMD_SBUS 1
-#define CMD_PPM 0
+#define CMD_SBUS 0
+#define CMD_PPM 1
 #define CMD_XBEE 0
+#define EEP_ROM 0
+#define FLASH_ROM 1
 /******Algorithm Options*****/
 #define ATT_COMP 0
 #define ATT_EKF 0

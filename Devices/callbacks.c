@@ -9,17 +9,23 @@ extern I2C_HandleTypeDef hi2c2;
 extern UART_HandleTypeDef huart5;
 extern SPI_HandleTypeDef hspi1;
 extern TIM_HandleTypeDef htim8;
+void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
+{
+	
+	
+}
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-//	int i;
-//	static int j=0;
-//	j++;
-//	if(j==20)
-//		j=0;
 	if(hi2c->Instance == hi2c1.Instance)
 		hmc5883lCallback();
-	if(hi2c->Instance == hi2c2.Instance)
-		eeprom_readCallback();
+//	if(hi2c->Instance == hi2c2.Instance)
+//		eeprom_readCallback();
+	
+}
+void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)
+{
+//	if(hi2c->Instance == hi2c2.Instance)
+//		eeprom_writeCallback();
 	
 }
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)

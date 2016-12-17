@@ -9,6 +9,7 @@
 //#include "param.h"
 #include "../Devices/data_link.h"
 #include "../Devices/battery.h"
+#include "../Devices/receiver.h"
 #include "attitude_estimator.h"
 #include "controller.h"
 #include "motor_mixer.h"
@@ -37,6 +38,7 @@ static stateAtt_t state;
 static output_t output;
 static setpoint_t setpoint;
 static vec3f_t motion_acc;
+static rc_t rc;
 static battery_t bat={4000};
 /*
 static sensorData_t sensorData;
@@ -44,6 +46,8 @@ static control_t control;
 */
 float mag[3],acc[3],gyr[3];//debugging
 short bat_v;
+short rc_v[8];
+
 static void stabilizerTask(void* param);
 static void stabilizerInitTask(void* param);
 void stabilizerInit(void)
@@ -180,6 +184,10 @@ static void stabilizerTask(void* param)
 	while(1) {
 		vTaskDelayUntil(&lastWakeTime, F2T(RATE_MAIN_LOOP));
 		margAcquire(&marg);
+		rcAcquire(&rc);
+		for(int i=0;i<8;i++){
+			rc_v[i] = rc.channels[i];
+		}
 		xbee_motionAccAcquire(&motion_acc);
 		for(int i=0;i<3;i++){
 			mag[i] = marg.mag.v[i];

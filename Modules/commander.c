@@ -10,7 +10,7 @@ static setpoint_t setpoint;
 static vec3f_t euler_sp;
 #if CMD_XBEE
 static command_t command;
-#elif CMD_SBUS
+#else
 static rc_t rc;
 #endif
 static void commanderTask( void *pvParameters ) ;
@@ -46,14 +46,16 @@ void sbus_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
 }
 void commanderTask( void *pvParameters )
 {
+
 	float dt;
 	uint32_t lastWakeTime, currWakeTime;
 	lastWakeTime = xTaskGetTickCount ();
+
 	for(;;){
 #if CMD_XBEE
 		xbee_commandBlockingAcquire(&command);
 		xbee_commands2setpoint(&setpoint, &command);
-#elif CMD_SBUS
+#else
 		rcBlockingAcquire(&rc);
 		currWakeTime = xTaskGetTickCount ();
 		dt = (float)(currWakeTime - lastWakeTime) / (float)configTICK_RATE_HZ;

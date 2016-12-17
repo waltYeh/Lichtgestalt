@@ -173,7 +173,7 @@ int main(void)
 	data_link_init();
 	receiver_init();
 //	data_send_start();
-//	eeprom_init();
+	eeprom_init();
 	battery_init();
 	mpu6000_cfg();
 	hmc5883l_cfg();
