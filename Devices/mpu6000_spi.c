@@ -23,7 +23,7 @@ void mpu6000_cfg(void)
 	uint8_t pwr_manage[2] = {RA_PWR_MGMENT_1, 0x1};
 	uint8_t smplrt_div[2] = {RA_SMPLRT_DIV, 0x0};
 	uint8_t config[2] = {RA_CONFIG, 0x4};
-	uint8_t gyro_cfg[2] = {RA_GYRO_CONFIG, 0x0};
+	uint8_t gyro_cfg[2] = {RA_GYRO_CONFIG, 0x08};
 	uint8_t accel_cfg[2] = {RA_ACCEL_CONFIG, 0x8};
 	uint8_t user_ctrl[2] = {RA_USER_CTRL, 0x0};
 	uint8_t int_pin_cfg[2] = {RA_INT_PIN_CFG, 0x0};

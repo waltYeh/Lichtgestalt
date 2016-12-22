@@ -16,9 +16,7 @@ unsigned char decoding_buffer[RX_BUF_SIZE];
 static unsigned int rx_len;
 static unsigned char buffer_num=0;
 static unsigned char buf2read_num=0;
-unsigned char data2send[18]=
-	{0x10,0x22,0x00,0x13,0xA2,0x00,0x41,0x4E,0x6D,
-	0x61,0xFF,0xFE,0x00,0x00,0x41,0x42,0x38,0x37};
+short data2send[18];
 
 unsigned int dest_addr_h = 0x00A21300;
 unsigned int dest_addr_l = 0x616D4E41;
@@ -58,7 +56,7 @@ void data_send_start(void)
 void vDataSendTask( void *pvParameters )  
 {  
 	TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 1000;
+	const TickType_t timeIncreament = 100;
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){  
 		send_data(data2send);
@@ -126,10 +124,10 @@ void send_data(void *data)
 	HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
 	#elif XBEE_TRANS
 	tx_buffer[0]='h';
-	memcpy(tx_buffer+1,data,18);
-	tx_buffer[19]='\r';
-	tx_buffer[20]='\n';
-	HAL_UART_Transmit_DMA(&huart2, tx_buffer, 21);
+	memcpy(tx_buffer+1,data,36);
+	tx_buffer[37]='\r';
+	tx_buffer[38]='\n';
+	HAL_UART_Transmit_DMA(&huart2, tx_buffer, 39);
 	#endif
 }
 void xbee_motionAccAcquire(vec3f_t *motion_acc)

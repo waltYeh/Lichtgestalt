@@ -1,0 +1,4 @@
+#ifndef SITUATION_AWARENESS
+#define SITUATION_AWARENESS
+
+#endif

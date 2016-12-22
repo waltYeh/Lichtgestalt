@@ -72,4 +72,5 @@ autopilot\main.o: ../Src/../Devices/mpu6000_spi.h
 autopilot\main.o: ../Src/../Devices/rom.h
 autopilot\main.o: ../Src/../Devices/hmc5883l_i2c.h
 autopilot\main.o: ../Src/../Modules/sensors_task.h
+autopilot\main.o: ../Src/../Modules/commander.h
 autopilot\main.o: ../Src/../Modules/stabilizer.h

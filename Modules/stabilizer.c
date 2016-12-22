@@ -15,8 +15,11 @@
 #include "motor_mixer.h"
 #include "sensors_task.h"
 #include "stabilizer.h"
+#include "commander.h"
 #include "stabilizer_types.h"
-#include "../Commons/utils.h"
+#include "../MathLib/utils.h"
+#include "../Commons/platform.h"
+#include "../Devices/led.h"
 //#include "sensors.h"
 //#include "commander.h"
 //#include "sitaw.h"
@@ -24,21 +27,14 @@
 //#include "power_distribution.h"
 //static bool isInit = false;
 #include "stm32f4xx_hal.h"
-#define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET)
-#define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET) 
 
-#define LED2_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_RESET) 
-#define LED2_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14, GPIO_PIN_SET)
-
-#define LED3_ON()   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET) 
-#define LED3_OFF()  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET)
-
+extern short data2send[18];
 static marg_t marg;
 static stateAtt_t state;
 static output_t output;
 static setpoint_t setpoint;
 static vec3f_t motion_acc;
-static rc_t rc;
+//static rc_t rc;
 static battery_t bat={4000};
 /*
 static sensorData_t sensorData;
@@ -182,19 +178,29 @@ static void stabilizerTask(void* param)
 	uint32_t lastWakeTime;
 	lastWakeTime = xTaskGetTickCount ();
 	while(1) {
-		vTaskDelayUntil(&lastWakeTime, F2T(RATE_MAIN_LOOP));
+		vTaskDelayUntil(&lastWakeTime, F2T(RATE_1000_HZ));
 		margAcquire(&marg);
-		rcAcquire(&rc);
-		for(int i=0;i<8;i++){
-			rc_v[i] = rc.channels[i];
-		}
 		xbee_motionAccAcquire(&motion_acc);
 		for(int i=0;i<3;i++){
 			mag[i] = marg.mag.v[i];
 			acc[i] = marg.acc.v[i];
 			gyr[i] = marg.gyr.v[i];
+			motion_acc.v[i] = 0;
+		//	data2send[i] = gyr[i];
+		//	data2send[i+3] = acc[i];
+		//	data2send[i+6] = mag[i];
 		}
-		stateEstimator(&state, &marg, &motion_acc);
+		stateEstimator(&state, &marg, &motion_acc, 0.001f);
+		for(int i=0;i<3;i++){
+			data2send[i] = state.Euler.v[i]*573.0f;
+			data2send[i+3] = state.rate.v[i]*573.0f;
+			data2send[i+6] = marg.mag_updated;
+			data2send[i+9] = marg.mag.v[i];
+			data2send[i+12] = marg.acc.v[i];
+			data2send[i+15] = marg.gyr.v[i];
+			
+		}
+		setpointAcquire(&setpoint);
 		stateController(&output, &state, &setpoint);
 		batAcquire(&bat);
 		bat_v = bat.voltage;
@@ -217,12 +223,13 @@ static void stabilizerTask(void* param)
 		tick++;
 		if(tick==500){
 			LED1_ON();
+			if(bat.voltage < BAT_WARNING)
+				LED2_ON();
 		}
 		if(tick==1000){
 			LED1_OFF();
+			LED2_OFF();
 			tick=0;
 		}
-		
-		
 	}
 }

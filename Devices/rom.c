@@ -27,7 +27,7 @@ void vEepromTask( void *pvParameters )
 {
 	int i;
 	for(i=0; i<16; i++){
-		write_buffer[i] = i;
+		write_buffer[i] = i+2;
 		read_buffer[i] = 0xEE;
 	}
 	eeprom_write(write_buffer, 16, 2);
@@ -37,7 +37,7 @@ void vEepromTask( void *pvParameters )
 	
 	while(1){
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament );
-		eeprom_read(read_buffer, 16, 0);
+		eeprom_read(read_buffer, 16, 2);
 	}
 }
 void eeprom_write(void *data, unsigned char len, unsigned char offset)
@@ -46,7 +46,11 @@ void eeprom_write(void *data, unsigned char len, unsigned char offset)
 	write_len = len;
 	write_init_offset = offset;
 	#if EEP_ROM
-	HAL_I2C_Mem_Write_IT(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, data, 1);
+//	HAL_I2C_Mem_Write_IT(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, data, 1);
+	if(HAL_I2C_Mem_Write_DMA(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, data, len)==HAL_OK)
+	{
+		return;
+	}
 //	HAL_I2C_Mem_Write(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, data, len, 5);
 	#elif FLASH_ROM
 	HAL_FLASH_Unlock();
@@ -72,7 +76,11 @@ void eeprom_read(unsigned char *pRxData, unsigned char len, unsigned char offset
 	read_len = len;
 	read_init_offset = offset;
 	#if EEP_ROM
-	HAL_I2C_Mem_Read_IT(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, pRxData, 1);
+//	HAL_I2C_Mem_Read_IT(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, pRxData, 1);
+	if(HAL_I2C_Mem_Read_DMA(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, pRxData, len)==HAL_OK)
+	{
+		return;
+	}
 //	HAL_I2C_Mem_Read(&hi2c2, EEPROM_ADDRESS, offset, I2C_MEMADD_SIZE_8BIT, pRxData, len, 5);
 	#elif FLASH_ROM
 	for (read_byte_cnt=0;read_byte_cnt<len;read_byte_cnt++){
@@ -87,19 +95,19 @@ void EepromReadCpltCallback(void)
 }
 void eeprom_readCallback(void)
 {
-	if(read_byte_cnt < read_len - 1){
+/*	if(read_byte_cnt < read_len - 1){
 		read_byte_cnt++;
 		HAL_I2C_Mem_Read_IT(&hi2c2, EEPROM_ADDRESS, read_init_offset + read_byte_cnt, I2C_MEMADD_SIZE_8BIT, read_buffer + read_byte_cnt, 1);
 	}
 	else{
 		EepromReadCpltCallback();
-	}
+	}*/
 }
 void eeprom_writeCallback(void)
 {
-	if(write_byte_cnt < write_len - 1){
+/*	if(write_byte_cnt < write_len - 1){
 		write_byte_cnt++;
 		HAL_I2C_Mem_Write_IT(&hi2c2, EEPROM_ADDRESS, write_init_offset + write_byte_cnt, I2C_MEMADD_SIZE_8BIT, write_buffer + write_byte_cnt, 1);
 	}
-	
+	*/
 }

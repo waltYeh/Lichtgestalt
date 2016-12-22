@@ -140,20 +140,4 @@ typedef struct PID_s {
 //extern PID_t altPID;
 //extern PID_t pos_xPID;
 //extern PID_t pos_yPID;
-// Frequencies to bo used with the RATE_DO_EXECUTE_HZ macro. Do NOT use an arbitrary number.
-#define RATE_1000_HZ 1000
-#define RATE_500_HZ 500
-#define RATE_250_HZ 250
-#define RATE_100_HZ 100
-#define RATE_50_HZ 50
-#define RATE_25_HZ 25
-
-#ifdef ESTIMATOR_TYPE_kalman
-#define RATE_MAIN_LOOP RATE_1000_HZ
-#else
-#define RATE_MAIN_LOOP RATE_1000_HZ
-#endif
-
-#define RATE_DO_EXECUTE(RATE_HZ, TICK) ((TICK % (RATE_MAIN_LOOP / RATE_HZ)) == 0)
-
 #endif

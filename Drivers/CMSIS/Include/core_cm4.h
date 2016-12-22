@@ -122,8 +122,8 @@
     For this, __FPU_PRESENT has to be checked prior to making use of FPU specific registers and functions.
 */
 #if defined ( __CC_ARM )
+    #define __FPU_PRESENT 1U
   #if defined __TARGET_FPU_VFP
-  #define __FPU_PRESENT  1U
     #if (__FPU_PRESENT == 1U)
       #define __FPU_USED       1U
     #else

@@ -6,39 +6,7 @@
 
 /******Air Frame*****/
 #define AIRFRAME_LICHT160 1
-#if AIRFRAME_F450
-	#define THRCMDRATIO 1
-	#define VEHICLE_MASS 1300//g
-	#define ROTOR_DIST 450//mm
-	#define D2_SQRT2 636//(2*D)/SQRT2_2D
-	#define FORCE_TORQUE_RATIO 15//torq=c*f
-	#define CROSS 1
-	#define MOTOR_POWER 310
-#elif AIRFRAME_XINSONG
-	#define THRCMDRATIO 1
-	#define VEHICLE_MASS 1200//g
-	#define ROTOR_DIST 450//mm
-	#define D2_SQRT2 636//(2*D)/SQRT2_2D
-	#define FORCE_TORQUE_RATIO 15//torq=c*f
-	#define CROSS 1
-	#define MOTOR_POWER 410
-#elif AIRFRAME_F330
-	#define THRCMDRATIO 1
-	#define VEHICLE_MASS 1100//actually 920g
-	#define ROTOR_DIST 330//mm
-	#define D2_SQRT2 467//(2*D)/SQRT2_2D
-	#define FORCE_TORQUE_RATIO 15
-	#define CROSS 1
-	#define MOTOR_POWER 300
-#elif AIRFRAME_F240
-	#define THRCMDRATIO 1
-	#define VEHICLE_MASS 720
-	#define ROTOR_DIST 240//mm
-	#define D2_SQRT2 339//(2*D)/SQRT2_2D
-	#define FORCE_TORQUE_RATIO 15
-	#define PLUS 1
-	#define MOTOR_POWER 120
-#elif AIRFRAME_LICHT160
+#if AIRFRAME_LICHT160
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 220
 	#define ROTOR_DIST 160//mm
@@ -51,7 +19,7 @@
 #endif
 /******Sensors Used*****/
 #define IMU_MPU6000 1
-#define GPS_M8N 1
+#define GPS_M8N 0
 #define GPS_LEA6H 0
 
 #define COMPASS_HMC 1
@@ -62,19 +30,24 @@
 /******Driver Options*****/
 
 /******Devices Options*****/
-#define XBEE_API 1
-#define XBEE_TRANS 0
+#define XBEE_API 0
+#define XBEE_TRANS 1
 #define CMD_SBUS 0
 #define CMD_PPM 1
 #define CMD_XBEE 0
 #define EEP_ROM 0
 #define FLASH_ROM 1
 /******Algorithm Options*****/
-#define ATT_COMP 0
+#define ATT_COMP 1
 #define ATT_EKF 0
-#define ATT_MADGWICK 1
+#define ATT_MADGWICK 0
 
-
+#define RATE_1000_HZ 1000
+#define RATE_500_HZ 500
+#define RATE_250_HZ 250
+#define RATE_100_HZ 100
+#define RATE_50_HZ 50
+#define RATE_25_HZ 25
 /******Flight Modes*****/
 #define INDOOR 1
 #define OUTDOOR 0
@@ -88,5 +61,5 @@
 #define MAX_YAW_RATE 0.698f//14303 50.0
 #define MAX_YAW_RATE_MANEUL 0.698f
 #define YAWRATE_DEADZONE 0.17f
-#define BAT_WARNING 3500
+#define BAT_WARNING 3550
 #endif

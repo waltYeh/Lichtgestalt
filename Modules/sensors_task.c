@@ -17,7 +17,7 @@ static vec3i16_t mag_raw;
 
 static vec3i16_t acc_bias={0,0,0};
 static vec3i16_t gyr_bias={0,0,0};	
-static vec3i16_t mag_bias={0,0,0};
+static vec3i16_t mag_bias={0,-150,110};
 
 static marg_t marg_data;
 //short a_g_queue[6][20];
@@ -28,6 +28,7 @@ static marg_t marg_data;
 static xQueueHandle marg_q;
 static xSemaphoreHandle imuDataReady;
 static bool magDataReady;
+//extern short data2send[9];
 IIRFilter iir_ax={0.0,0.0,0.0,
 				0.0,0.0,0.0,
 				0.0,0.0};
@@ -166,9 +167,9 @@ void gyr_process(vec3i16_t* input, vec3f_t* output)
 {
 	//swap, bias, lpf
 //	int32_t temp;
-	output->x = input->x + gyr_bias.x;
-	output->y = -input->y + gyr_bias.y;
-	output->z = -input->z + gyr_bias.z;
+	output->x = (input->x + gyr_bias.x);
+	output->y = (-input->y + gyr_bias.y);
+	output->z = (-input->z + gyr_bias.z);
 }
 void mag_process(vec3i16_t* input, vec3f_t* output)
 {

@@ -1,5 +1,5 @@
 #include "commander.h"
-#include "../Commons/utils.h"
+#include "../MathLib/utils.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
 #include "../Devices/data_link.h"
@@ -14,11 +14,10 @@ static command_t command;
 static rc_t rc;
 #endif
 static void commanderTask( void *pvParameters ) ;
-void commanderTaskInit(void)
+void commanderInit(void)
 {
 	setpoint_q = xQueueCreate(1,sizeof(setpoint_t));
 	xTaskCreate(commanderTask, "cmdTask", CMD_TASK_STACKSIZE, NULL, CMD_TASK_PRI, NULL);
-	
 }
 void xbee_commands2setpoint(setpoint_t* sp, const command_t* cmd)
 {
@@ -29,7 +28,7 @@ void euler_sp_reset(float yaw)
 {
 	euler_sp.Y = yaw;
 }
-void sbus_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
+void rc_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
 {
 	float yaw_moverate;
 	float thrust;
@@ -46,7 +45,6 @@ void sbus_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
 }
 void commanderTask( void *pvParameters )
 {
-
 	float dt;
 	uint32_t lastWakeTime, currWakeTime;
 	lastWakeTime = xTaskGetTickCount ();
@@ -60,7 +58,7 @@ void commanderTask( void *pvParameters )
 		currWakeTime = xTaskGetTickCount ();
 		dt = (float)(currWakeTime - lastWakeTime) / (float)configTICK_RATE_HZ;
 		lastWakeTime = currWakeTime;
-		sbus_channel2setpoint(&setpoint, &rc, dt);
+		rc_channel2setpoint(&setpoint, &rc, dt);
 #endif
 		xQueueOverwrite(setpoint_q, &setpoint);
 	}

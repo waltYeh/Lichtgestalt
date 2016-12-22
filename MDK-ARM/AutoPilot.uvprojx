@@ -174,11 +174,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4107</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -373,7 +373,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F405xx,ARM_MATH_CM4,__CC_ARM</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                                     ../Drivers/STM32F4xx_HAL_Driver/Inc;                                     ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                     ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;                                     ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                                     ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;                                     ../Middlewares/Third_Party/FreeRTOS/Source/include;                                     ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;                                     ../Drivers/CMSIS/Include;                                     ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
+              <IncludePath>../Inc;                                       ../Drivers/STM32F4xx_HAL_Driver/Inc;                                       ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                       ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;                                       ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                                       ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;                                       ../Middlewares/Third_Party/FreeRTOS/Source/include;                                       ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;                                       ../Drivers/CMSIS/Include;                                       ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -826,6 +826,11 @@
               <FileType>1</FileType>
               <FilePath>..\Modules\controller.c</FilePath>
             </File>
+            <File>
+              <FileName>situation_awareness.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\situation_awareness.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -835,14 +840,19 @@
           <GroupName>Commons</GroupName>
           <Files>
             <File>
-              <FileName>utils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Commons\utils.c</FilePath>
-            </File>
-            <File>
               <FileName>low_pass_filter.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Commons\low_pass_filter.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MathLib</GroupName>
+          <Files>
+            <File>
+              <FileName>utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\utils.c</FilePath>
             </File>
           </Files>
         </Group>

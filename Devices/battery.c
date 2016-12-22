@@ -1,6 +1,8 @@
 #include "battery.h"
+#include "led.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "../Commons/platform.h"
 #include "../config/config.h"
 #include "../Modules/stabilizer_types.h"
 extern ADC_HandleTypeDef hadc1;
@@ -31,20 +33,21 @@ unsigned int battery_get_voltage(void)
 }
 void vAdcTask(void *pvParameters)
 {
-	
+//	uint32_t tick = 0;
 	TickType_t xLastWakeTime;
 	const TickType_t timeIncreament = 400;
 	xLastWakeTime = xTaskGetTickCount();
-	for( ;; )  
-	{  
-    vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
-	//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);  
+	for( ;; )  {  
+		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		HAL_ADC_PollForConversion(&hadc1, 50);//less than 2us
-	//	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET);
 		bat.voltage = battery_get_voltage();
+	//	if(bat.voltage < BAT_WARNING)
+	//		LED2_ON();
 		xQueueOverwrite(bat_q, &bat);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		battery_meas_start();
+	//	LED2_OFF();
+
 	}  
 }
 void batAcquire(battery_t *bat)

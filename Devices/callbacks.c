@@ -18,8 +18,8 @@ void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	if(hi2c->Instance == hi2c1.Instance)
 		hmc5883lCallback();
-//	if(hi2c->Instance == hi2c2.Instance)
-//		eeprom_readCallback();
+	if(hi2c->Instance == hi2c2.Instance)
+		eeprom_readCallback();
 	
 }
 void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)

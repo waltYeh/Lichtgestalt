@@ -47,6 +47,7 @@
 #include "../Devices/rom.h"
 #include "../Devices/hmc5883l_i2c.h"
 #include "../Modules/sensors_task.h"
+#include "../Modules/commander.h"
 #include "../Modules/stabilizer.h"
 /* USER CODE END Includes */
 
@@ -58,7 +59,8 @@ CRC_HandleTypeDef hcrc;
 I2C_HandleTypeDef hi2c1;
 I2C_HandleTypeDef hi2c2;
 DMA_HandleTypeDef hdma_i2c1_rx;
-DMA_HandleTypeDef hdma_i2c1_tx;
+DMA_HandleTypeDef hdma_i2c2_rx;
+DMA_HandleTypeDef hdma_i2c2_tx;
 
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
@@ -180,6 +182,7 @@ int main(void)
 	mpu_fast_init();
 	hmc_fast_init();
 	sensorsTaskInit();
+	commanderInit();
 	stabilizerInit();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
@@ -564,6 +567,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream0_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream0_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream0_IRQn);
+  /* DMA1_Stream2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Stream2_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Stream2_IRQn);
   /* DMA1_Stream5_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream5_IRQn);
