@@ -57,7 +57,7 @@ autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/que
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/semphr.h
 autopilot\stm32f4xx_it.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/event_groups.h
 autopilot\stm32f4xx_it.o: ../Src/../Devices/rom.h
-autopilot\stm32f4xx_it.o: ../Src/../Devices/data_link.h
 autopilot\stm32f4xx_it.o: ../Src/../Devices/../Modules/stabilizer_types.h
 autopilot\stm32f4xx_it.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdbool.h
+autopilot\stm32f4xx_it.o: ../Src/../Devices/data_link.h
 autopilot\stm32f4xx_it.o: ../Src/../Devices/receiver.h

@@ -40,8 +40,8 @@ static battery_t bat={4000};
 static sensorData_t sensorData;
 static control_t control;
 */
-float mag[3],acc[3],gyr[3];//debugging
-short bat_v;
+//float mag[3],acc[3],gyr[3];//debugging
+//short bat_v;
 short rc_v[8];
 
 static void stabilizerTask(void* param);
@@ -159,14 +159,12 @@ static void stabilizerInitTask(void* param)
 					avr_gyr.v[i] /= AVERAGE_SAMPLES;
 					avr_mag.v[i] /= AVERAGE_SAMPLES;
 				}
-	/*********************/
 				quarternion_init(&avr_acc, &avr_mag, &state);
 				gyro_calibrate(&avr_gyr);
 				stabilizerReady2Fly();
 				data_send_start();
 //				isInit = true;
 				vTaskDelete(NULL);
-	/*********************/
 			}
 		}
 		vTaskDelayUntil(&lastWakeTime, F2T(RATE_1000_HZ));
@@ -182,13 +180,7 @@ static void stabilizerTask(void* param)
 		margAcquire(&marg);
 		xbee_motionAccAcquire(&motion_acc);
 		for(int i=0;i<3;i++){
-			mag[i] = marg.mag.v[i];
-			acc[i] = marg.acc.v[i];
-			gyr[i] = marg.gyr.v[i];
 			motion_acc.v[i] = 0;
-		//	data2send[i] = gyr[i];
-		//	data2send[i+3] = acc[i];
-		//	data2send[i+6] = mag[i];
 		}
 		stateEstimator(&state, &marg, &motion_acc, 0.001f);
 		for(int i=0;i<3;i++){
@@ -198,12 +190,10 @@ static void stabilizerTask(void* param)
 			data2send[i+9] = marg.mag.v[i];
 			data2send[i+12] = marg.acc.v[i];
 			data2send[i+15] = marg.gyr.v[i];
-			
 		}
 		setpointAcquire(&setpoint);
 		stateController(&output, &state, &setpoint);
 		batAcquire(&bat);
-		bat_v = bat.voltage;
 		powerDistribution(&output, &bat);
 /*
 #ifdef ESTIMATOR_TYPE_kalman

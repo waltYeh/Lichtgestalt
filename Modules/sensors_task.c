@@ -4,7 +4,7 @@
 #include "sensors_task.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-
+#include "../Devices/rom.h"
 #include "../config/config.h"
 #include "stabilizer_types.h"
 #include "../Devices/motor_pwm.h"
@@ -17,7 +17,7 @@ static vec3i16_t mag_raw;
 
 static vec3i16_t acc_bias={0,0,0};
 static vec3i16_t gyr_bias={0,0,0};	
-static vec3i16_t mag_bias={0,-150,110};
+static vec3i16_t mag_bias={0,0,0};//{0,-150,110};
 
 static marg_t marg_data;
 //short a_g_queue[6][20];
@@ -71,7 +71,8 @@ void sensorsTaskInit(void)
 //  gyr_raw_q = xQueueCreate(1, sizeof(gyr_raw_t));
 	marg_q = xQueueCreate(1, sizeof(marg_t));
 	imu_IIR_init();
-  
+	rom_get_mag_bias(&mag_bias);
+	rom_get_acc_bias(&acc_bias);
 	vSemaphoreCreateBinary( imuDataReady );
 //	vSemaphoreCreateBinary( magDataReady );
 	xTaskCreate(sensorsTrigerTask, "sensTrigTask", SENSORS_TASK_STACKSIZE, NULL, SENSORS_TASK_PRI, NULL);
@@ -154,7 +155,6 @@ void gyro_calibrate(vec3f_t* avr_gyr)
 	for(i = 0; i < 3; i++){
 		gyr_bias.v[i] = -avr_gyr->v[i];
 	}
-	
 }
 void acc_process(vec3i16_t* input, vec3f_t* output)
 {

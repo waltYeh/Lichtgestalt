@@ -5,6 +5,7 @@
 #include "../config/config.h"
 #include "../Modules/stabilizer_types.h"
 #include "xbee_api.h"
+#include "rom.h"
 #include "../Commons/platform.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
@@ -48,6 +49,8 @@ void data_link_init(void)
 }
 void data_send_start(void)
 {
+//	vec3i16_t mag_bias={0,-150,110};
+//	rom_set_mag_bias(&mag_bias);
 	xTaskCreate( vDataSendTask, "Send", configMINIMAL_STACK_SIZE, NULL, XBEE_TX_TASK_PRI, NULL );
 	
 }
@@ -93,6 +96,8 @@ void vDataReceiveTask( void *pvParameters )
 						break;
 						case DSCR_CAL:{
 							decode_calibrate(decoding_buffer, rx_len, &cal);
+							rom_set_mag_bias(&cal.mag_bias);
+							rom_set_acc_bias(&cal.acc_bias);
 							xQueueOverwrite(cal_q, &cal);
 						}
 						break;
