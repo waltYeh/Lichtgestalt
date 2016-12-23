@@ -53,6 +53,16 @@ unsigned char  api_rx_decode(unsigned char * data, unsigned int pack_len)
 }
 void decode_cmd_acc(unsigned char * data, unsigned int pack_len, command_t* cmd, vec3f_t* mot_acc)
 {
+//	[3E,0,api_len,90,	0-3
+//	add_H,H,H,H,	4-7
+//	add_L,L,L,L,	8-11
+//	src_net,src_net,rcv_opt,descriptor 0x01	12-15
+//	t,t,t,t,		16-19
+//	q0,q0,q1,q1		20-23
+//	q2,q2,q3,q3		24-27
+//	thr,thr,ax,ax	28-31
+//	ay,ay,az,az		32-35
+//	checksum		36	
 	short q[4];
 	short thrust;
 	short acc[3];
@@ -72,6 +82,16 @@ void decode_cmd_acc(unsigned char * data, unsigned int pack_len, command_t* cmd,
 }
 void decode_calibrate(unsigned char * data, unsigned int pack_len, calib_t* cal)
 {
+//	[3E,0,api_len,90,	0-3
+//	add_H,H,H,H,	4-7
+//	add_L,L,L,L,	8-11
+//	src_net,src_net,rcv_opt,descriptor 0x02	12-15
+//	t,t,t,t,		16-19
+//	ax,ax,ay,ay		20-23
+//	az,az,gx,gx		24-27
+//	gy,gy,gz,gz		28-31
+//	mx,mx,my,my		32-35
+//	mz,mz,checksum	36-38	
 	int i;
 	short acc[3], gyr[3],mag[3];
 	unsigned int timestamp;
@@ -132,7 +152,7 @@ unsigned char encode_sens_raw(unsigned char * data, const vec3i16_t* acc, const 
 	memcpy(data + 22, a, 6);
 	memcpy(data + 28, g, 6);
 	memcpy(data + 34, m, 6);
-	return 23;
+	return 23;//length from desc to last data
 }
 unsigned char encode_sens(unsigned char * data, const marg_t * marg)
 {
@@ -150,7 +170,7 @@ unsigned char encode_sens(unsigned char * data, const marg_t * marg)
 	memcpy(data + 22, a, 6);
 	memcpy(data + 28, g, 6);
 	memcpy(data + 34, m, 6);
-	return 23;
+	return 23;//length from desc to last data
 }
 unsigned char encode_att(unsigned char * data, const stateAtt_t* att)
 {
@@ -164,16 +184,16 @@ unsigned char encode_att(unsigned char * data, const stateAtt_t* att)
 	memcpy(data + 17, &descriptor, 1);
 	memcpy(data + 18, &timestamp, 4);
 	memcpy(data + 22, q, 8);
-	return 13;
+	return 13;//length from desc to last data
 }
-unsigned char encode_general(unsigned char * data, const void * data2send)
+unsigned char encode_general_18(unsigned char * data, const void * data2send)
 {
 	unsigned char descriptor = DSCR_GEN;
 	unsigned int timestamp = xTaskGetTickCount();
 	memcpy(data + 17, &descriptor, 1);
 	memcpy(data + 18, &timestamp, 4);
 	memcpy(data + 22, data2send, 18);
-	return 23;
+	return 23;//length from desc to last data
 }
 unsigned short crc_update (unsigned short crc, unsigned char data)
 {

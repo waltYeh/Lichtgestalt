@@ -71,7 +71,7 @@ void api_pack_encode(unsigned char * data, unsigned char content_len);
 void api_tx_encode(unsigned char * data, unsigned int dest_addr_h, unsigned int dest_addr_l);
 unsigned char encode_sens_raw(unsigned char * data, const vec3i16_t* acc, const vec3i16_t* gyr,const vec3i16_t* mag);
 unsigned char encode_att(unsigned char * data, const stateAtt_t* att);
-unsigned char encode_general(unsigned char * data, const void * data2send);
+unsigned char encode_general_18(unsigned char * data, const void * data2send);
 unsigned char encode_sens(unsigned char * data, const marg_t * marg);
 
 #define ATT_Q 14

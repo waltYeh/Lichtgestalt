@@ -55,7 +55,7 @@ void init_pid(PID_t *pid, float P, float Prate, float Irate, float Drate, uint32
 }
 
 void stateController(output_t *output, 
-	const stateAtt_t *state,const setpoint_t *setpoint)
+	const stateAtt_t *state,const setpoint_t *setpoint, float dt)
 {
 	float p_e_R_hat[3][3];//measured body to desired body
 	float p_R_est[3][3];

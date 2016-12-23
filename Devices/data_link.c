@@ -52,7 +52,6 @@ void data_send_start(void)
 //	vec3i16_t mag_bias={0,-150,110};
 //	rom_set_mag_bias(&mag_bias);
 	xTaskCreate( vDataSendTask, "Send", configMINIMAL_STACK_SIZE, NULL, XBEE_TX_TASK_PRI, NULL );
-	
 }
 
 

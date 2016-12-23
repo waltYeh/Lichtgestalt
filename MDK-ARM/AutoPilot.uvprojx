@@ -838,13 +838,6 @@
         </Group>
         <Group>
           <GroupName>Commons</GroupName>
-          <Files>
-            <File>
-              <FileName>low_pass_filter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Commons\low_pass_filter.c</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>MathLib</GroupName>
@@ -853,6 +846,11 @@
               <FileName>utils.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MathLib\utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>low_pass_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\low_pass_filter.c</FilePath>
             </File>
           </Files>
         </Group>

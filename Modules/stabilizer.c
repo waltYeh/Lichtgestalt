@@ -16,6 +16,7 @@
 #include "sensors_task.h"
 #include "stabilizer.h"
 #include "commander.h"
+#include "situation_awareness.h"
 #include "stabilizer_types.h"
 #include "../MathLib/utils.h"
 #include "../Commons/platform.h"
@@ -43,7 +44,7 @@ static control_t control;
 //float mag[3],acc[3],gyr[3];//debugging
 //short bat_v;
 short rc_v[8];
-
+mode_t g_mode;
 static void stabilizerTask(void* param);
 static void stabilizerInitTask(void* param);
 void stabilizerInit(void)
@@ -179,10 +180,7 @@ static void stabilizerTask(void* param)
 		vTaskDelayUntil(&lastWakeTime, F2T(RATE_1000_HZ));
 		margAcquire(&marg);
 		xbee_motionAccAcquire(&motion_acc);
-		for(int i=0;i<3;i++){
-			motion_acc.v[i] = 0;
-		}
-		stateEstimator(&state, &marg, &motion_acc, 0.001f);
+		stateEstimator(&state, &marg, &motion_acc, 1.0f/RATE_1000_HZ);
 		for(int i=0;i<3;i++){
 			data2send[i] = state.Euler.v[i]*573.0f;
 			data2send[i+3] = state.rate.v[i]*573.0f;
@@ -192,33 +190,23 @@ static void stabilizerTask(void* param)
 			data2send[i+15] = marg.gyr.v[i];
 		}
 		setpointAcquire(&setpoint);
-		stateController(&output, &state, &setpoint);
+		situAwareUpdate(&setpoint, &marg, &state);
+		stateController(&output, &state, &setpoint, 1.0f/RATE_1000_HZ);
 		batAcquire(&bat);
 		powerDistribution(&output, &bat);
-/*
-#ifdef ESTIMATOR_TYPE_kalman
-    stateEstimatorUpdate(&state, &sensorData, &control);
-#else
-    sensorsAcquire(&sensorData, tick);
-    stateEstimator(&state, &sensorData, tick);
-#endif
 
-    commanderGetSetpoint(&setpoint, &state);
-
-    sitAwUpdateSetpoint(&setpoint, &sensorData, &state);
-
-    stateController(&control, &sensorData, &state, &setpoint, tick);
-    powerDistribution(&control);
-*/
 		tick++;
 		if(tick==500){
 			LED1_ON();
 			if(bat.voltage < BAT_WARNING)
 				LED2_ON();
+			if(g_mode == modeCal)
+				LED3_ON();
 		}
 		if(tick==1000){
 			LED1_OFF();
 			LED2_OFF();
+			LED3_OFF();
 			tick=0;
 		}
 	}

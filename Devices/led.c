@@ -29,11 +29,18 @@ bool check_butt(void)
 static void vLedTask(void *pvParameters);
 void led_init(void)
 {
-	xTaskCreate( vLedTask, "LED", configMINIMAL_STACK_SIZE, NULL, LED_TASK_PRI, NULL );  
 	LED1_OFF();
 	LED2_OFF();
 	LED3_OFF();
+	if(check_butt()){
+		g_mode = modeCal;
+		LED3_ON();
+	}
+	else{
+		g_mode = modeAtt;
+	}
 	
+	xTaskCreate( vLedTask, "LED", configMINIMAL_STACK_SIZE, NULL, LED_TASK_PRI, NULL );  
 }
 void but_init(void)
 {

@@ -31,6 +31,7 @@ void vEepromTask( void *pvParameters )
 		if(flash_write){
 			flash_write = false;
 			vTaskSuspendAll();
+			// this will take 1000ms or so
 			eeprom_write(write_buffer, 32, 0);
 			xTaskResumeAll();
 			eeprom_read(read_buffer, 32, 0);

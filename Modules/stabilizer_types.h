@@ -119,10 +119,11 @@ typedef struct calib_s {
 } calib_t;
 
 typedef enum mode_e {
-  modeDisable = 0,
-  modeAbs,
-  modeVelocity
+  modeCal = 0,
+  modeAtt,
+  modeRate
 } mode_t;
+extern mode_t g_mode;
 typedef struct PID_s {
 	float Err;
 	float RateErr;
