@@ -1,17 +1,8 @@
-#include "utils.h"
+#include "attitude_lib.h"
 #include <math.h>
 #include "arm_math.h"
 #include "../Modules/stabilizer_types.h"
-float inv_sqrt(float x) 
-{
-	float halfx = 0.5f * x;
-	float y = x;
-	long i = *(long*)&y;
-	i = 0x5f3759df - (i>>1);
-	y = *(float*)&i;
-	y = y * (1.5f - (halfx * y * y));
-	return y;
-}
+#include "type_math.h"
 void body2glob(const rotation_t* R, const vec3f_t* body, vec3f_t* glob, short dimension)
 {	
 	if(dimension == 2){
@@ -133,15 +124,7 @@ void rotation2quaternion(const rotation_t* R, quaternion_t* Q)
 	for(int i = 0; i < 4; i++)
 		Q->q[i] = q[i];
 }
-bool judge_steady(float* block, unsigned int len, float threshold)
-{
-	float std;
-	arm_std_f32(block,len,&std);
-	if(std < threshold)
-		return true;
-	else
-		return false;
-}
+
 void quaternion_derivative(const quaternion_t* Q, quaternion_t* derQ, const vec3f_t* w)
 {
 	int i;
@@ -182,31 +165,13 @@ void quaternion_normalize(quaternion_t* Q)
 	Q->q2 = q2;
 	Q->q3 = q3;
 }
-void vec3f_normalize(vec3f_t * v)
+
+bool judge_steady(float* block, unsigned int len, float threshold)
 {
-	float inv_norm;
-	inv_norm = inv_sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
-	v->x *= inv_norm;
-	v->y *= inv_norm;
-	v->z *= inv_norm;
-}
-void vec3f_cross(const vec3f_t * a, const vec3f_t * b, vec3f_t * d)
-{
-	d->x = a->y * b->z - a->z * b->y;
-	d->y = a->z * b->x - a->x * b->z;
-	d->z = a->x * b->y - a->y * b->x;
-}
-vec3f_t vec3f_normalized(vec3f_t * v)
-{
-	vec3f_t ret;
-	float inv_norm;
-	inv_norm = inv_sqrt(v->x * v->x + v->y * v->y + v->z * v->z);
-	ret.x = v->x * inv_norm;
-	ret.y = v->y * inv_norm;
-	ret.z = v->z * inv_norm;
-	return ret;
-}
-float vec3f_length(const vec3f_t * v)
-{
-	return sqrtf(v->x * v->x + v->y * v->y + v->z * v->z);
+	float std;
+	arm_std_f32(block,len,&std);
+	if(std < threshold)
+		return true;
+	else
+		return false;
 }

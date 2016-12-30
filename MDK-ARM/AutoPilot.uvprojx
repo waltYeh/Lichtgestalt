@@ -831,6 +831,11 @@
               <FileType>1</FileType>
               <FilePath>..\Modules\situation_awareness.c</FilePath>
             </File>
+            <File>
+              <FileName>sensors_calibration.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\sensors_calibration.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -843,14 +848,24 @@
           <GroupName>MathLib</GroupName>
           <Files>
             <File>
-              <FileName>utils.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\MathLib\utils.c</FilePath>
-            </File>
-            <File>
               <FileName>low_pass_filter.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\MathLib\low_pass_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>calibration_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\calibration_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\attitude_lib.c</FilePath>
+            </File>
+            <File>
+              <FileName>type_math.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\type_math.c</FilePath>
             </File>
           </Files>
         </Group>

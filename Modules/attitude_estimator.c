@@ -4,7 +4,8 @@
 #include <math.h>
 #include "arm_math.h"
 #include "stm32f4xx.h"
-#include "../MathLib/utils.h"
+#include "../MathLib/attitude_lib.h"
+#include "../MathLib/type_math.h"
 extern short data2send[9];
 
 #if ATT_MADGWICK

@@ -18,7 +18,8 @@
 #include "commander.h"
 #include "situation_awareness.h"
 #include "stabilizer_types.h"
-#include "../MathLib/utils.h"
+#include "sensors_calibration.h"
+#include "../MathLib/attitude_lib.h"
 #include "../Commons/platform.h"
 #include "../Devices/led.h"
 //#include "sensors.h"
@@ -27,7 +28,6 @@
 //#include "controller.h"
 //#include "power_distribution.h"
 //static bool isInit = false;
-#include "stm32f4xx_hal.h"
 
 extern short data2send[18];
 static marg_t marg;
@@ -66,10 +66,14 @@ void stabilizerInit(void)
 	output.thrust = 0;
 	setpoint.thrust = 0;
 	marg.mag_updated = false;
-	
-	xTaskCreate(stabilizerInitTask, "stabilizerInit",
+	if(g_mode == modeAtt){
+		xTaskCreate(stabilizerInitTask, "stabilizerInit",
               STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
-	
+	}
+	else if(g_mode == modeCal){
+		calibration_manager_init();
+		
+	}
 	/*  if(isInit)
     return;
 

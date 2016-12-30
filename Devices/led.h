@@ -1,8 +1,10 @@
 #ifndef LED_H
 #define LED_H
+#include "../Modules/stabilizer_types.h"
 #include "stm32f4xx_hal.h"
 void led_init(void);
 void but_init(void);
+bool check_butt(void);
 #define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET)
 #define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET) 
 

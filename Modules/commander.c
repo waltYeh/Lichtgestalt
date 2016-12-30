@@ -1,5 +1,6 @@
 #include "commander.h"
-#include "../MathLib/utils.h"
+#include "../MathLib/attitude_lib.h"
+#include "../MathLib/type_math.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
 #include "../Devices/data_link.h"

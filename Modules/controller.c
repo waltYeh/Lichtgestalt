@@ -2,7 +2,7 @@
 #include "arm_math.h"
 #include "string.h"
 #include <math.h>
-#include "../MathLib/utils.h"
+#include "../MathLib/attitude_lib.h"
 /*PID_t rollPID;
 PID_t pitchPID;
 PID_t yawPID;*/

@@ -4,7 +4,7 @@
 #include <math.h>
 #include "arm_math.h"
 #include "stm32f4xx.h"
-#include "../MathLib/utils.h"
+#include "../MathLib/attitude_lib.h"
 
 //retVal: 0x01010101
 //eight bits:

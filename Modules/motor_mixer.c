@@ -2,7 +2,8 @@
 #include "stabilizer_types.h"
 #include "../Devices/battery.h"
 #include "../Devices/motor_pwm.h"
-#include "../MathLib/utils.h"
+#include "../MathLib/attitude_lib.h"
+#include "../MathLib/type_math.h"
 #include "../Commons/platform.h"
 
 
