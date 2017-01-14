@@ -23,6 +23,12 @@ void vec3f_normalize(vec3f_t * v)
 }
 void vec3f_cross(const vec3f_t * a, const vec3f_t * b, vec3f_t * d)
 {
+/*
+a X b = | i		j		k	|
+		| ax	ay		az	|
+		| bx	by		bz	|
+	where |.| is the determinant
+*/	
 	d->x = a->y * b->z - a->z * b->y;
 	d->y = a->z * b->x - a->x * b->z;
 	d->z = a->x * b->y - a->y * b->x;

@@ -14,6 +14,7 @@ void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
 	
 	
 }
+
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
 	if(hi2c->Instance == hi2c1.Instance)
@@ -48,6 +49,7 @@ void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 //	}
 	}
 }
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
 	if(htim->Instance == htim8.Instance){

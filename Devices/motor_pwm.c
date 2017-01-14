@@ -27,3 +27,10 @@ void motor_pwm_output(const unsigned short duty[4])
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, duty[2]);
 	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, duty[3]);
 }
+void motor_cut(void)
+{
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 1000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 1000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_3, 1000);
+	__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_4, 1000);
+}

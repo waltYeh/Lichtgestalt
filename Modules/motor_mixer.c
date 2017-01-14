@@ -59,5 +59,8 @@ void powerDistribution(output_t* output, const battery_t * bat)
 	#endif		
 		force2output(motorForce, motorDuty, bat->voltage);
 	}
-	motor_pwm_output(motorDuty);
+	if(0)
+		motor_pwm_output(motorDuty);
+	else
+		motor_cut();
 }

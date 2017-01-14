@@ -22,6 +22,7 @@
 #include "../MathLib/attitude_lib.h"
 #include "../Commons/platform.h"
 #include "../Devices/led.h"
+#include "../Devices/motor_pwm.h"
 //#include "sensors.h"
 //#include "commander.h"
 //#include "sitaw.h"
@@ -66,6 +67,7 @@ void stabilizerInit(void)
 	output.thrust = 0;
 	setpoint.thrust = 0;
 	marg.mag_updated = false;
+	motor_cut();
 	if(g_mode == modeAtt){
 		xTaskCreate(stabilizerInitTask, "stabilizerInit",
               STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
@@ -197,6 +199,7 @@ static void stabilizerTask(void* param)
 		situAwareUpdate(&setpoint, &marg, &state);
 		stateController(&output, &state, &setpoint, 1.0f/RATE_1000_HZ);
 		batAcquire(&bat);
+		
 		powerDistribution(&output, &bat);
 
 		tick++;
