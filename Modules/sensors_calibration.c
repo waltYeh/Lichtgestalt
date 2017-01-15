@@ -15,7 +15,7 @@
 #include "../Devices/led.h"
 #include "../Devices/data_link.h"
 #include "../Devices/rom.h"
-extern short data2send[18];
+//extern short data2send[18];
 static vec3i16_t old_mag_bias;
 static void magCalTask(void* param);
 #if STATIC_CAL_MEM
@@ -107,34 +107,22 @@ static void magCalTask(void* param)
 		}
 		
 		tick++;
-		if(tick==2){
-			if(mag_store_pt < MAG_STORE/3)
-				LED1_ON();
-			else if(mag_store_pt < MAG_STORE*2/3)
-				LED2_ON();
-			else
-				LED3_ON();
+		if(mag_store_pt < MAG_STORE/3){
+			setLed(0, 200, 500);
+			setLed(1, 0, 500);
+			setLed(2, 0, 500);
 		}
-		if(tick==5){
-			if(mag_store_pt < MAG_STORE/3){
-				LED1_OFF();
-				LED2_OFF();
-				LED3_OFF();
-			}
-			else if(mag_store_pt < MAG_STORE*2/3){
-				LED1_ON();
-				LED2_OFF();
-				LED3_OFF();
-			}
-			else{
-				LED1_ON();
-				LED2_ON();
-				LED3_OFF();
-			}
-			tick=0;
+		else if(mag_store_pt < MAG_STORE*2/3){
+			setLed(0, 0, 500);
+			setLed(1, 200, 500);
+			setLed(2, 0, 500);
+		}
+		else{
+			setLed(0, 0, 500);
+			setLed(1, 0, 500);
+			setLed(2, 200, 500);
 		}
 		vTaskDelayUntil(&xLastWakeTime, timeIncreament);
 	}
-	
 }
 

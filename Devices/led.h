@@ -5,6 +5,8 @@
 void led_init(void);
 void but_init(void);
 bool check_butt(void);
+void setLed(unsigned char index, unsigned int duty, unsigned int period);
+
 #define LED1_ON()   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET)
 #define LED1_OFF()  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET) 
 

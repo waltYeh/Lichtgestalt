@@ -41,13 +41,9 @@ void vAdcTask(void *pvParameters)
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		HAL_ADC_PollForConversion(&hadc1, 50);//less than 2us
 		bat.voltage = battery_get_voltage();
-	//	if(bat.voltage < BAT_WARNING)
-	//		LED2_ON();
 		xQueueOverwrite(bat_q, &bat);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		battery_meas_start();
-	//	LED2_OFF();
-
 	}  
 }
 void batAcquire(battery_t *bat)

@@ -6,7 +6,7 @@
 /*PID_t rollPID;
 PID_t pitchPID;
 PID_t yawPID;*/
-extern short data2send[18];
+//extern short data2send[18];
 PID_t pitchPID={0,0,0,0,
 			1.6,16.0,
 			0.0,0.0,

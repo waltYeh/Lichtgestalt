@@ -20,6 +20,9 @@ void mpu6000_cfg(void)
 {
 	uint8_t who_am_i_tx[2] = {(1<<7)|RA_WHO_AM_I, 0};
 	uint8_t dummy_rcv[2] = {0,0};
+//	uint8_t mpu_reset[2] = {RA_PWR_MGMENT_1,0x80};
+//	uint8_t mpu_wakeup[2] = {RA_PWR_MGMENT_1,0x00};
+//	uint8_t pwr_mgment_1[2] = {RA_PWR_MGMENT_1,0x01};
 	uint8_t pwr_manage[2] = {RA_PWR_MGMENT_1, 0x1};
 	uint8_t smplrt_div[2] = {RA_SMPLRT_DIV, 0x0};
 	uint8_t config[2] = {RA_CONFIG, 0x4};
@@ -29,6 +32,20 @@ void mpu6000_cfg(void)
 	uint8_t int_pin_cfg[2] = {RA_INT_PIN_CFG, 0x0};
 	uint8_t int_enable[2] = {RA_INT_ENABLE, 0x0};
 	HAL_Delay(10);
+	/*
+	SEL();
+	HAL_SPI_TransmitReceive(&hspi1, mpu_reset, dummy_rcv, 2, 1);
+	DSEL();
+	HAL_Delay(50);
+	SEL();
+	HAL_SPI_TransmitReceive(&hspi1, mpu_wakeup, dummy_rcv, 2, 1);
+	DSEL();
+	HAL_Delay(10);
+	SEL();
+	HAL_SPI_TransmitReceive(&hspi1, pwr_mgment_1, dummy_rcv, 2, 1);
+	DSEL();
+	HAL_Delay(10);
+	*/
 	SEL();
 	HAL_SPI_TransmitReceive(&hspi1, who_am_i_tx, dummy_rcv, 2, 1);
 	DSEL();

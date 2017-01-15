@@ -3,26 +3,25 @@
 #pragma anon_unions
 #include <stdint.h>
 #include <stdbool.h>
-//#include "../../Devices/imu_types.h"
 
 /* Orientation as a quaternion */
 typedef struct quaternion_s {
 //  uint32_t timestamp;
-  union {
-    struct {
-      float q0;
-      float q1;
-      float q2;
-      float q3;
-    };
-    struct {
-      float x;
-      float y;
-      float z;
-      float w;
-    };
-	float q[4];
-  };
+	union {
+		struct {
+			float q0;
+			float q1;
+			float q2;
+			float q3;
+		};
+		struct {
+			float x;
+			float y;
+			float z;
+			float w;
+		};
+		float q[4];
+	};
 } quaternion_t;
 
 typedef struct rotation_s {
@@ -34,37 +33,31 @@ typedef struct rotation_s {
 struct vec3f_s {
 //  uint32_t timestamp; // Timestamp when the data was computed
 	union {
-    struct {
-      float R;
-      float P;
-      float Y;
-    };
-    struct {
-      float x;
-      float y;
-      float z;
-    };
+		struct {
+			float R;
+			float P;
+			float Y;
+		};
+		struct {
+			float x;
+			float y;
+			float z;
+		};
 		float v[3];
-  };
+	};
 };
 typedef struct vec3f_s vec3f_t;
-//typedef struct vec3f_s moment_t;
-//typedef struct vec3f_s euler_t;
-//typedef struct vec3f_s angularRate_t;
 struct vec3i16_s {
 //	uint32_t timestamp;
 	union {
-   struct {
-         int16_t x;
-         int16_t y;
-         int16_t z;
-   };
-   int16_t v[3];
- };
+		struct {
+			int16_t x;
+			int16_t y;
+			int16_t z;
+		};
+		int16_t v[3];
+	};
 };
-//typedef struct vec3i16_s acc_raw_t;
-//typedef struct vec3i16_s gyr_raw_t;
-//typedef struct vec3i16_s mag_raw_t;
 typedef struct vec3i16_s vec3i16_t;
 
 typedef struct margData_s {
@@ -79,7 +72,7 @@ typedef struct rc_s {
 } rc_t;
 
 typedef struct battery_s {
-  uint16_t voltage;
+	uint16_t voltage;
 } battery_t;//used in queue
 
 typedef struct stateAtt_s {
@@ -92,7 +85,6 @@ typedef struct stateAtt_s {
 typedef struct command_s {
 	quaternion_t Q;
 	float thrust;
-//	unsigned char cut;
 } command_t;//used in queue
 
 typedef struct setpoint_s {
@@ -104,6 +96,12 @@ typedef struct output_s {
 	vec3f_t moment;
 	float thrust;
 } output_t;//used in queue
+
+typedef struct led_s {
+	unsigned int period;
+	unsigned int duty;
+	unsigned int cnt;
+} led_t;//used in queue
 
 typedef struct agent_s {
 	unsigned int coord_addr_h;
@@ -120,11 +118,18 @@ typedef struct calib_s {
 } calib_t;
 
 typedef enum mode_e {
-  modeCal = 0,
-  modeAtt,
-  modeRate
+	modeCal = 0,
+	modeAtt,
+	modeRate
 } mode_t;
+typedef enum status_e {
+	motorLocked = 0,
+	motorUnlocking,
+	motorUnlocked,
+	test
+} status_t;
 extern mode_t g_mode;
+extern status_t g_status;
 typedef struct PID_s {
 	float Err;
 	float RateErr;
@@ -142,4 +147,5 @@ typedef struct PID_s {
 //extern PID_t altPID;
 //extern PID_t pos_xPID;
 //extern PID_t pos_yPID;
+extern short data2send[18];
 #endif

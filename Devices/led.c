@@ -16,7 +16,7 @@
 
 #define LED3_ON()   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET) 
 #define LED3_OFF()  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET)
-
+static led_t led[3];
 bool check_butt(void)
 {	
 	GPIO_PinState state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_2);
@@ -29,9 +29,16 @@ bool check_butt(void)
 static void vLedTask(void *pvParameters);
 void led_init(void)
 {
+	int i=0;
+	for(i=0;i<3;i++){
+		led[i].duty = 0;
+		led[i].period = 1000;
+		led[i].cnt = 0;
+	}
 	LED1_OFF();
 	LED2_OFF();
 	LED3_OFF();
+	
 	if(check_butt()){
 		g_mode = modeCal;
 		LED3_ON();
@@ -39,7 +46,7 @@ void led_init(void)
 	else{
 		g_mode = modeAtt;
 	}
-	
+	g_status = motorLocked;
 	xTaskCreate( vLedTask, "LED", configMINIMAL_STACK_SIZE, NULL, LED_TASK_PRI, NULL );  
 }
 void but_init(void)
@@ -47,20 +54,81 @@ void but_init(void)
 	
 	
 }
+void setLed(unsigned char index, unsigned int duty, unsigned int period)
+{
+	led[index].duty = duty;
+	led[index].period = period;
+}
 void vLedTask(void *pvParameters)
 {
 //	bool butt_state = false;
+//	int i;
 	TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 20;
+	unsigned int but_cnt=0;
+	unsigned int tick = 0;
+	const TickType_t timeIncreament = 1;
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; )  
 	{  
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
-//		butt_state = check_butt();
-/*		if(butt_state)
-			LED1_ON();
+		tick ++;
+		if(check_butt())
+			but_cnt++;
 		else
+			but_cnt = 0;
+		if(but_cnt == 500){
+			if(g_status == motorLocked)
+				g_status = motorUnlocking;
+			else if(g_status == motorUnlocked||g_status == motorUnlocking)
+				g_status = motorLocked;
+		}
+		if(led[0].duty == led[0].period)
+			LED1_ON();
+		else if(led[0].duty == 0)
 			LED1_OFF();
-		*/
+		else{
+			if(led[0].cnt == led[0].duty){
+				LED1_OFF();
+			}
+			if(led[0].cnt == led[0].period){
+				led[0].cnt = 0;
+				LED1_ON();
+			}
+			else{
+				led[0].cnt++;
+			}
+		}
+		if(led[1].duty == led[1].period)
+			LED2_ON();
+		else if(led[1].duty == 0)
+			LED2_OFF();
+		else{
+			if(led[1].cnt == led[1].duty){
+				LED2_OFF();
+			}
+			if(led[1].cnt == led[1].period){
+				led[1].cnt = 0;
+				LED2_ON();
+			}
+			else{
+				led[1].cnt++;
+			}
+		}
+		if(led[2].duty == led[2].period)
+			LED3_ON();
+		else if(led[2].duty == 0)
+			LED3_OFF();
+		else{
+			if(led[2].cnt == led[2].duty){
+				LED3_OFF();
+			}
+			if(led[2].cnt == led[2].period){
+				led[2].cnt = 0;
+				LED3_ON();
+			}
+			else{
+				led[2].cnt++;
+			}
+		}
 	}  
 }

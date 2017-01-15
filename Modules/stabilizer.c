@@ -23,30 +23,18 @@
 #include "../Commons/platform.h"
 #include "../Devices/led.h"
 #include "../Devices/motor_pwm.h"
-//#include "sensors.h"
-//#include "commander.h"
-//#include "sitaw.h"
-//#include "controller.h"
-//#include "power_distribution.h"
-//static bool isInit = false;
 
-extern short data2send[18];
+//extern short data2send[18];
 static marg_t marg;
 static stateAtt_t state;
 static output_t output;
 static setpoint_t setpoint;
 static vec3f_t motion_acc;
 static vec3f_t euler_sp;
-//static rc_t rc;
 static battery_t bat={4000};
-/*
-static sensorData_t sensorData;
-static control_t control;
-*/
-//float mag[3],acc[3],gyr[3];//debugging
-//short bat_v;
-short rc_v[8];
+
 mode_t g_mode;
+status_t g_status;
 static void stabilizerTask(void* param);
 static void stabilizerInitTask(void* param);
 void stabilizerInit(void)
@@ -64,37 +52,27 @@ void stabilizerInit(void)
 			state.R.R[i][j] = 0;
 			setpoint.R.R[i][j] = 0;
 		}
+		state.R.R[i][i] = 1.0f;
+		setpoint.R.R[i][i] = 1.0f;
 	}
 	output.thrust = 0;
 	setpoint.thrust = 0;
 	marg.mag_updated = false;
 	motor_cut();
 	if(g_mode == modeAtt){
-		xTaskCreate(stabilizerInitTask, "stabilizerInit",
-              STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
+		xTaskCreate(stabilizerInitTask, "stabilizerInit", STABILIZER_TASK_STACKSIZE, NULL, STABILIZER_TASK_PRI, NULL);
 	}
 	else if(g_mode == modeCal){
 		calibration_manager_init();
-		
 	}
-	/*  if(isInit)
-    return;
-
-//stateControllerInit();
-//powerDistributionInit();
-  isInit = true;*/
-
 }
 bool stabilizerTest(void)
 {
-  bool pass = true;
-
-//  pass &= sensorsTest();
-  //pass &= stateEstimatorTest();
-  //pass &= stateControllerTest();
-  //pass &= powerDistributionTest();
-
-  return pass;
+	bool pass = true;
+	if(output.thrust > 50.0f){
+		pass = false;
+	}
+	return pass;
 }
 void stabilizerReady2Fly(void)
 {
@@ -109,9 +87,6 @@ static void stabilizerInitTask(void* param)
 //	uint32_t tick = 0;
 	#define STD_BLOCK_LEN 25
 	#define AVERAGE_SAMPLES 150//2sec
-//	#define ACC_STEADY_STD 0.1f
-//	#define GYR_STEADY_STD 0.05f
-//	#define MAG_STEADY_STD 0.1f
 	#define ACC_STEADY_STD 50.0f
 	#define GYR_STEADY_STD 50.0f
 	#define MAG_STEADY_STD 50.0f
@@ -143,7 +118,7 @@ static void stabilizerInitTask(void* param)
 				state_steady &= judge_steady(mag_block[i], STD_BLOCK_LEN, MAG_STEADY_STD);
 			}
 			if(state_steady){
-				LED1_ON();
+				setLed(0, 1000, 1000);
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] += marg.acc.v[i];
 					avr_gyr.v[i] += marg.gyr.v[i];
@@ -152,7 +127,7 @@ static void stabilizerInitTask(void* param)
 				usable_data_cnt++;
 			}
 			else{
-				LED1_OFF();
+				setLed(0, 0, 1000);
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] = 0;
 					avr_gyr.v[i] = 0;
@@ -161,7 +136,7 @@ static void stabilizerInitTask(void* param)
 				usable_data_cnt = 0;
 			}
 			if(usable_data_cnt == AVERAGE_SAMPLES){
-				LED1_OFF();
+				setLed(0, 0, 1000);
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] /= AVERAGE_SAMPLES;
 					avr_gyr.v[i] /= AVERAGE_SAMPLES;
@@ -172,7 +147,6 @@ static void stabilizerInitTask(void* param)
 				euler_sp_reset(&state);
 				stabilizerReady2Fly();
 				data_send_start();
-//				isInit = true;
 				vTaskDelete(NULL);
 			}
 		}
@@ -204,20 +178,16 @@ static void stabilizerTask(void* param)
 		//	data2send[i+12] = output.moment.v[i]*573.0f;
 		//	data2send[i+15] = output.moment.v[i]*573.0f;
 		}
-		
-		tick++;
-		if(tick==500){
-			LED1_ON();
-			if(bat.voltage < BAT_WARNING)
-				LED2_ON();
-			if(g_mode == modeCal)
-				LED3_ON();
+		if(g_status == motorUnlocking){
+			if(stabilizerTest())
+				g_status = motorUnlocked;
 		}
-		if(tick==1000){
-			LED1_OFF();
-			LED2_OFF();
-			LED3_OFF();
-			tick=0;
-		}
+		if(g_status == motorLocked)
+			setLed(0, 500, 1000);
+		else
+			setLed(0, 200, 500);
+		if(bat.voltage < BAT_WARNING)
+			setLed(1, 300, 1000);
+		tick++;	
 	}
 }
