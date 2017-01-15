@@ -15,7 +15,11 @@ static unsigned char byte_cnt = 0;
 static void vSbusTask( void *pvParameters ) ;
 void receiver_init(void)
 {
-#if CMD_SBUS
+	rc.channels[0] = 0;
+	rc.channels[1] = 0;
+	rc.channels[2] = -1024;
+	rc.channels[3] = 0;
+	#if CMD_SBUS
 	sbus_init();
 #elif CMD_PPM
 	ppm_init();

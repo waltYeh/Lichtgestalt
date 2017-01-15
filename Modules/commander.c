@@ -9,10 +9,12 @@
 static xQueueHandle setpoint_q;
 static setpoint_t setpoint;
 static vec3f_t euler_sp;
+//float euler_setpoint[3];
 #if CMD_XBEE
 static command_t command;
 #else
 static rc_t rc;
+//short rc_int[16];
 #endif
 static void commanderTask( void *pvParameters ) ;
 void commanderInit(void)
@@ -25,22 +27,25 @@ void xbee_commands2setpoint(setpoint_t* sp, const command_t* cmd)
 	quaternion2rotation(&cmd->Q, &sp->R);
 	sp->thrust = cmd->thrust;
 }
-void euler_sp_reset(float yaw)
-{
-	euler_sp.Y = yaw;
-}
+
 void rc_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
 {
 	float yaw_moverate;
 	float thrust;
 	float throttle;//0~1.0f
-	euler_sp.P = rc->channels[1] * MAX_ATT_MANUEL;
-	euler_sp.R = -rc->channels[0] * MAX_ATT_MANUEL;
-	yaw_moverate = dead_zone_f(rc->channels[3] * MAX_YAW_RATE_MANEUL, YAWRATE_DEADZONE);
+//	for(int i=0;i<16;i++){
+//		rc_int[i] = rc->channels[i];
+//	}
+	
+	euler_sp.P = rc->channels[1] * MAX_ATT_MANUEL / 1024.0f;
+	euler_sp.R = -rc->channels[0] * MAX_ATT_MANUEL / 1024.0f;
+	yaw_moverate = dead_zone_f(rc->channels[3] * MAX_YAW_RATE_MANEUL / 1024.0f, YAWRATE_DEADZONE);
 	euler_sp.Y += yaw_moverate * dt;		
 	throttle = dead_zone_f((rc->channels[2] + 1024)/2048.0f, 0.05);
 	thrust = VEHICLE_MASS * GRAVITY_M_S2 * throttle * 2.0f;
-	
+//	euler_setpoint[0] = euler_sp.R;
+//	euler_setpoint[1] = euler_sp.P;
+//	euler_setpoint[2] = euler_sp.Y;
 	euler2rotation(&euler_sp, &sp->R);
 	sp->thrust = thrust;
 }
@@ -58,6 +63,8 @@ void commanderTask( void *pvParameters )
 		rcBlockingAcquire(&rc);
 		currWakeTime = xTaskGetTickCount ();
 		dt = (float)(currWakeTime - lastWakeTime) / (float)configTICK_RATE_HZ;
+		if(dt > 0.2f)
+			dt = 0.2f;
 		lastWakeTime = currWakeTime;
 		rc_channel2setpoint(&setpoint, &rc, dt);
 #endif
@@ -65,7 +72,16 @@ void commanderTask( void *pvParameters )
 	}
 }
 
-
+void euler_sp_reset(const stateAtt_t* state)
+{
+	euler_sp.P = state->Euler.P;
+	euler_sp.R = state->Euler.R;
+	euler_sp.Y = state->Euler.Y;
+	euler2rotation(&euler_sp, &setpoint.R);
+	setpoint.thrust = 0;
+	xQueueOverwrite(setpoint_q, &setpoint);
+	
+}
 void setpointAcquire(setpoint_t* sp)
 {
 	xQueueReceive(setpoint_q, sp, 0);

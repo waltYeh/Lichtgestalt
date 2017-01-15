@@ -36,6 +36,7 @@ static stateAtt_t state;
 static output_t output;
 static setpoint_t setpoint;
 static vec3f_t motion_acc;
+static vec3f_t euler_sp;
 //static rc_t rc;
 static battery_t bat={4000};
 /*
@@ -168,6 +169,7 @@ static void stabilizerInitTask(void* param)
 				}
 				quarternion_init(&avr_acc, &avr_mag, &state);
 				gyro_calibrate(&avr_gyr);
+				euler_sp_reset(&state);
 				stabilizerReady2Fly();
 				data_send_start();
 //				isInit = true;
@@ -187,21 +189,22 @@ static void stabilizerTask(void* param)
 		margAcquire(&marg);
 		xbee_motionAccAcquire(&motion_acc);
 		stateEstimator(&state, &marg, &motion_acc, 1.0f/RATE_1000_HZ);
-		for(int i=0;i<3;i++){
-			data2send[i] = state.Euler.v[i]*573.0f;
-			data2send[i+3] = state.rate.v[i]*573.0f;
-			data2send[i+6] = marg.mag_updated;
-			data2send[i+9] = marg.mag.v[i];
-			data2send[i+12] = marg.acc.v[i];
-			data2send[i+15] = marg.gyr.v[i];
-		}
 		setpointAcquire(&setpoint);
+		rotation2euler(&setpoint.R, &euler_sp);
 		situAwareUpdate(&setpoint, &marg, &state);
 		stateController(&output, &state, &setpoint, 1.0f/RATE_1000_HZ);
 		batAcquire(&bat);
-		
 		powerDistribution(&output, &bat);
 
+		for(int i=0;i<3;i++){
+			data2send[i] = state.Euler.v[i]*573.0f;
+			data2send[i+3] = state.rate.v[i]*573.0f;
+			data2send[i+6] = state.Euler.v[i]*573.0f;
+			data2send[i+9] = euler_sp.v[i]*573.0f;
+		//	data2send[i+12] = output.moment.v[i]*573.0f;
+		//	data2send[i+15] = output.moment.v[i]*573.0f;
+		}
+		
 		tick++;
 		if(tick==500){
 			LED1_ON();

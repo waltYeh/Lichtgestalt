@@ -5,9 +5,9 @@
 #include "../MathLib/attitude_lib.h"
 #include "../MathLib/type_math.h"
 #include "../Commons/platform.h"
+extern short data2send[18];
 
-
-void force2output(int force[4], unsigned short duty[4], unsigned int battery)
+void force2output(float force[4], unsigned short duty[4], unsigned int battery)
 //mNewton to 0~2400
 {
 	int k,i;
@@ -18,14 +18,14 @@ void force2output(int force[4], unsigned short duty[4], unsigned int battery)
 		k = constrain_int32(303-(int)battery/20,95,125);
 	}
 	for(i=0;i<4;i++){
-		duty[i] = force[i] * k / MOTOR_POWER + 2650;
-		duty[i] = duty[i]* 5 / 12;//originally 2400~4800, now 1000~2000
+		duty[i] = force[i] * k / MOTOR_POWER;// + 2750;
+		duty[i] = duty[i]* 5 / 12 + MOTOR_THRESHOLD + 1000;//originally 2400~4800, now 1000~2000
 	}
 }
 
 void powerDistribution(output_t* output, const battery_t * bat)
 {
-	int motorForce[4] = {0,0,0,0};
+	float motorForce[4] = {0,0,0,0};
 	unsigned short motorDuty[4] = {1000,1000,1000,1000};
 	short i;
 	if(0){
@@ -56,10 +56,13 @@ void powerDistribution(output_t* output, const battery_t * bat)
 			[        c,       -c,        c,      -c]			[ 1/4,  sqrt2/(4*d),  sqrt2/(4*d), -1/(4*c)]
 		d=D/2
 		torq=c*f*/
-	#endif		
+	#endif	
+		for(i=0;i<4;i++)
+			data2send[i+12] = motorForce[i];
 		force2output(motorForce, motorDuty, bat->voltage);
 	}
-	if(0)
+//	data2send[15] = motorDuty[0];
+	if(1)
 		motor_pwm_output(motorDuty);
 	else
 		motor_cut();

@@ -92,6 +92,7 @@ typedef struct stateAtt_s {
 typedef struct command_s {
 	quaternion_t Q;
 	float thrust;
+//	unsigned char cut;
 } command_t;//used in queue
 
 typedef struct setpoint_s {

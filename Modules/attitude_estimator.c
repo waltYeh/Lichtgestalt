@@ -55,9 +55,9 @@ void stateEstimator(stateAtt_t *state, const marg_t *marg, const vec3f_t *mot_ac
 		imuUpdate(w.v[0], w.v[1], w.v[2], marg->acc.x, marg->acc.y, marg->acc.z, dt);
 	}
 //	for(i=0;i<3;i++){
-	data2send[6] = w_bx;
-	data2send[7] = w_by;
-	data2send[8] = w_bz;
+//	data2send[6] = w_bx;
+//	data2send[7] = w_by;
+//	data2send[8] = w_bz;
 //	}
 	state_madg.Q.q0 = SEq_1;
 	state_madg.Q.q1 = SEq_2;

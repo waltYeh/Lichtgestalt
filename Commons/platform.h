@@ -10,12 +10,13 @@
 	#define THRCMDRATIO 1
 	#define VEHICLE_MASS 220
 	#define ROTOR_DIST 160//mm
-	#define ONE_2_ROTOR_DIST 0.003125f//1/(2*d)
+	#define ONE_2_ROTOR_DIST 3.125f//1/(2*d)
 	#define D2_SQRT2 226//(2*D)/SQRT2_2D
 	#define FORCE_TORQUE_RATIO 15
-	#define ONE_4_F_T_RATIO 0.01667f
+	#define ONE_4_F_T_RATIO 16.67f
 	#define PLUS 1
-	#define MOTOR_POWER 310
+	#define MOTOR_POWER 200
+	#define MOTOR_THRESHOLD 150
 #endif
 /******Sensors Used*****/
 #define IMU_MPU6000 1
