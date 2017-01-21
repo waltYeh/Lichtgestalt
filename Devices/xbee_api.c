@@ -172,7 +172,7 @@ unsigned char encode_sens(unsigned char * data, const marg_t * marg)
 	memcpy(data + 34, m, 6);
 	return 23;//length from desc to last data
 }
-unsigned char encode_att(unsigned char * data, const stateAtt_t* att)
+unsigned char encode_att(unsigned char * data, const att_t* att)
 {
 	unsigned char descriptor = DSCR_ATT;
 	short q[4];
@@ -185,6 +185,16 @@ unsigned char encode_att(unsigned char * data, const stateAtt_t* att)
 	memcpy(data + 18, &timestamp, 4);
 	memcpy(data + 22, q, 8);
 	return 13;//length from desc to last data
+}
+unsigned char encode_yaw(unsigned char * data, const att_t* att)
+{
+	unsigned char descriptor = DSCR_YAW;
+	unsigned int timestamp = 0;
+	short yaw = att->Euler.Y * ATT_F;
+	memcpy(data + 17, &descriptor, 1);
+	memcpy(data + 18, &timestamp, 4);
+	memcpy(data + 22, &yaw, 2);
+	return 7;//length from desc to last data
 }
 unsigned char encode_general_18(unsigned char * data, const void * data2send)
 {

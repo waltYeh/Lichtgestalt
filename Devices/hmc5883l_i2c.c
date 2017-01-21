@@ -2,9 +2,7 @@
 #include "../Modules/sensors_task.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-#include "motor_pwm.h"
 #include "../config/config.h"
-#include "../Modules/stabilizer_types.h"
 extern I2C_HandleTypeDef hi2c1;
 
 //uint8_t mag_i2c_tx[6] = {0,0,0,0,0,0};

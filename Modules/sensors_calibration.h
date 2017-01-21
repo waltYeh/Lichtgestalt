@@ -8,5 +8,6 @@ void calibration_manager_init(void);
 
 #define STATIC_CAL_MEM 1
 #define ALLOC_CAL_MEM 0
+
 //#define 
 #endif 

@@ -1,7 +1,6 @@
 #include "calibration_lib.h"
-
 #include <math.h>
-
+#include "arm_math.h"
 
 int sphere_fit_least_squares(const float x[], const float y[], const float z[],
 				unsigned int size, unsigned int max_iterations, float delta, 

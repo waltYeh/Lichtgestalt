@@ -1,6 +1,6 @@
 #ifndef LED_H
 #define LED_H
-#include "../Modules/stabilizer_types.h"
+#include <stdbool.h>
 #include "stm32f4xx_hal.h"
 void led_init(void);
 void but_init(void);

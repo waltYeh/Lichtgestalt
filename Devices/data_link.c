@@ -3,10 +3,11 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 #include "xbee_api.h"
 #include "rom.h"
 #include "../Commons/platform.h"
+#include "../Modules/attitude_estimator.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
 #define RX_BUF_SIZE 64
@@ -27,6 +28,7 @@ static xQueueHandle cal_q;
 static command_t command;
 static vec3f_t motion_acc;
 static calib_t cal;
+static att_t att;
 static xSemaphoreHandle dataReceived;
 	
 static void vDataSendTask( void *pvParameters ) ;
@@ -60,7 +62,8 @@ void vDataSendTask( void *pvParameters )
 	TickType_t xLastWakeTime;
 	const TickType_t timeIncreament = 100;
 	xLastWakeTime = xTaskGetTickCount();
-	for( ;; ){  
+	for( ;; ){
+		attAcquire(&att);
 		send_data(data2send);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
@@ -122,7 +125,7 @@ void send_data(void *data)
 //no length argument because length is fixed for frames
 {
 	#if XBEE_API
-	unsigned char content_len = encode_general(tx_buffer, data);
+	unsigned char content_len = encode_yaw(tx_buffer, &att);
 	api_tx_encode(tx_buffer, dest_addr_h, dest_addr_l);
 	api_pack_encode(tx_buffer, content_len+14);
 	HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
@@ -136,15 +139,15 @@ void send_data(void *data)
 }
 void xbee_motionAccAcquire(vec3f_t *motion_acc)
 {
-	xQueueReceive(motion_acc_q, motion_acc, 0);
+	xQueuePeek(motion_acc_q, motion_acc, 0);
 }
 void xbee_calibrationAcquire(calib_t *cal)
 {
-	xQueueReceive(cal_q, cal, 0);
+	xQueuePeek(cal_q, cal, 0);
 }
 void xbee_commandBlockingAcquire(command_t *cmd)
 {
-	xQueueReceive(command_q, cmd, portMAX_DELAY);
+	xQueuePeek(command_q, cmd, portMAX_DELAY);
 }
 void DataLinkReceive_IDLE(void)
 {

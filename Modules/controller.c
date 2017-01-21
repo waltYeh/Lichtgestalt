@@ -1,62 +1,32 @@
 #include "controller.h"
-#include "arm_math.h"
-#include "string.h"
-#include <math.h>
-#include "../MathLib/attitude_lib.h"
-/*PID_t rollPID;
-PID_t pitchPID;
-PID_t yawPID;*/
-//extern short data2send[18];
+#include "commander.h"
+#include "../Devices/battery.h"
+#include "attitude_estimator.h"
+#include "motor_mixer.h"
+#include "../MessageTypes/type_methods.h"
+#include "../MessageTypes/pid_methods.h"
+#include "../Mathlib/comparison.h"
+#include "cmsis_os.h"
+#include "../config/config.h"
+static att_t _att;
+static output_t _output;
+static attsp_t _attsp;
+static battery_t _bat;
+static xQueueHandle output_q;
+static void attitude_control_Task( void *pvParameters );
+
 PID_t pitchPID={0,0,0,0,
 			1.6,16.0,
-			0.0,0.0,
-			1000};
+			0.0,0.0};
 PID_t rollPID={0,0,0,0,
 			1.6,16.0,
-			0.0,0.0,
-			1000};
+			0.0,0.0};
 PID_t yawPID={0,0,0,0,
 			0.75,10.0,
-			0.0,0.0,
-			1000};
-float external_err_pid(PID_t *pid, float err)
-{
- 	 float retValue;								
- 	 pid->Err = err;
- 	 retValue = pid->P * pid->Err;
-	 return retValue;
-}
-float internal_err_pid(PID_t *pid, float rate_err)
-{
-   	float dt = 1.0f / (float)pid->loop_rate;
-	float rateOuput;								
-  	pid->RateErr = rate_err;
-  	rateOuput = pid->Prate * pid->RateErr + pid->Drate * (pid->RateErr - pid->l_RateErr) / dt + pid->Irate * pid->int_RateErr;
-  	pid->l_RateErr = pid->RateErr;
-	pid->int_RateErr += pid->RateErr * dt;
-  	return rateOuput;
-}
+			0.0,0.0};
 
-
-void reset_pid(PID_t *pid)
-{
-	pid->int_RateErr = 0.0f;
-}
-void init_pid(PID_t *pid, float P, float Prate, float Irate, float Drate, uint32_t loop_rate)
-{
-	pid->P = P;
-	pid->Prate = Prate;
-	pid->Irate = Irate;
-	pid->Drate = Drate;
-	pid->loop_rate = loop_rate;
-	pid->Err = 0.0f;
-	pid->RateErr = 0.0f;
-	pid->l_RateErr = 0.0f;
-	pid->int_RateErr = 0.0f;
-}
-
-void stateController(output_t *output, 
-	const stateAtt_t *state,const setpoint_t *setpoint, float dt)
+void attitude_controller(output_t *output, 
+	const att_t *state,const attsp_t *setpoint, float dt)
 {
 //	int i;
 	float p_e_R_hat[3][3];//measured body to desired body
@@ -96,9 +66,41 @@ void stateController(output_t *output,
 	e_w[0] = w_sp[0] - state->rate.R;
 	e_w[1] = w_sp[1] - state->rate.P;
 	e_w[2] = w_sp[2] - state->rate.Y;
-	output->moment.R = internal_err_pid(&rollPID, e_w[0]);
-	output->moment.P = internal_err_pid(&pitchPID, e_w[1]);
-	output->moment.Y = internal_err_pid(&yawPID, e_w[2]);
+	output->moment.R = internal_err_pid(&rollPID, e_w[0], ATT_CTRL_TASK_PERIOD_S);
+	output->moment.P = internal_err_pid(&pitchPID, e_w[1], ATT_CTRL_TASK_PERIOD_S);
+	output->moment.Y = internal_err_pid(&yawPID, e_w[2], ATT_CTRL_TASK_PERIOD_S);
 	output->thrust = setpoint->thrust;
+}
+static void attitude_control_Task( void *pvParameters )
+{
+	uint32_t lastWakeTime;
+	lastWakeTime = xTaskGetTickCount ();
+	while(1) {
+		vTaskDelayUntil(&lastWakeTime, ATT_CTRL_TASK_PERIOD_MS);
+		attAcquire(&_att);
+		setpointAcquire(&_attsp);
+		attitude_controller(&_output, &_att, &_attsp, ATT_CTRL_TASK_PERIOD_S);
+		xQueueOverwrite(output_q, &_output);
+		batAcquire(&_bat);
+		powerDistribution(&_output, &_bat);
+	}
+}
+void attitude_controller_init(void)
+{
+	unsigned int i;
+	for(i=0;i<3;i++){
+		_output.moment.v[i] = 0;
+	}
+	_output.thrust = 0;
+	output_q = xQueueCreate(1, sizeof(output_t));
+	xTaskCreate(attitude_control_Task, "attCtrl", ATT_CTRL_TASK_STACKSIZE, NULL, ATT_CTRL_TASK_PRI, NULL);
+}
+void outputAcquire(output_t *output)
+{
+	xQueuePeek(output_q, output, 0);
+}
+void outputBlockingAcquire(output_t *output)
+{
+	xQueuePeek(output_q, output, portMAX_DELAY);
 }
 

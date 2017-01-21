@@ -1,7 +1,7 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 #include "stm32f4xx_hal.h"
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 #define SBUS_FAILSAFE_INACTIVE 0
 #define SBUS_FAILSAFE_ACTIVE   1
 #define SBUS_STARTBYTE         0x0f

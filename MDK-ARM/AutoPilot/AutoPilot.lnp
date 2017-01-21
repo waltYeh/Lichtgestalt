@@ -78,8 +78,8 @@
 "autopilot\sensors_calibration.o"
 "autopilot\low_pass_filter.o"
 "autopilot\calibration_lib.o"
-"autopilot\attitude_lib.o"
-"autopilot\type_math.o"
+"autopilot\pid_methods.o"
+"autopilot\type_methods.o"
 --library_type=microlib --strict --scatter "AutoPilot\AutoPilot.sct"
 --diag_suppress=L6329 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

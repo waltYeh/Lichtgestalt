@@ -1421,29 +1421,37 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+  </Group>
+
+  <Group>
+    <GroupName>MessageTypes</GroupName>
+    <tvExp>1</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>11</GroupNumber>
+      <GroupNumber>12</GroupNumber>
       <FileNumber>80</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\MathLib\attitude_lib.c</PathWithFileName>
-      <FilenameWithoutPath>attitude_lib.c</FilenameWithoutPath>
+      <PathWithFileName>..\MessageTypes\pid_methods.c</PathWithFileName>
+      <FilenameWithoutPath>pid_methods.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>11</GroupNumber>
+      <GroupNumber>12</GroupNumber>
       <FileNumber>81</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\MathLib\type_math.c</PathWithFileName>
-      <FilenameWithoutPath>type_math.c</FilenameWithoutPath>
+      <PathWithFileName>..\MessageTypes\type_methods.c</PathWithFileName>
+      <FilenameWithoutPath>type_methods.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

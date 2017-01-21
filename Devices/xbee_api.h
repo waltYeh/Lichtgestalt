@@ -1,6 +1,6 @@
 #ifndef XBEE_API_H
 #define XBEE_API_H
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 /*unsigned char data2send[17]=
 	{0x10,//API_ID
 	0x22,//FRAME_ID
@@ -62,6 +62,7 @@
 #define DSCR_SENS 0x12
 #define DSCR_ATT 0x13
 #define DSCR_GEN 0x14
+#define DSCR_YAW 0x15
 unsigned char api_pack_decode(unsigned char * data, unsigned int pack_len);
 void api_tx_status_decode(unsigned char * data, unsigned int pack_len);
 unsigned char  api_rx_decode(unsigned char * data, unsigned int pack_len);
@@ -70,14 +71,15 @@ void decode_calibrate(unsigned char * data, unsigned int pack_len, calib_t* cal)
 void api_pack_encode(unsigned char * data, unsigned char content_len);
 void api_tx_encode(unsigned char * data, unsigned int dest_addr_h, unsigned int dest_addr_l);
 unsigned char encode_sens_raw(unsigned char * data, const vec3i16_t* acc, const vec3i16_t* gyr,const vec3i16_t* mag);
-unsigned char encode_att(unsigned char * data, const stateAtt_t* att);
+unsigned char encode_att(unsigned char * data, const att_t* att);
 unsigned char encode_general_18(unsigned char * data, const void * data2send);
 unsigned char encode_sens(unsigned char * data, const marg_t * marg);
-
+unsigned char encode_yaw(unsigned char * data, const att_t* att);
 #define ATT_Q 14
 #define ATT_F 16384.0f
 #define THR_Q 0
 #define THR_F 1.0f
 #define ACC_Q 0
 #define ACC_F 1.0f
+#define ACC_SENS (8192.0f/9.81f)
 #endif

@@ -1,6 +1,7 @@
 #ifndef _SENSORS_TASK_
 #define _SENSORS_TASK_
-#include "stabilizer_types.h"
+#include "../MessageTypes/messages.h"
+#include "../MessageTypes/basic_types.h"
 void mpu6000Callback(void);
 void hmc5883lCallback(void);
 void sensorsTaskInit(void);

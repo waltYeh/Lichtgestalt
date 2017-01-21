@@ -31,8 +31,8 @@
 /******Driver Options*****/
 
 /******Devices Options*****/
-#define XBEE_API 0
-#define XBEE_TRANS 1
+#define XBEE_API 1
+#define XBEE_TRANS 0
 #define CMD_SBUS 0
 #define CMD_PPM 1
 #define CMD_XBEE 0
@@ -63,4 +63,5 @@
 #define MAX_YAW_RATE_MANEUL 0.698f
 #define YAWRATE_DEADZONE 0.17f
 #define BAT_WARNING 3550
+#define GRAVITY 9.81f
 #endif

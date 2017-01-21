@@ -2,12 +2,12 @@
 #include "../Devices/mpu6000_spi.h"
 #include "../MathLib/low_pass_filter.h"
 #include "sensors_task.h"
-#include "stm32f4xx_hal.h"
+
 #include "cmsis_os.h"
 #include "../Devices/rom.h"
 #include "../config/config.h"
-#include "stabilizer_types.h"
-#include "../Devices/motor_pwm.h"
+#include "../MessageTypes/type_methods.h"
+
 uint8_t acc_gyr_spi_rx[15];
 uint8_t mag_i2c_rx[6];
 	
@@ -191,5 +191,5 @@ void hmc5883lCallback(void)
 
 void margAcquire(marg_t *marg)
 {
-	xQueueReceive(marg_q, marg, 0);
+	xQueuePeek(marg_q, marg, 0);
 }

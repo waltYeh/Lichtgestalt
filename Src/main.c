@@ -183,7 +183,7 @@ int main(void)
 	hmc_fast_init();
 	sensorsTaskInit();
 	commanderInit();
-	stabilizerInit();
+//	stabilizerInit();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 

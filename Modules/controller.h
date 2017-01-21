@@ -1,6 +1,6 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-#include "stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 void stateController(output_t *output, 
-	const stateAtt_t *state,const setpoint_t *setpoint, float dt);
+	const att_t *state,const attsp_t *setpoint, float dt);
 #endif

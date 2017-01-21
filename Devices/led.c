@@ -1,8 +1,14 @@
 #include "led.h"
-#include "../Modules/stabilizer_types.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "../MessageTypes/type_methods.h"
 #include "../config/config.h"
+typedef struct led_s {
+	unsigned int period;
+	unsigned int duty;
+	unsigned int cnt;
+} led_t;//used in queue
+
 #define LED1 PC3
 #define LED2 PC14
 #define LED3 PB15
@@ -46,7 +52,7 @@ void led_init(void)
 	else{
 		g_mode = modeAtt;
 	}
-	g_status = motorLocked;
+	g_statusLock = motorLocked;
 	xTaskCreate( vLedTask, "LED", configMINIMAL_STACK_SIZE, NULL, LED_TASK_PRI, NULL );  
 }
 void but_init(void)
@@ -72,15 +78,16 @@ void vLedTask(void *pvParameters)
 	{  
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		tick ++;
+		
 		if(check_butt())
 			but_cnt++;
 		else
 			but_cnt = 0;
 		if(but_cnt == 500){
-			if(g_status == motorLocked)
-				g_status = motorUnlocking;
-			else if(g_status == motorUnlocked||g_status == motorUnlocking)
-				g_status = motorLocked;
+			if(g_statusLock == motorLocked)
+				g_statusLock = motorUnlocking;
+			else if(g_statusLock == motorUnlocked||g_statusLock == motorUnlocking)
+				g_statusLock = motorLocked;
 		}
 		if(led[0].duty == led[0].period)
 			LED1_ON();

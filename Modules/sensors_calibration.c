@@ -1,20 +1,22 @@
-#include "sensors_calibration.h"
-#include "../MathLib/calibration_lib.h"
-#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "FreeRTOS.h"
+#include "../MessageTypes/type_methods.h"
+//#include "arm_math.h"
 #include "cmsis_os.h"
-#include "task.h"
+
 #include "../config/config.h"
-#include "sensors_task.h"
-#include "stabilizer_types.h"
-#include "../MathLib/attitude_lib.h"
-#include "../MathLib/type_math.h"
 #include "../Commons/platform.h"
+#include "sensors_calibration.h"
+#include "sensors_task.h"
+
+//#include "../MessageTypes/messages.h"
+//#include "../MessageTypes/basic_types.h"
+#include "../MathLib/calibration_lib.h"
+#include "../Mathlib/comparison.h"
 #include "../Devices/led.h"
 #include "../Devices/data_link.h"
 #include "../Devices/rom.h"
+
 //extern short data2send[18];
 static vec3i16_t old_mag_bias;
 static void magCalTask(void* param);
@@ -90,9 +92,9 @@ static void magCalTask(void* param)
 						data2send[i] = mag_bias.v[i];
 					//	data2send[i+3] = marg.mag.v[i];
 					}
-					LED1_OFF();
-					LED2_OFF();
-					LED3_OFF();
+					setLed(0, 0, 500);
+					setLed(1, 0, 500);
+					setLed(2, 0, 500);
 				#if ALLOC_CAL_MEM
 					free(x);
 					free(y);

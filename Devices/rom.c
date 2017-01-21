@@ -2,7 +2,7 @@
 #include "cmsis_os.h"
 #include "rom.h"
 #include "../config/config.h"
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 #include "../Commons/platform.h"
 #include "string.h"
 //sensor bias, transp or api, xbee coord and self address

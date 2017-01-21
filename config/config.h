@@ -12,8 +12,8 @@
 //#define FREERTOS_MCU_CLOCK_HZ   168000000
 
 
-
-
+#define ATT_EST_TASK_PRI 2
+#define ATT_CTRL_TASK_PRI 3
 // Task priorities. Higher number higher priority
 #define MPU_TASK_PRI 5
 #define HMC_TASK_PRI 4
@@ -29,6 +29,16 @@
 #define EEPROM_TASK_PRI 1
 
 //Task stack sizes
+
+#define ATT_EST_TASK_STACKSIZE (3 * configMINIMAL_STACK_SIZE)
+#define ATT_CTRL_TASK_STACKSIZE (3 * configMINIMAL_STACK_SIZE)
+
+#define ATT_EST_TASK_PERIOD_MS 1
+#define ATT_EST_TASK_PERIOD_S 0.001f
+#define ATT_CTRL_TASK_PERIOD_MS 2
+#define ATT_CTRL_TASK_PERIOD_S 0.002f
+
+
 #define SYSTEM_TASK_STACKSIZE         (2* configMINIMAL_STACK_SIZE)
 #define CMD_TASK_STACKSIZE            configMINIMAL_STACK_SIZE
 #define ADC_TASK_STACKSIZE            configMINIMAL_STACK_SIZE

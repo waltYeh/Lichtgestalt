@@ -4,7 +4,7 @@
 #include "cmsis_os.h"
 #include "../Commons/platform.h"
 #include "../config/config.h"
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 extern ADC_HandleTypeDef hadc1;
 //unsigned int bat_volt = 0;
 static xQueueHandle bat_q;
@@ -48,5 +48,5 @@ void vAdcTask(void *pvParameters)
 }
 void batAcquire(battery_t *bat)
 {
-	xQueueReceive(bat_q, bat, 0);
+	xQueuePeek(bat_q, bat, 0);
 }

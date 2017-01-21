@@ -1,13 +1,13 @@
 #include "commander.h"
-#include "../MathLib/attitude_lib.h"
-#include "../MathLib/type_math.h"
+#include "../MessageTypes/type_methods.h"
+#include "../Mathlib/comparison.h"
 #include "cmsis_os.h"
 #include "../config/config.h"
 #include "../Devices/data_link.h"
 #include "../Devices/receiver.h"
 #include "../Commons/platform.h"
 static xQueueHandle setpoint_q;
-static setpoint_t setpoint;
+static attsp_t setpoint;
 static vec3f_t euler_sp;
 //float euler_setpoint[3];
 #if CMD_XBEE
@@ -19,16 +19,16 @@ static rc_t rc;
 static void commanderTask( void *pvParameters ) ;
 void commanderInit(void)
 {
-	setpoint_q = xQueueCreate(1,sizeof(setpoint_t));
+	setpoint_q = xQueueCreate(1,sizeof(attsp_t));
 	xTaskCreate(commanderTask, "cmdTask", CMD_TASK_STACKSIZE, NULL, CMD_TASK_PRI, NULL);
 }
-void xbee_commands2setpoint(setpoint_t* sp, const command_t* cmd)
+void xbee_commands2setpoint(attsp_t* sp, const command_t* cmd)
 {
 	quaternion2rotation(&cmd->Q, &sp->R);
 	sp->thrust = cmd->thrust;
 }
 
-void rc_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
+void rc_channel2setpoint(attsp_t* sp, const rc_t* rc, float dt)
 {
 	float yaw_moverate;
 	float thrust;
@@ -42,7 +42,7 @@ void rc_channel2setpoint(setpoint_t* sp, const rc_t* rc, float dt)
 	yaw_moverate = dead_zone_f(rc->channels[3] * MAX_YAW_RATE_MANEUL / 1024.0f, YAWRATE_DEADZONE);
 	euler_sp.Y += yaw_moverate * dt;		
 	throttle = dead_zone_f((rc->channels[2] + 1024)/2048.0f, 0.05);
-	thrust = VEHICLE_MASS * GRAVITY_M_S2 * throttle * 2.0f;
+	thrust = VEHICLE_MASS * GRAVITY * throttle * 2.0f;
 //	euler_setpoint[0] = euler_sp.R;
 //	euler_setpoint[1] = euler_sp.P;
 //	euler_setpoint[2] = euler_sp.Y;
@@ -72,7 +72,7 @@ void commanderTask( void *pvParameters )
 	}
 }
 
-void euler_sp_reset(const stateAtt_t* state)
+void euler_sp_reset(const att_t* state)
 {
 	euler_sp.P = state->Euler.P;
 	euler_sp.R = state->Euler.R;
@@ -82,7 +82,7 @@ void euler_sp_reset(const stateAtt_t* state)
 	xQueueOverwrite(setpoint_q, &setpoint);
 	
 }
-void setpointAcquire(setpoint_t* sp)
+void setpointAcquire(attsp_t* sp)
 {
-	xQueueReceive(setpoint_q, sp, 0);
+	xQueuePeek(setpoint_q, sp, 0);
 }

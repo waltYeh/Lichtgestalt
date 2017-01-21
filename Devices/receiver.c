@@ -1,7 +1,7 @@
 #include "receiver.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 #include "../config/config.h"
 #include "../Commons/platform.h"
 extern UART_HandleTypeDef huart5;
@@ -102,11 +102,11 @@ void ppmCallback(GPIO_PinState state)
 
 void rcBlockingAcquire(rc_t *rc)
 {
-	xQueueReceive(rc_q, rc, portMAX_DELAY);
+	xQueuePeek(rc_q, rc, portMAX_DELAY);
 }
 void rcAcquire(rc_t *rc)
 {
-	xQueueReceive(rc_q, rc, 0);
+	xQueuePeek(rc_q, rc, 0);
 }
 void sbus_IDLE(void)
 {

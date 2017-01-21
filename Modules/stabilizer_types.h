@@ -97,11 +97,6 @@ typedef struct output_s {
 	float thrust;
 } output_t;//used in queue
 
-typedef struct led_s {
-	unsigned int period;
-	unsigned int duty;
-	unsigned int cnt;
-} led_t;//used in queue
 
 typedef struct agent_s {
 	unsigned int coord_addr_h;

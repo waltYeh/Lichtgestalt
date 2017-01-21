@@ -3,7 +3,7 @@
 #include "stm32f4xx_hal.h"
 #define EEPROM_ADDRESS 0x50
 #define FLASH_ADDR 0x080E0000
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/basic_types.h"
 #define OFFSET_MAG 0
 #define OFFSET_ACC 6
 #define AGENT_NO 12

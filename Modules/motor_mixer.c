@@ -1,10 +1,8 @@
 #include "motor_mixer.h"
-#include "stabilizer_types.h"
-#include "../Devices/battery.h"
 #include "../Devices/motor_pwm.h"
-#include "../MathLib/attitude_lib.h"
-#include "../MathLib/type_math.h"
+#include "../MessageTypes/type_methods.h"
 #include "../Commons/platform.h"
+#include "../Mathlib/comparison.h"
 //extern short data2send[18];
 
 void force2output(float force[4], unsigned short duty[4], unsigned int battery)
@@ -59,7 +57,7 @@ void powerDistribution(output_t* output, const battery_t * bat)
 	#endif	
 		force2output(motorForce, motorDuty, bat->voltage);
 	}
-	if(g_status == motorUnlocked)
+	if(g_statusLock == motorUnlocked)
 		motor_pwm_output(motorDuty);
 	else
 		motor_cut();

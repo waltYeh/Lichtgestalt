@@ -1,6 +1,6 @@
 #ifndef DATA_LINK_H
 #define DATA_LINK_H
-#include "../Modules/stabilizer_types.h"
+#include "../MessageTypes/type_methods.h"
 unsigned short crc16(void* data, unsigned short cnt);
 void send_data(void *data);
 void data_link_init(void);

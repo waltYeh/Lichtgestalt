@@ -61,8 +61,13 @@ autopilot\main.o: ../Inc/usbd_conf.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdlib.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\string.h
 autopilot\main.o: ../Src/../Devices/data_link.h
-autopilot\main.o: ../Src/../Devices/../Modules/stabilizer_types.h
+autopilot\main.o: ../Src/../Devices/../MessageTypes/type_methods.h
+autopilot\main.o: ../Src/../Devices/../MessageTypes/messages.h
+autopilot\main.o: ../Src/../Devices/../MessageTypes/basic_types.h
 autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\stdbool.h
+autopilot\main.o: ../Drivers/CMSIS/Include/arm_math.h
+autopilot\main.o: ../Drivers/CMSIS/Include/core_cm4.h
+autopilot\main.o: F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin\..\include\math.h
 autopilot\main.o: ../Src/../Devices/motor_pwm.h
 autopilot\main.o: ../Src/../Devices/GPS.h
 autopilot\main.o: ../Src/../Devices/battery.h
