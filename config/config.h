@@ -14,6 +14,8 @@
 
 #define ATT_EST_TASK_PRI 2
 #define ATT_CTRL_TASK_PRI 3
+#define MANAGER_TASK_PRI 4
+#define MOTORMIX_TASK_PRI 4
 // Task priorities. Higher number higher priority
 #define MPU_TASK_PRI 5
 #define HMC_TASK_PRI 4
@@ -32,6 +34,8 @@
 
 #define ATT_EST_TASK_STACKSIZE (3 * configMINIMAL_STACK_SIZE)
 #define ATT_CTRL_TASK_STACKSIZE (3 * configMINIMAL_STACK_SIZE)
+#define MANAGER_TASK_STACKSIZE (configMINIMAL_STACK_SIZE)
+#define MOTORMIX_TASK_STACKSIZE (configMINIMAL_STACK_SIZE)
 
 #define ATT_EST_TASK_PERIOD_MS 1
 #define ATT_EST_TASK_PERIOD_S 0.001f

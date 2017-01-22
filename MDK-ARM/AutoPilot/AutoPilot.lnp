@@ -76,6 +76,7 @@
 "autopilot\controller.o"
 "autopilot\situation_awareness.o"
 "autopilot\sensors_calibration.o"
+"autopilot\task_manager.o"
 "autopilot\low_pass_filter.o"
 "autopilot\calibration_lib.o"
 "autopilot\pid_methods.o"

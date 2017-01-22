@@ -44,15 +44,6 @@ void led_init(void)
 	LED1_OFF();
 	LED2_OFF();
 	LED3_OFF();
-	
-	if(check_butt()){
-		g_mode = modeCal;
-		LED3_ON();
-	}
-	else{
-		g_mode = modeAtt;
-	}
-	g_statusLock = motorLocked;
 	xTaskCreate( vLedTask, "LED", configMINIMAL_STACK_SIZE, NULL, LED_TASK_PRI, NULL );  
 }
 void but_init(void)
@@ -70,7 +61,7 @@ void vLedTask(void *pvParameters)
 //	bool butt_state = false;
 //	int i;
 	TickType_t xLastWakeTime;
-	unsigned int but_cnt=0;
+//	unsigned int but_cnt=0;
 	unsigned int tick = 0;
 	const TickType_t timeIncreament = 1;
 	xLastWakeTime = xTaskGetTickCount();
@@ -79,16 +70,7 @@ void vLedTask(void *pvParameters)
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 		tick ++;
 		
-		if(check_butt())
-			but_cnt++;
-		else
-			but_cnt = 0;
-		if(but_cnt == 500){
-			if(g_statusLock == motorLocked)
-				g_statusLock = motorUnlocking;
-			else if(g_statusLock == motorUnlocked||g_statusLock == motorUnlocking)
-				g_statusLock = motorLocked;
-		}
+		
 		if(led[0].duty == led[0].period)
 			LED1_ON();
 		else if(led[0].duty == 0)

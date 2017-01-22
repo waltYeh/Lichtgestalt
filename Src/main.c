@@ -36,10 +36,12 @@
 #include "usb_device.h"
 
 /* USER CODE BEGIN Includes */
+#include "../Modules/task_manager.h"
+
+/*
 #include "../Devices/data_link.h"
 #include "../Devices/motor_pwm.h"
 #include "../Devices/GPS.h"
-//#include "../Devices/receiver_ppm.h"
 #include "../Devices/battery.h"
 #include "../Devices/led.h"
 #include "../Devices/receiver.h"
@@ -49,6 +51,8 @@
 #include "../Modules/sensors_task.h"
 #include "../Modules/commander.h"
 #include "../Modules/stabilizer.h"
+*/
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -170,7 +174,7 @@ int main(void)
 //	xTaskCreate( vLED1Task, "LED0", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 //  xTaskCreate( vLED2Task, "LED1", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 //  GPSInit();
-	led_init();
+/*	led_init();
 	motor_init();
 	data_link_init();
 	receiver_init();
@@ -182,8 +186,9 @@ int main(void)
 	mpu_fast_init();
 	hmc_fast_init();
 	sensorsTaskInit();
-	commanderInit();
+	commanderInit();*/
 //	stabilizerInit();
+	start_manager();
 	vTaskStartScheduler(); 
   /* USER CODE END RTOS_THREADS */
 

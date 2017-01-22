@@ -72,7 +72,7 @@ void commanderTask( void *pvParameters )
 	}
 }
 
-void euler_sp_reset(const att_t* state)
+void attsp_reset(const att_t* state)
 {
 	euler_sp.P = state->Euler.P;
 	euler_sp.R = state->Euler.R;
@@ -80,7 +80,6 @@ void euler_sp_reset(const att_t* state)
 	euler2rotation(&euler_sp, &setpoint.R);
 	setpoint.thrust = 0;
 	xQueueOverwrite(setpoint_q, &setpoint);
-	
 }
 void setpointAcquire(attsp_t* sp)
 {

@@ -1,10 +1,16 @@
 #include "motor_mixer.h"
+#include "controller.h"
+#include "../Devices/battery.h"
 #include "../Devices/motor_pwm.h"
 #include "../MessageTypes/type_methods.h"
 #include "../Commons/platform.h"
 #include "../Mathlib/comparison.h"
 //extern short data2send[18];
-
+#include "cmsis_os.h"
+#include "../config/config.h"
+static output_t _output;
+static battery_t _bat;
+static void motorMixTask(void* param);
 void force2output(float force[4], unsigned short duty[4], unsigned int battery)
 //mNewton to 0~2400
 {
@@ -62,3 +68,15 @@ void powerDistribution(output_t* output, const battery_t * bat)
 	else
 		motor_cut();
 }
+void motor_mixer_init(void)
+{
+	xTaskCreate(motorMixTask, "motormixTask", MOTORMIX_TASK_STACKSIZE, NULL, MOTORMIX_TASK_PRI, NULL);
+}
+static void motorMixTask(void* param)
+{
+	for(;;){
+		outputBlockingAcquire(&_output);
+		batAcquire(&_bat);
+		powerDistribution(&_output, &_bat);
+	}
+}	

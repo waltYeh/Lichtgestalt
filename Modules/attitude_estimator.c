@@ -8,6 +8,7 @@
 #include "sensors_task.h"
 #include "../Devices/data_link.h"
 #include "commander.h"
+#include "task_manager.h"
 //extern short data2send[9];
 
 
@@ -180,7 +181,8 @@ static void attitude_init_Task( void *pvParameters )
 				gyro_calibrate(&avr_gyr);
 				
 			//	stabilizerReady2Fly();
-				attitude_initialized_callback();
+				
+				attitude_initialized_callback(&_att);
 				
 				vTaskDelete(NULL);
 			}
@@ -206,11 +208,6 @@ static void attitude_update_Task( void *pvParameters )
 	}
 }
 
-void attitude_initialized_callback(void)
-{
-	euler_sp_reset(&_att);
-	attitude_estimator_start();
-}
 void attitude_estimator_start(void)
 {
 	xTaskCreate(attitude_update_Task, "attUpdate", ATT_EST_TASK_STACKSIZE, NULL, ATT_EST_TASK_PRI, NULL);

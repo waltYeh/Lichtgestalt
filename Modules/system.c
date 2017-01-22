@@ -9,11 +9,7 @@
 /* Private variable */
 //static bool selftestPassed;
 //static bool canFly;
-mode_t g_mode;
-statusLock_t g_statusLock;
-statusFlight_t g_statusFlight;
-statusRC_t g_statusRC;
-statusGS_t g_statusGS;
+
 static bool isInit;
 void systemWaitStart(void)
 {

@@ -27,6 +27,7 @@ static void magCalTask(void* param);
 #endif
 void calibration_manager_init(void)
 {
+	setLed(2, 500, 500);
 #if STATIC_CAL_MEM
 	unsigned int calibration_stacksize = STABILIZER_TASK_STACKSIZE;
 #elif ALLOC_CAL_MEM

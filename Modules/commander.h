@@ -3,6 +3,6 @@
 #include "../MessageTypes/type_methods.h"
 void setpointAcquire(attsp_t* sp);
 void commanderInit(void);
-void euler_sp_reset(const att_t* state);
+void attsp_reset(const att_t* state);
 
 #endif
