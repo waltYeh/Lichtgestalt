@@ -102,7 +102,7 @@ void ppmCallback(GPIO_PinState state)
 
 void rcBlockingAcquire(rc_t *rc)
 {
-	xQueuePeek(rc_q, rc, portMAX_DELAY);
+	xQueueReceive(rc_q, rc, portMAX_DELAY);
 }
 void rcAcquire(rc_t *rc)
 {

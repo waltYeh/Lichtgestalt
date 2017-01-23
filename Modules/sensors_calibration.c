@@ -64,10 +64,10 @@ static void magCalTask(void* param)
 	while(1) {
 		
 		margAcquire(&marg);
-		for(int i=0;i<3;i++){
+	/*	for(int i=0;i<3;i++){
 			data2send[i] = mag_bias.v[i];
 			data2send[i+3] = marg.mag.v[i];
-		}
+		}*/
 		if(absolute_f(marg.gyr.x/gyro_scale)> ROTATION_THRES|| 
 			absolute_f(marg.gyr.y/gyro_scale)> ROTATION_THRES|| 
 			absolute_f(marg.gyr.z/gyro_scale)> ROTATION_THRES){

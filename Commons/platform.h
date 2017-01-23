@@ -62,6 +62,6 @@
 #define MAX_YAW_RATE 0.698f//14303 50.0
 #define MAX_YAW_RATE_MANEUL 0.698f
 #define YAWRATE_DEADZONE 0.17f
-#define BAT_WARNING 3550
+#define BAT_WARNING 3700
 #define GRAVITY 9.81f
 #endif

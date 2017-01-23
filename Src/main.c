@@ -188,8 +188,10 @@ int main(void)
 	sensorsTaskInit();
 	commanderInit();*/
 //	stabilizerInit();
-	start_manager();
+	taskManagerInit();
+	
 	vTaskStartScheduler(); 
+//	start_manager();
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */

@@ -11,7 +11,7 @@
 static att_t _att;
 static output_t _output;
 static attsp_t _attsp;
-static battery_t _bat;
+//static battery_t _bat;
 static xQueueHandle output_q;
 static void attitude_control_Task( void *pvParameters );
 
@@ -81,8 +81,12 @@ static void attitude_control_Task( void *pvParameters )
 		setpointAcquire(&_attsp);
 		attitude_controller(&_output, &_att, &_attsp, ATT_CTRL_TASK_PERIOD_S);
 		xQueueOverwrite(output_q, &_output);
-		batAcquire(&_bat);
-		powerDistribution(&_output, &_bat);
+	/*	for(int i=0;i<3;i++){
+			data2send[i+6] = _output.moment.v[i]*573.0f;//state.Euler.v[i]*573.0f;
+			data2send[i+9] = _output.thrust;
+		//	data2send[i+12] = _marg.acc.v[i];
+		//	data2send[i+15] = _marg.gyr.v[i];
+		}*/
 	}
 }
 void attitude_controller_init(void)
@@ -101,6 +105,6 @@ void outputAcquire(output_t *output)
 }
 void outputBlockingAcquire(output_t *output)
 {
-	xQueuePeek(output_q, output, portMAX_DELAY);
+	xQueueReceive(output_q, output, portMAX_DELAY);
 }
 

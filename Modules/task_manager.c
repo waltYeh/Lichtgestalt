@@ -39,12 +39,18 @@ static vec3f_t _euler_sp;
 
 static command_t _command;
 */
-static battery_t _bat;
+//static battery_t _bat;
 static void managerTask(void* param);
 //static void managerInitTask(void* param);
 void taskManagerInit(void)
 {
-	
+	if(check_butt()){
+		g_mode = modeCal;
+	}
+	else{
+		g_mode = modeAtt;
+	}
+	g_statusLock = motorLocked;
 	motor_init();
 	motor_cut();
 	mpu6000_cfg();
@@ -57,27 +63,26 @@ void taskManagerInit(void)
 	eeprom_init();
 	battery_init();
 	sensorsTaskInit();
-	commanderInit();
-	motor_mixer_init();
-	if(check_butt()){
-		g_mode = modeCal;
-	}
-	else{
-		g_mode = modeAtt;
-	}
-	g_statusLock = motorLocked;
+	
+//	motor_mixer_init();
+	
 	if(g_mode == modeAtt){
+		commanderInit();
 		attitude_init();
+		start_manager();
 	}
 	else if(g_mode == modeCal){
 		calibration_manager_init();
+		data_send_start();
 	}
-	start_manager();
+	
 }
 void attitude_initialized_callback(att_t * att)
 {
 	attsp_reset(att);
 	attitude_estimator_start();
+	attitude_controller_init();
+	motor_mixer_init();
 	data_send_start();
 }
 uint32_t self_check(void)
@@ -93,7 +98,7 @@ static void managerTask(void* param)
 {
 	TickType_t xLastWakeTime;
 	unsigned int tick = 0, but_cnt = 0;
-	const TickType_t timeIncreament = 1;
+	const TickType_t timeIncreament = 20;
 	
 	
 	
@@ -106,18 +111,19 @@ static void managerTask(void* param)
 			but_cnt++;
 		else
 			but_cnt = 0;
-		if(but_cnt == 500 && g_mode == modeAtt){
+		if(but_cnt == 25 && g_mode == modeAtt){
 			if(g_statusLock == motorLocked)
 				g_statusLock = motorUnlocking;
 			else if(g_statusLock == motorUnlocked||g_statusLock == motorUnlocking)
 				g_statusLock = motorLocked;
 		}
+		if(g_statusLock == motorUnlocking){
+			if(self_check() == 0)
+				g_statusLock = motorUnlocked;
+		}
 		if(g_statusLock == motorLocked)
 			setLed(0, 500, 1000);
 		else
-			setLed(0, 200, 500);
-		batAcquire(&_bat);
-		if(_bat.voltage < BAT_WARNING)
-			setLed(1, 300, 1000);
+			setLed(0, 200, 500);		
 	}
 }

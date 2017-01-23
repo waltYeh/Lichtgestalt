@@ -128,10 +128,22 @@ void euler2quaternion(const vec3f_t* Euler, quaternion_t* Q)
 	float hp = Euler->P * 0.5f;
 	float hy = Euler->Y * 0.5f;
 	float q0,q1,q2,q3;
+	float shr = arm_sin_f32(hr);
+	float chr = arm_cos_f32(hr);
+	float shp = arm_sin_f32(hp);
+	float chp = arm_cos_f32(hp);
+	float shy = arm_sin_f32(hy);
+	float chy = arm_cos_f32(hy);
+	/*
 	q0 = (arm_cos_f32(hr)*arm_cos_f32(hp)*arm_cos_f32(hy) + arm_sin_f32(hr)*arm_sin_f32(hp)*arm_sin_f32(hy));  
 	q1 = (arm_sin_f32(hr)*arm_cos_f32(hp)*arm_cos_f32(hy) - arm_cos_f32(hr)*arm_sin_f32(hp)*arm_sin_f32(hy));    
 	q2 = (arm_cos_f32(hr)*arm_sin_f32(hp)*arm_cos_f32(hy) + arm_sin_f32(hr)*arm_cos_f32(hp)*arm_sin_f32(hy)); 
 	q3 = (arm_cos_f32(hr)*arm_cos_f32(hp)*arm_sin_f32(hy) - arm_sin_f32(hr)*arm_sin_f32(hp)*arm_cos_f32(hy));
+	*/
+	q0 = chr*chp*chy + shr*shp*shy;  
+	q1 = shr*chp*chy - chr*shp*shy;    
+	q2 = chr*shp*chy + shr*chp*shy; 
+	q3 = chr*chp*shy - shr*shp*chy;
 	Q->q0 = q0;
 	Q->q1 = q1;
 	Q->q2 = q2;

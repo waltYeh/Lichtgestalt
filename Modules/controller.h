@@ -4,5 +4,6 @@
 void stateController(output_t *output, 
 	const att_t *state,const attsp_t *setpoint, float dt);
 void outputBlockingAcquire(output_t *output);
+void attitude_controller_init(void);
 
 #endif

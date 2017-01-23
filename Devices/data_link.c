@@ -28,7 +28,9 @@ static xQueueHandle cal_q;
 static command_t command;
 static vec3f_t motion_acc;
 static calib_t cal;
+#if XBEE_API
 static att_t att;
+#endif
 static xSemaphoreHandle dataReceived;
 	
 static void vDataSendTask( void *pvParameters ) ;
@@ -63,7 +65,6 @@ void vDataSendTask( void *pvParameters )
 	const TickType_t timeIncreament = 100;
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){
-		attAcquire(&att);
 		send_data(data2send);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
@@ -125,10 +126,13 @@ void send_data(void *data)
 //no length argument because length is fixed for frames
 {
 	#if XBEE_API
-	unsigned char content_len = encode_yaw(tx_buffer, &att);
-	api_tx_encode(tx_buffer, dest_addr_h, dest_addr_l);
-	api_pack_encode(tx_buffer, content_len+14);
-	HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
+	if(g_mode != modeCal){
+		attAcquire(&att);
+		unsigned char content_len = encode_yaw(tx_buffer, &att);
+		api_tx_encode(tx_buffer, dest_addr_h, dest_addr_l);
+		api_pack_encode(tx_buffer, content_len+14);
+		HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
+	}
 	#elif XBEE_TRANS
 	tx_buffer[0]='h';
 	memcpy(tx_buffer+1,data,36);

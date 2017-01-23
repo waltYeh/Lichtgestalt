@@ -171,7 +171,7 @@ static void attitude_init_Task( void *pvParameters )
 				usable_data_cnt = 0;
 			}
 			if(usable_data_cnt == AVERAGE_SAMPLES){
-			//	setLed(0, 0, 1000);
+				setLed(0, 0, 1000);
 				for(i = 0; i<3; i++){
 					avr_acc.v[i] /= AVERAGE_SAMPLES;
 					avr_gyr.v[i] /= AVERAGE_SAMPLES;
@@ -205,6 +205,14 @@ static void attitude_update_Task( void *pvParameters )
 		}
 		attitude_update(&w, &_motion_acc, &_marg, &_gyr_bias, &_att, ATT_EST_TASK_PERIOD_S);
 		xQueueOverwrite(att_q, &_att);
+	/*	for(int i=0;i<3;i++){
+			data2send[i] = _att.Euler.v[i]*573.0f;
+			data2send[i+3] = _att.rate.v[i]*573.0f;
+		//	data2send[i+6] = 0;//state.Euler.v[i]*573.0f;
+		//	data2send[i+9] = _marg.mag.v[i];
+		//	data2send[i+12] = _marg.acc.v[i];
+		//	data2send[i+15] = _marg.gyr.v[i];
+		}*/
 	}
 }
 
@@ -214,15 +222,6 @@ void attitude_estimator_start(void)
 }
 void attitude_init(void)
 {
-	unsigned int i,j;
-	for(i=0;i<3;i++){
-		_att.Euler.v[i] = 0;
-		_att.rate.v[i] = 0;
-		for(j=0;j<3;j++){
-			_att.R.R[i][j] = 0;
-		}
-		_att.R.R[i][i] = 1.0f;
-	}
 	att_q = xQueueCreate(1, sizeof(att_t));
 	xTaskCreate(attitude_init_Task, "attInit", ATT_EST_TASK_STACKSIZE, NULL, ATT_EST_TASK_PRI, NULL);
 }

@@ -55,6 +55,7 @@ void setLed(unsigned char index, unsigned int duty, unsigned int period)
 {
 	led[index].duty = duty;
 	led[index].period = period;
+	
 }
 void vLedTask(void *pvParameters)
 {
@@ -79,7 +80,7 @@ void vLedTask(void *pvParameters)
 			if(led[0].cnt == led[0].duty){
 				LED1_OFF();
 			}
-			if(led[0].cnt == led[0].period){
+			if(led[0].cnt >= led[0].period){
 				led[0].cnt = 0;
 				LED1_ON();
 			}
@@ -95,7 +96,7 @@ void vLedTask(void *pvParameters)
 			if(led[1].cnt == led[1].duty){
 				LED2_OFF();
 			}
-			if(led[1].cnt == led[1].period){
+			if(led[1].cnt >= led[1].period){
 				led[1].cnt = 0;
 				LED2_ON();
 			}
@@ -111,7 +112,7 @@ void vLedTask(void *pvParameters)
 			if(led[2].cnt == led[2].duty){
 				LED3_OFF();
 			}
-			if(led[2].cnt == led[2].period){
+			if(led[2].cnt >= led[2].period){
 				led[2].cnt = 0;
 				LED3_ON();
 			}

@@ -65,6 +65,13 @@ void commanderTask( void *pvParameters )
 		dt = (float)(currWakeTime - lastWakeTime) / (float)configTICK_RATE_HZ;
 		if(dt > 0.2f)
 			dt = 0.2f;
+		/*
+		for(int i=0;i<3;i++){
+			data2send[i+6] = rc.channels[i];//state.Euler.v[i]*573.0f;
+			data2send[i+9] = rc.channels[i+3];
+		//	data2send[i+12] = _marg.acc.v[i];
+		//	data2send[i+15] = _marg.gyr.v[i];
+		}*/
 		lastWakeTime = currWakeTime;
 		rc_channel2setpoint(&setpoint, &rc, dt);
 #endif
