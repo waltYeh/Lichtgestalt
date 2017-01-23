@@ -77,6 +77,8 @@ unsigned char encode_sens(unsigned char * data, const marg_t * marg);
 unsigned char encode_yaw(unsigned char * data, const att_t* att);
 #define ATT_Q 14
 #define ATT_F 16384.0f
+#define YAW_Q 12
+#define YAW_F 4096.0f
 #define THR_Q 0
 #define THR_F 1.0f
 #define ACC_Q 0

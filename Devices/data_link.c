@@ -8,6 +8,7 @@
 #include "rom.h"
 #include "../Commons/platform.h"
 #include "../Modules/attitude_estimator.h"
+#include "led.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
 #define RX_BUF_SIZE 64
@@ -62,10 +63,15 @@ void data_send_start(void)
 void vDataSendTask( void *pvParameters )  
 {  
 	TickType_t xLastWakeTime;
+	#if XBEE_TRANS
 	const TickType_t timeIncreament = 100;
+	#elif XBEE_API
+	const TickType_t timeIncreament = 500;
+	#endif
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){
 		send_data(data2send);
+		setLed(2,0,250);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
 }
@@ -92,6 +98,7 @@ void vDataReceiveTask( void *pvParameters )
 					unsigned char descriptor = api_rx_decode(decoding_buffer, rx_len);
 					switch(descriptor){
 						case DSCR_CMD_ACC:{
+							setLed(2,250,250);
 							decode_cmd_acc(decoding_buffer, rx_len, &command, &motion_acc);
 							xQueueOverwrite(command_q, &command);
 							xQueueOverwrite(motion_acc_q, &motion_acc);	

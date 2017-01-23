@@ -190,7 +190,7 @@ unsigned char encode_yaw(unsigned char * data, const att_t* att)
 {
 	unsigned char descriptor = DSCR_YAW;
 	unsigned int timestamp = 0;
-	short yaw = att->Euler.Y * ATT_F;
+	short yaw = att->Euler.Y * YAW_F;
 	memcpy(data + 17, &descriptor, 1);
 	memcpy(data + 18, &timestamp, 4);
 	memcpy(data + 22, &yaw, 2);
