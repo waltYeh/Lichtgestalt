@@ -158,7 +158,7 @@ void xbee_calibrationAcquire(calib_t *cal)
 }
 void xbee_commandBlockingAcquire(command_t *cmd)
 {
-	xQueuePeek(command_q, cmd, portMAX_DELAY);
+	xQueueReceive(command_q, cmd, portMAX_DELAY);
 }
 void DataLinkReceive_IDLE(void)
 {

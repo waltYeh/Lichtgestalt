@@ -51,10 +51,11 @@ void rc_channel2setpoint(attsp_t* sp, const rc_t* rc, float dt)
 }
 void commanderTask( void *pvParameters )
 {
+#if CMD_PPM
 	float dt;
 	uint32_t lastWakeTime, currWakeTime;
 	lastWakeTime = xTaskGetTickCount ();
-
+#endif
 	for(;;){
 #if CMD_XBEE
 		xbee_commandBlockingAcquire(&command);
