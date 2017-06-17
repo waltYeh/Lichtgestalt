@@ -1,6 +1,7 @@
 #ifndef XBEE_API_H
 #define XBEE_API_H
 #include "../MessageTypes/type_methods.h"
+#include "../MessageTypes/pid_methods.h"
 /*unsigned char data2send[17]=
 	{0x10,//API_ID
 	0x22,//FRAME_ID
@@ -68,6 +69,7 @@ void api_tx_status_decode(unsigned char * data, unsigned int pack_len);
 unsigned char  api_rx_decode(unsigned char * data, unsigned int pack_len);
 void decode_cmd_acc(unsigned char * data, unsigned int pack_len, command_t* cmd, vec3f_t* mot_acc);
 void decode_calibrate(unsigned char * data, unsigned int pack_len, calib_t* cal);
+void decode_pid(unsigned char * data, unsigned int pack_len, PID_t* PRpid1, PID_t* PRpid2, PID_t* Ypid);
 void api_pack_encode(unsigned char * data, unsigned char content_len);
 void api_tx_encode(unsigned char * data, unsigned int dest_addr_h, unsigned int dest_addr_l);
 unsigned char encode_sens_raw(unsigned char * data, const vec3i16_t* acc, const vec3i16_t* gyr,const vec3i16_t* mag);

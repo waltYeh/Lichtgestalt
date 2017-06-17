@@ -80,6 +80,13 @@ typedef struct manuelCtrlsp_s {
 	float throttle;
 	vec3f_t euler;
 } manCtrlsp_t;
+typedef struct generalCtrlsp_s {
+	float throttle;
+	vec3f_t euler;
+	vec3f_t pos_sp;
+	vec3f_t vel_ff;
+	vec3f_t acc_ff;
+} generalCtrlsp_t;
 typedef struct output_s {
 	vec3f_t moment;
 	float thrust;

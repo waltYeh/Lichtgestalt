@@ -4,7 +4,7 @@
 #include "attitude_estimator.h"
 #include "motor_mixer.h"
 #include "../MessageTypes/type_methods.h"
-#include "../MessageTypes/pid_methods.h"
+
 #include "../Mathlib/comparison.h"
 #include "cmsis_os.h"
 #include "../config/config.h"

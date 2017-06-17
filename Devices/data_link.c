@@ -8,6 +8,7 @@
 #include "rom.h"
 #include "../Commons/platform.h"
 #include "../Modules/attitude_estimator.h"
+#include "../Modules/controller.h"
 #include "led.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
@@ -112,7 +113,7 @@ void vDataReceiveTask( void *pvParameters )
 						}
 						break;
 						case DSCR_CFG:{
-							
+							decode_pid(decoding_buffer, rx_len, &pitchPID, &rollPID, &yawPID);
 						}
 						break;
 						default:

@@ -33,7 +33,15 @@ IIRFilter iir_ay={0.0,0.0,0.0,
 IIRFilter iir_az={0.0,0.0,0.0,
 				0.0,0.0,0.0,
 				0.0,0.0};
-
+IIRFilter iir_gx={0.0,0.0,0.0,
+				0.0,0.0,0.0,
+				0.0,0.0};
+IIRFilter iir_gy={0.0,0.0,0.0,
+				0.0,0.0,0.0,
+				0.0,0.0};
+IIRFilter iir_gz={0.0,0.0,0.0,
+				0.0,0.0,0.0,
+				0.0,0.0};
 static void sensorsTrigerTask( void *pvParameters ) ;
 static void sensorsProcessTask( void *pvParameters ) ;
 void acc_process(vec3i16_t* input, vec3f_t* output);
@@ -42,23 +50,25 @@ void mag_process(vec3i16_t* input, vec3f_t* output);
 				
 void imu_IIR_init(void)
 {	
-	float cutoff_freq = 40.0;//, cutoff_freq2 = 40.0;
+	float acc_cutoff_freq = 40.0;//, cutoff_freq2 = 40.0;
+	float gyr_cutoff_freq = 40.0;
+	
 	float smpl_freq = 1000.0;
 	float dummy;
-	IIR_set_cutoff_freq(&iir_ax, cutoff_freq, smpl_freq);
-	IIR_set_cutoff_freq(&iir_ay, cutoff_freq, smpl_freq);
-	IIR_set_cutoff_freq(&iir_az, 30.0, smpl_freq);
+	IIR_set_cutoff_freq(&iir_ax, acc_cutoff_freq, smpl_freq);
+	IIR_set_cutoff_freq(&iir_ay, acc_cutoff_freq, smpl_freq);
+	IIR_set_cutoff_freq(&iir_az, acc_cutoff_freq, smpl_freq);
 	dummy = IIR_reset(&iir_ax, 0);
 	dummy = IIR_reset(&iir_ay, 0);
 	dummy = IIR_reset(&iir_az, 8192);
+	IIR_set_cutoff_freq(&iir_gx, gyr_cutoff_freq, smpl_freq);
+	IIR_set_cutoff_freq(&iir_gy, gyr_cutoff_freq, smpl_freq);
+	IIR_set_cutoff_freq(&iir_gz, gyr_cutoff_freq, smpl_freq);
+	dummy = IIR_reset(&iir_gx, 0);
+	dummy = IIR_reset(&iir_gy, 0);
+	dummy = IIR_reset(&iir_gz, 0);
 	dummy = dummy;
-/*	IIR_set_cutoff_freq(&iir_gx, cutoff_freq2, smpl_freq);
-	IIR_set_cutoff_freq(&iir_gy, cutoff_freq2, smpl_freq);
-	IIR_set_cutoff_freq(&iir_gz, cutoff_freq2, smpl_freq);
-	sens.gx = IIR_reset(&iir_gx, 0);
-	sens.gy = IIR_reset(&iir_gy, 0);
-	sens.gz = IIR_reset(&iir_gz, 0);
-	*/
+	
 }
 void sensorsTaskInit(void)
 {
@@ -145,14 +155,14 @@ void acc_process(vec3i16_t* input, vec3f_t* output)
 	x = input->x + acc_bias.x;
 	y = -input->y + acc_bias.y;
 	z = -input->z + acc_bias.z;
-	output->x = x;
-	output->y = y;
-	output->z = z;
-	/*
+//	output->x = x;
+//	output->y = y;
+//	output->z = z;
+	
 	output->x = IIR_apply(&iir_ax, x);
 	output->y = IIR_apply(&iir_ay, y);
 	output->z = IIR_apply(&iir_az, z);
-	*/
+	
 }
 void gyr_process(vec3i16_t* input, vec3f_t* output)
 {
@@ -161,9 +171,12 @@ void gyr_process(vec3i16_t* input, vec3f_t* output)
 	x = (input->x + gyr_bias.x);
 	y = (-input->y + gyr_bias.y);
 	z = (-input->z + gyr_bias.z);
-	output->x = x;
-	output->y = y;
-	output->z = z;
+//	output->x = x;
+//	output->y = y;
+//	output->z = z;
+	output->x = IIR_apply(&iir_gx, x);
+	output->y = IIR_apply(&iir_gy, y);
+	output->z = IIR_apply(&iir_gz, z);
 }
 void mag_process(vec3i16_t* input, vec3f_t* output)
 {

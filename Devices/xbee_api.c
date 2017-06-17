@@ -80,6 +80,47 @@ void decode_cmd_acc(unsigned char * data, unsigned int pack_len, command_t* cmd,
 	for(i=0;i<3;i++)
 		mot_acc->v[i] = (float)acc[i] / ACC_F;
 }
+void decode_pid(unsigned char * data, unsigned int pack_len, PID_t* PRpid1, PID_t* PRpid2, PID_t* Ypid)
+{
+//	[3E,0,api_len,90,	0-3
+//	add_H,H,H,H,	4-7
+//	add_L,L,L,L,	8-11
+//	src_net,src_net,rcv_opt,descriptor 0x01	12-15
+//	t,t,t,t,		16-19
+//	P,P,P,P		20-23
+//	p,p,p,p		24-27
+//	i,i,i,i		28-31
+//	d,d,d,d		32-35
+//	P,P,P,P		36-39
+//	p,p,p,p		40-43
+//	i,i,i,i		44-47
+//	d,d,d,d		48-51
+//	checksum		52	
+	float pr_P,pr_p,pr_i,pr_d;
+	float y_P,y_p,y_i,y_d;
+	unsigned int timestamp;
+	memcpy(&timestamp, data + 16, 4);
+	memcpy(&pr_P, data + 20, 4);
+	memcpy(&pr_p, data + 24, 4);
+	memcpy(&pr_i, data + 28, 4);
+	memcpy(&pr_d, data + 32, 4);
+	memcpy(&y_P, data + 36, 4);
+	memcpy(&y_p, data + 40, 4);
+	memcpy(&y_i, data + 44, 4);
+	memcpy(&y_d, data + 48, 4);
+	PRpid1->P = pr_P;
+	PRpid1->Prate = pr_p;
+	PRpid1->Irate = pr_i;
+	PRpid1->Drate = pr_d;
+	PRpid2->P = pr_P;
+	PRpid2->Prate = pr_p;
+	PRpid2->Irate = pr_i;
+	PRpid2->Drate = pr_d;
+	Ypid->P = y_P;
+	Ypid->Prate = y_p;
+	Ypid->Irate = y_i;
+	Ypid->Drate = y_d;
+}
 void decode_calibrate(unsigned char * data, unsigned int pack_len, calib_t* cal)
 {
 //	[3E,0,api_len,90,	0-3
