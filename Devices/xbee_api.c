@@ -195,6 +195,23 @@ unsigned char encode_sens_raw(unsigned char * data, const vec3i16_t* acc, const 
 	memcpy(data + 34, m, 6);
 	return 23;//length from desc to last data
 }
+unsigned char encode_pid(unsigned char * data, float pr_P,float pr_p,float pr_i,float pr_d,float y_P,float y_p,float y_i,float y_d)
+{
+	unsigned char descriptor = DSCR_PID;
+	unsigned int timestamp = xTaskGetTickCount();
+
+	memcpy(data + 17, &descriptor, 1);
+	memcpy(data + 18, &timestamp, 4);
+	memcpy(data + 22, &pr_P, 4);
+	memcpy(data + 26, &pr_p, 4);
+	memcpy(data + 30, &pr_i, 4);
+	memcpy(data + 34, &pr_d, 4);
+	memcpy(data + 38, &y_P, 4);
+	memcpy(data + 42, &y_p, 4);
+	memcpy(data + 46, &y_i, 4);
+	memcpy(data + 50, &y_d, 4);
+	return 37;
+}
 unsigned char encode_sens(unsigned char * data, const marg_t * marg)
 {
 	unsigned char descriptor = DSCR_SENS;

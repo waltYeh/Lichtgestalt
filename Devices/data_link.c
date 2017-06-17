@@ -32,6 +32,7 @@ static vec3f_t motion_acc;
 static calib_t cal;
 #if XBEE_API
 static att_t att;
+bool pid_ack = false;
 #endif
 static xSemaphoreHandle dataReceived;
 	
@@ -114,6 +115,7 @@ void vDataReceiveTask( void *pvParameters )
 						break;
 						case DSCR_CFG:{
 							decode_pid(decoding_buffer, rx_len, &pitchPID, &rollPID, &yawPID);
+							pid_ack = true;
 						}
 						break;
 						default:
@@ -135,8 +137,17 @@ void send_data(void *data)
 {
 	#if XBEE_API
 	if(g_mode != modeCal){
+		unsigned char content_len;
 		attAcquire(&att);
-		unsigned char content_len = encode_yaw(tx_buffer, &att);
+		if(pid_ack){
+			content_len = encode_pid(tx_buffer, 
+				pitchPID.P,pitchPID.Prate,pitchPID.Irate,pitchPID.Drate,
+				yawPID.P,yawPID.Prate,yawPID.Irate,yawPID.Drate);
+			pid_ack = false;
+		}
+		else{
+			content_len = encode_yaw(tx_buffer, &att);
+		}
 		api_tx_encode(tx_buffer, dest_addr_h, dest_addr_l);
 		api_pack_encode(tx_buffer, content_len+14);
 		HAL_UART_Transmit_DMA(&huart2, tx_buffer, content_len+4+14);
