@@ -60,6 +60,7 @@ void taskManagerInit(void)
 	receiver_init();
 	led_init();
 	data_link_init();
+	data_send_start();
 	GPSInit();
 	eeprom_init();
 	battery_init();
@@ -68,9 +69,9 @@ void taskManagerInit(void)
 //	motor_mixer_init();
 	
 	if(g_mode == modeAtt){
-		#if XBEE_API
+		
 		commanderInit();
-		#endif
+		
 		attitude_init();
 		start_manager();
 	}
@@ -86,7 +87,7 @@ void attitude_initialized_callback(att_t * att)
 	attitude_estimator_start();
 	attitude_controller_init();
 	motor_mixer_init();
-	data_send_start();
+	
 }
 uint32_t self_check(void)
 {

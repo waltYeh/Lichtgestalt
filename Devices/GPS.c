@@ -10,7 +10,7 @@
 #include "../MessageTypes/type_methods.h"
 #define GPS_BUFFER_SIZE 256
 extern UART_HandleTypeDef huart1;
-gpsRaw_t gps;
+static gpsRaw_t gps;
 int read=0;
 unsigned char gps_buffer0[GPS_BUFFER_SIZE];//change bigger?
 unsigned char gps_buffer1[GPS_BUFFER_SIZE];
@@ -20,7 +20,7 @@ static unsigned char buf2read_num=0;
 //cleared at timeout, ++ during dma interrupt
 static void GPSTask( void *pvParameters );
 static xSemaphoreHandle gps_dataReceived;
-
+static xQueueHandle gps_q;
 void GPSReceive_IDLE(void)  
 {  
   //  uint32_t temp;  
@@ -48,6 +48,7 @@ void GPSInit(void)
 {
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
 	vSemaphoreCreateBinary( gps_dataReceived );
+	gps_q = xQueueCreate(1,sizeof(gpsRaw_t));
 	xTaskCreate( GPSTask, "GPS", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 	if(buffer_num == 0){
 		HAL_UART_Receive_DMA(&huart1,gps_buffer0,GPS_BUFFER_SIZE); 
@@ -384,8 +385,14 @@ void GPSTask( void *pvParameters )
 			data2send[1] = buf2read_num;
 		*/	
 			get_gps_data();
-			
+			xQueueOverwrite(gps_q,&gps);
 		}
 //		vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
 	}  
+}
+BaseType_t gps_acquire(gpsRaw_t *gps_data)
+{
+	BaseType_t pdres=pdFALSE;
+	pdres = xQueuePeek(gps_q,gps_data,100);
+	return pdres;
 }

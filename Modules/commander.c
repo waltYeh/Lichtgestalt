@@ -23,7 +23,9 @@ static void commanderTask( void *pvParameters ) ;
 void commanderInit(void)
 {
 	setpoint_q = xQueueCreate(1,sizeof(attsp_t));
+	#if XBEE_API
 	xTaskCreate(commanderTask, "cmdTask", CMD_TASK_STACKSIZE, NULL, CMD_TASK_PRI, NULL);
+	#endif
 }
 void xbee_commands2setpoint(attsp_t* sp, const command_t* cmd)
 {

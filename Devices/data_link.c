@@ -75,7 +75,7 @@ void vDataSendTask( void *pvParameters )
 	xLastWakeTime = xTaskGetTickCount();
 	for( ;; ){
 		send_data(data2send);
-		setLed(2,0,250);
+//		setLed(2,0,250);
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
 }

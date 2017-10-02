@@ -27,10 +27,17 @@ Project File Date:  10/02/2017
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 (build 20)', folder: 'F:\SoftwareOrdner\Keil5\installed\ARM\ARMCC\Bin'
 Build target 'AutoPilot'
-compiling GPS.c...
+compiling data_link.c...
+..\Devices\data_link.c(20): warning:  #550-D: variable "rx_len" was set but never used
+  static unsigned int rx_len;
+..\Devices\data_link.c(22): warning:  #550-D: variable "buf2read_num" was set but never used
+  static unsigned char buf2read_num=0;
+..\Devices\data_link.c(41): warning:  #177-D: function "vDataReceiveTask" was declared but never referenced
+  static void vDataReceiveTask( void *pvParameters );
+..\Devices\data_link.c: 3 warnings, 0 errors
 linking...
-Program Size: Code=69288 RO-data=217988 RW-data=756 ZI-data=25004  
-"AutoPilot\AutoPilot.axf" - 0 Error(s), 0 Warning(s).
+Program Size: Code=67708 RO-data=217992 RW-data=744 ZI-data=24856  
+"AutoPilot\AutoPilot.axf" - 0 Error(s), 3 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -48,7 +55,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:4.1.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>
