@@ -6,7 +6,7 @@
 #include "commander.h"
 #include "sensors_task.h"
 #include "attitude_estimator.h"
-#include "controller.h"
+#include "attitude_controller.h"
 #include "motor_mixer.h"
 #include "sensors_calibration.h"
 #include "task_manager.h"
@@ -23,7 +23,7 @@
 #include "../Devices/mpu6000_spi.h"
 #include "../Devices/hmc5883l_i2c.h"
 #include "../Devices/receiver.h"
-
+#include "../Devices/GPS.h"
 mode_t g_mode;
 statusLock_t g_statusLock;
 statusFlight_t g_statusFlight;
@@ -60,6 +60,7 @@ void taskManagerInit(void)
 	receiver_init();
 	led_init();
 	data_link_init();
+	GPSInit();
 	eeprom_init();
 	battery_init();
 	sensorsTaskInit();
@@ -67,7 +68,9 @@ void taskManagerInit(void)
 //	motor_mixer_init();
 	
 	if(g_mode == modeAtt){
+		#if XBEE_API
 		commanderInit();
+		#endif
 		attitude_init();
 		start_manager();
 	}

@@ -1,4 +1,5 @@
 #include "commander.h"
+#include "commons.h"
 #include "../MessageTypes/type_methods.h"
 #include "../Mathlib/comparison.h"
 #include "cmsis_os.h"
@@ -11,7 +12,9 @@ static attsp_t setpoint;
 static vec3f_t euler_sp;
 //float euler_setpoint[3];
 #if CMD_XBEE
+#if XBEE_API
 static command_t command;
+#endif
 #else
 static rc_t rc;
 //short rc_int[16];
@@ -58,8 +61,10 @@ void commanderTask( void *pvParameters )
 #endif
 	for(;;){
 #if CMD_XBEE
+	#if XBEE_API
 		xbee_commandBlockingAcquire(&command);
 		xbee_commands2setpoint(&setpoint, &command);
+	#endif
 #else
 		rcBlockingAcquire(&rc);
 		currWakeTime = xTaskGetTickCount ();
@@ -76,7 +81,9 @@ void commanderTask( void *pvParameters )
 		lastWakeTime = currWakeTime;
 		rc_channel2setpoint(&setpoint, &rc, dt);
 #endif
+		#if XBEE_API
 		xQueueOverwrite(setpoint_q, &setpoint);
+		#endif
 	}
 }
 

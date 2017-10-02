@@ -1,6 +1,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 #pragma anon_unions
+#include <stdint.h>
+#include <stdbool.h>
 typedef struct {
   unsigned int timestamp; // Timestamp when the data was computed
 	union {
@@ -82,7 +84,7 @@ typedef struct  {
     };
   };
 }R_i;
-
+/*
 struct {
 	int lat;
 	int lon;
@@ -105,7 +107,27 @@ struct {
 	#define GPS_PERIOD 200
 	#define GPS_DELAY 400
 }_gps;
-
+*/
+/*
+typedef struct gpsRaw_s {
+	uint32_t timestamp;
+	int64_t lat;
+	int64_t lon;
+	float azm;
+	float vel;
+	bool vel_valid;
+	float alt;
+	uint8_t sat;
+	uint32_t date;
+	uint32_t time;
+	float eph;
+	enum statusGPS_e {
+		noGPS = 0,
+		realtimeGPS = 1,
+		difGPS = 2
+	}status;
+} gpsRaw_t;
+*/
 struct _vicon{
 	int x;//mm
 	int y;
@@ -319,6 +341,6 @@ extern PID pos_yPID;
 #define MAX_XY_VEL 8.0f
 #define MAX_XY_VEL_MANUEL 1.5f
 
-#define BAT_WARNING 3500
+//#define BAT_WARNING 3500
 
 #endif

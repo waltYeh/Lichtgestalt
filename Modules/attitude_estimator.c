@@ -196,7 +196,9 @@ static void attitude_update_Task( void *pvParameters )
 	while(1) {
 		vTaskDelayUntil(&lastWakeTime, ATT_EST_TASK_PERIOD_MS);
 		margAcquire(&_marg);
+		#if XBEE_API
 		xbee_motionAccAcquire(&_motion_acc);
+		#endif
 		vec3f_t w;
 		int i;
 		float gyro_scale = 7509.9f * 0.5f;

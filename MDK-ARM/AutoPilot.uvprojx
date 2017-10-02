@@ -786,6 +786,11 @@
               <FileType>1</FileType>
               <FilePath>..\Devices\receiver.c</FilePath>
             </File>
+            <File>
+              <FileName>GPS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\GPS.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -795,11 +800,6 @@
               <FileName>system.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Modules\system.c</FilePath>
-            </File>
-            <File>
-              <FileName>stabilizer.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Modules\stabilizer.c</FilePath>
             </File>
             <File>
               <FileName>sensors_task.c</FileName>
@@ -822,11 +822,6 @@
               <FilePath>..\Modules\commander.c</FilePath>
             </File>
             <File>
-              <FileName>controller.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Modules\controller.c</FilePath>
-            </File>
-            <File>
               <FileName>situation_awareness.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Modules\situation_awareness.c</FilePath>
@@ -840,6 +835,11 @@
               <FileName>task_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Modules\task_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\attitude_controller.c</FilePath>
             </File>
           </Files>
         </Group>

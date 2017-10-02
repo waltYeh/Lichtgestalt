@@ -1,5 +1,5 @@
 #include "motor_mixer.h"
-#include "controller.h"
+#include "attitude_controller.h"
 #include "../Devices/battery.h"
 #include "../Devices/motor_pwm.h"
 #include "../MessageTypes/type_methods.h"

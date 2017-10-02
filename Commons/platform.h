@@ -50,11 +50,15 @@
 #define RATE_50_HZ 50
 #define RATE_25_HZ 25
 /******Flight Modes*****/
-#define INDOOR 1
-#define OUTDOOR 0
+#define INDOOR 0
+#define OUTDOOR 1
 #define ON_FLIGHT 1
 #define OFF_FLIGHT 0
-#define WAIT_GPS 0
+
+#if OUTDOOR
+	#define M8N_GPS 1
+#endif
+
 
 #define FREQ_1000HZ 1
 
@@ -63,5 +67,5 @@
 #define MAX_YAW_RATE_MANEUL 0.698f
 #define YAWRATE_DEADZONE 0.17f
 #define BAT_WARNING 3700
-#define GRAVITY 9.81f
+//#define GRAVITY 9.81f
 #endif

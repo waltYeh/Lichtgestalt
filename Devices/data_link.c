@@ -8,7 +8,7 @@
 #include "rom.h"
 #include "../Commons/platform.h"
 #include "../Modules/attitude_estimator.h"
-#include "../Modules/controller.h"
+#include "../Modules/attitude_controller.h"
 #include "led.h"
 extern UART_HandleTypeDef huart2;
 #define TX_BUF_SIZE 64
@@ -24,13 +24,14 @@ short data2send[18];
 
 unsigned int dest_addr_h = 0x00A21300;
 unsigned int dest_addr_l = 0x616D4E41;
+
+#if XBEE_API
 static xQueueHandle command_q;
 static xQueueHandle motion_acc_q;
 static xQueueHandle cal_q;
 static command_t command;
 static vec3f_t motion_acc;
 static calib_t cal;
-#if XBEE_API
 static att_t att;
 bool pid_ack = false;
 #endif
@@ -41,11 +42,12 @@ static void vDataReceiveTask( void *pvParameters );
 void data_link_init(void)
 {
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_IDLE);
-	
+	#if XBEE_API
 	xTaskCreate( vDataReceiveTask, "Receive", configMINIMAL_STACK_SIZE, NULL, XBEE_RX_TASK_PRI, NULL );  	
 	command_q = xQueueCreate(1, sizeof(command_t));
 	motion_acc_q = xQueueCreate(1, sizeof(vec3f_t));
 	cal_q = xQueueCreate(1, sizeof(calib_t));
+	#endif
 	vSemaphoreCreateBinary( dataReceived );
 	if(buffer_num == 0){
 		HAL_UART_Receive_DMA(&huart2,rx_buffer0,RX_BUF_SIZE); 
@@ -77,11 +79,13 @@ void vDataSendTask( void *pvParameters )
 		vTaskDelayUntil( &xLastWakeTime, timeIncreament ); 
 	}  
 }
+#if XBEE_API
 void vDataReceiveTask( void *pvParameters )  
 {  
 	unsigned char api_id;
 	for( ;; ){  
 		if (pdTRUE == xSemaphoreTake(dataReceived, portMAX_DELAY)){
+		
 			if(buf2read_num == 0)
 				memcpy(decoding_buffer,rx_buffer0,rx_len);
 			else
@@ -130,8 +134,10 @@ void vDataReceiveTask( void *pvParameters )
 			}//switch api_id
 			
 		}
+		
 	}  
 } 
+#endif
 void send_data(void *data)
 //no length argument because length is fixed for frames
 {
@@ -160,6 +166,7 @@ void send_data(void *data)
 	HAL_UART_Transmit_DMA(&huart2, tx_buffer, 39);
 	#endif
 }
+#if XBEE_API
 void xbee_motionAccAcquire(vec3f_t *motion_acc)
 {
 	xQueuePeek(motion_acc_q, motion_acc, 0);
@@ -172,6 +179,7 @@ void xbee_commandBlockingAcquire(command_t *cmd)
 {
 	xQueueReceive(command_q, cmd, portMAX_DELAY);
 }
+#endif
 void DataLinkReceive_IDLE(void)
 {
 	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
