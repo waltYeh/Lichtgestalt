@@ -17,8 +17,12 @@ void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
 
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	if(hi2c->Instance == hi2c1.Instance)
-		hmc5883lCallback();
+	if(hi2c->Instance == hi2c1.Instance){
+		if(hi2c->Devaddress == (0x1E<<1))
+			hmc5883lCallback();
+		else if(hi2c->Devaddress == (0x77<<1))
+			ms5611Callback();
+	}
 	if(hi2c->Instance == hi2c2.Instance)
 		eeprom_readCallback();
 	

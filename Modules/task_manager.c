@@ -24,6 +24,7 @@
 #include "../Devices/hmc5883l_i2c.h"
 #include "../Devices/receiver.h"
 #include "../Devices/GPS.h"
+#include "../Devices/ms5611_i2c.h"
 mode_t g_mode;
 statusLock_t g_statusLock;
 statusFlight_t g_statusFlight;
@@ -54,7 +55,9 @@ void taskManagerInit(void)
 	motor_init();
 	motor_cut();
 	mpu6000_cfg();
+	ms5611_init();
 	hmc5883l_cfg();
+	
 	mpu_fast_init();
 	hmc_fast_init();
 	receiver_init();

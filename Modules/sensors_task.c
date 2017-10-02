@@ -108,15 +108,6 @@ void sensorsProcessTask( void *pvParameters )
 			for (i=0; i<3; i++){
 				gyr_raw.v[i] = ((short)acc_gyr_spi_rx[2*i+9]<<8)|(short)acc_gyr_spi_rx[2*i+10];
 			}
-/*	j++;
-	if(j==20)
-		j=0;
-	for (i=0; i<3; i++)	
-		a_g_queue[i][j] = acc_raw.v[i];
-	
-	for (i=0; i<3; i++)	
-		a_g_queue[i+3][j] = gyr_raw.v[i];
-	*/
 			acc_process(&acc_raw, &(marg_data.acc));
 			gyr_process(&gyr_raw, &(marg_data.gyr));
 			if (magDataReady == true){
@@ -125,13 +116,7 @@ void sensorsProcessTask( void *pvParameters )
 				for (i=0; i<3; i++){
 					mag_raw.v[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
 				}
-/*
-	j++;
-	if(j==20)
-		j=0;
-	for (i=0; i<3; i++)	
-		mag_queue[i][j] = mag_raw.v[i];
-*/
+
 //				mag_raw.timestamp = xTaskGetTickCount();
 				mag_process(&mag_raw, &(marg_data.mag));
 				marg_data.mag_updated = true;
@@ -200,6 +185,10 @@ void mpu6000Callback(void)
 void hmc5883lCallback(void)
 {
 	magDataReady = true;
+}
+void ms5611Callback(void)
+{
+	
 }
 
 void margAcquire(marg_t *marg)
