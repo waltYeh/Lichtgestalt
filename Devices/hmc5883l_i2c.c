@@ -1,16 +1,18 @@
 #include "hmc5883l_i2c.h"
+#include "../Modules/sensors_task.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-#include "motor_pwm.h"
+#include "../config/config.h"
 extern I2C_HandleTypeDef hi2c1;
 
 //uint8_t mag_i2c_tx[6] = {0,0,0,0,0,0};
-uint8_t mag_i2c_rx[6];
+//uint8_t mag_i2c_rx[6];
 //uint8_t acc_gyr_tx[15];
-short mag_data[3];
+//short mag_data[3];
+//mag_raw_t mag_raw;
 //short mag_queue[3][20];
 
-static void vHMC5883LTask( void *pvParameters ) ;
+//static void vHMC5883LTask( void *pvParameters ) ;
 void hmc5883l_cfg(void)
 {
 	uint8_t who_am_i = 0;
@@ -19,6 +21,7 @@ void hmc5883l_cfg(void)
 	HAL_Delay(1);
 	HAL_I2C_Mem_Write(&hi2c1, HMC5983_ADDRESS, ADDR_CONF_A, I2C_MEMADD_SIZE_8BIT, cfg, 3, 5);
 }
+/*
 void hmc5883l_read_all(void)
 {
 	int i;
@@ -26,18 +29,20 @@ void hmc5883l_read_all(void)
 		HAL_I2C_Mem_Read(&hi2c1, HMC5983_ADDRESS, ADDR_DATA_OUT_X_MSB, I2C_MEMADD_SIZE_8BIT, mag_i2c_rx, 6, 5);
 	}
 	for (i=0; i<3; i++){
-		mag_data[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
+		mag_raw.v[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
 	}
 }
-void hmc5883l_dma_start(void)
+*/
+void hmc5883l_dma_start(uint8_t *pRxData, uint16_t Size)
 {
-	HAL_I2C_Mem_Read_DMA(&hi2c1, HMC5983_ADDRESS, ADDR_DATA_OUT_X_MSB, I2C_MEMADD_SIZE_8BIT, mag_i2c_rx, 6);
+	HAL_I2C_Mem_Read_DMA(&hi2c1, HMC5983_ADDRESS, ADDR_DATA_OUT_X_MSB, I2C_MEMADD_SIZE_8BIT, pRxData, Size);
 }
 
 void hmc_fast_init(void)
 {
-	xTaskCreate( vHMC5883LTask, "HMC5883L", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+5, NULL );  
+//	xTaskCreate( vHMC5883LTask, "HMC5883L", configMINIMAL_STACK_SIZE, NULL, HMC_TASK_PRI, NULL );  
 }
+/*
 void vHMC5883LTask( void *pvParameters )
 {
 	TickType_t xLastWakeTime;
@@ -50,16 +55,19 @@ void vHMC5883LTask( void *pvParameters )
 		motor_pwm2_output(duty);
   }  
 }
+*/
+/*
 void HAL_I2C_MemRxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
-	int i;
+//	int i;
 //	static int j=0;
 //	j++;
 //	if(j==20)
 //		j=0;
-	for (i=0; i<3; i++){
-		mag_data[i] = ((short)mag_i2c_rx[2*i]<<8)|(short)mag_i2c_rx[2*i+1];
-//		mag_queue[i][j] = mag_data[i];
-	}
+	if(hi2c->Instance == hi2c1.Instance)
+		hmc5883lCallback();
+	if(hi2c->Instance == hi2c2.Instance)
+		eeprom_readCallback();
 	
 }
+*/

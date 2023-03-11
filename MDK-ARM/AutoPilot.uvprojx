@@ -174,11 +174,11 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4107</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -351,7 +351,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -371,9 +371,9 @@
             <vShortWch>0</vShortWch>
             <VariousControls>
               <MiscControls>--C99</MiscControls>
-              <Define>USE_HAL_DRIVER,STM32F405xx</Define>
+              <Define>USE_HAL_DRIVER,STM32F405xx,ARM_MATH_CM4,__CC_ARM</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc;                    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                    ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;                    ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                    ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;                    ../Middlewares/Third_Party/FreeRTOS/Source/include;                    ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;                    ../Drivers/CMSIS/Include;                    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
+              <IncludePath>../Inc;                                       ../Drivers/STM32F4xx_HAL_Driver/Inc;                                       ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                       ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;                                       ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                                       ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc;                                       ../Middlewares/Third_Party/FreeRTOS/Source/include;                                       ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;                                       ../Drivers/CMSIS/Include;                                       ../Drivers/CMSIS/Device/ST/STM32F4xx/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -671,6 +671,51 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/CMSIS//Device/ST/STM32F4xx/Source/Templates/system_stm32f4xx.c</FilePath>
             </File>
+            <File>
+              <FileName>arm_mat_mult_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_mult_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_scale_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_scale_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_sub_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_sub_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_mat_trans_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\MatrixFunctions\arm_mat_trans_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_std_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\StatisticsFunctions\arm_std_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_cos_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\FastMathFunctions\arm_cos_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_sin_f32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\FastMathFunctions\arm_sin_f32.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_common_tables.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\CommonTables\arm_common_tables.c</FilePath>
+            </File>
+            <File>
+              <FileName>arm_const_structs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\CMSIS\DSP_Lib\Source\CommonTables\arm_const_structs.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -686,11 +731,6 @@
         <Group>
           <GroupName>Devices</GroupName>
           <Files>
-            <File>
-              <FileName>GPS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\GPS.c</FilePath>
-            </File>
             <File>
               <FileName>data_link.c</FileName>
               <FileType>1</FileType>
@@ -717,14 +757,39 @@
               <FilePath>..\Devices\hmc5883l_i2c.c</FilePath>
             </File>
             <File>
-              <FileName>receiver_ppm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\receiver_ppm.c</FilePath>
-            </File>
-            <File>
               <FileName>ms5611_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Devices\ms5611_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>xbee_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\xbee_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\led.c</FilePath>
+            </File>
+            <File>
+              <FileName>rom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\rom.c</FilePath>
+            </File>
+            <File>
+              <FileName>callbacks.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\callbacks.c</FilePath>
+            </File>
+            <File>
+              <FileName>receiver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\receiver.c</FilePath>
+            </File>
+            <File>
+              <FileName>GPS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\GPS.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -732,14 +797,87 @@
           <GroupName>Modules</GroupName>
           <Files>
             <File>
-              <FileName>attitude_estimation.c</FileName>
+              <FileName>system.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Modules\attitude_estimation.c</FilePath>
+              <FilePath>..\Modules\system.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensors_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\sensors_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor_mixer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\motor_mixer.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_estimator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\attitude_estimator.c</FilePath>
+            </File>
+            <File>
+              <FileName>commander.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\commander.c</FilePath>
+            </File>
+            <File>
+              <FileName>situation_awareness.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\situation_awareness.c</FilePath>
+            </File>
+            <File>
+              <FileName>sensors_calibration.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\sensors_calibration.c</FilePath>
+            </File>
+            <File>
+              <FileName>task_manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\task_manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>attitude_controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Modules\attitude_controller.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>HighDriver</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Commons</GroupName>
+        </Group>
+        <Group>
+          <GroupName>MathLib</GroupName>
+          <Files>
+            <File>
+              <FileName>low_pass_filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\low_pass_filter.c</FilePath>
+            </File>
+            <File>
+              <FileName>calibration_lib.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MathLib\calibration_lib.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>MessageTypes</GroupName>
+          <Files>
+            <File>
+              <FileName>pid_methods.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MessageTypes\pid_methods.c</FilePath>
+            </File>
+            <File>
+              <FileName>type_methods.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\MessageTypes\type_methods.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

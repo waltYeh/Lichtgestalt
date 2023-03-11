@@ -1,5 +1,9 @@
 #ifndef HMC5883L_I2C
 #define HMC5883L_I2C
+#include <stdint.h>
+void hmc5883l_cfg(void);
+void hmc_fast_init(void);
+void hmc5883l_dma_start(uint8_t *pRxData, uint16_t Size);
 
 #define ID_A_WHO_AM_I			'H'
 #define ID_B_WHO_AM_I			'4'
@@ -44,10 +48,6 @@
 
 #define STATUS_REG_DATA_OUT_LOCK	(1 << 1) /* page 16: set if data is only partially read, read device to reset */
 #define STATUS_REG_DATA_READY		(1 << 0) /* page 16: set if all axes have valid measurements */
-//void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c);
 
-void hmc_fast_init(void);
-void hmc5883l_dma_start(void);
-void hmc5883l_read_all(void);
-void hmc5883l_cfg(void);
+
 #endif

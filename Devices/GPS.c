@@ -1,30 +1,40 @@
 #include "GPS.h"
 #include "../Modules/commons.h"
-#include "../Major/platform.h"
-#include "../Major/types.h"
+#include "../Commons/platform.h"
+#include "../Commons/types.h"
 #include "string.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
-#define GPS_BUFFER_SIZE 512
+#include "string.h"
+#include "stdlib.h"
+#include "../MessageTypes/type_methods.h"
+#define GPS_BUFFER_SIZE 256
 extern UART_HandleTypeDef huart1;
-struct _gps gps;
+static gpsRaw_t gps;
+int read=0;
 unsigned char gps_buffer0[GPS_BUFFER_SIZE];//change bigger?
 unsigned char gps_buffer1[GPS_BUFFER_SIZE];
-unsigned int data_len;
-unsigned char buffer_num=0;
+static unsigned int data_len;
+static unsigned char buffer_num=0;
+static unsigned char buf2read_num=0;
 //cleared at timeout, ++ during dma interrupt
 static void GPSTask( void *pvParameters );
-
-
+static xSemaphoreHandle gps_dataReceived;
+static xQueueHandle gps_q;
 void GPSReceive_IDLE(void)  
 {  
   //  uint32_t temp;  
-  
+	portBASE_TYPE xHigherPriorityTaskWoken = pdFALSE;
 	if((__HAL_UART_GET_FLAG(&huart1,UART_FLAG_IDLE) != RESET)){   
 		__HAL_UART_CLEAR_IDLEFLAG(&huart1);  
 		HAL_UART_DMAStop(&huart1);  
        // temp = huart1.hdmarx->Instance->NDTR;  
 		data_len =  GPS_BUFFER_SIZE - huart1.hdmarx->Instance->NDTR;             
+		buf2read_num = buffer_num;
+		xSemaphoreGiveFromISR(gps_dataReceived, &xHigherPriorityTaskWoken);
+		if (xHigherPriorityTaskWoken)
+			portYIELD();
+		
 		buffer_num = (!buffer_num) & 1;//either 0 or 1			
 		if(buffer_num == 0){
 			HAL_UART_Receive_DMA(&huart1,gps_buffer0,GPS_BUFFER_SIZE); 
@@ -37,6 +47,8 @@ void GPSReceive_IDLE(void)
 void GPSInit(void)
 {
 	__HAL_UART_ENABLE_IT(&huart1, UART_IT_IDLE);
+	vSemaphoreCreateBinary( gps_dataReceived );
+	gps_q = xQueueCreate(1,sizeof(gpsRaw_t));
 	xTaskCreate( GPSTask, "GPS", configMINIMAL_STACK_SIZE, NULL, tskIDLE_PRIORITY+3, NULL );  
 	if(buffer_num == 0){
 		HAL_UART_Receive_DMA(&huart1,gps_buffer0,GPS_BUFFER_SIZE); 
@@ -45,16 +57,7 @@ void GPSInit(void)
 		HAL_UART_Receive_DMA(&huart1,gps_buffer1,GPS_BUFFER_SIZE); 
 	}		
 }
-void GPSTask( void *pvParameters )
-{
-	TickType_t xLastWakeTime;
-	const TickType_t timeIncreament = 1000;
-	xLastWakeTime = xTaskGetTickCount();
-	for( ;; )  
-	{  
-		vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
-	}  
-}
+
 float char_to_float(char *a)//transfer ascII code(with)
 {
 	float value=0.0;
@@ -93,6 +96,128 @@ float char_to_float(char *a)//transfer ascII code(with)
 		value=-value;
 	return value;
 }
+
+
+void GPS_data_decode(char *gps_decode)
+{
+	double gps_lat_raw=0;
+	double gps_lon_raw=0;
+	uint8_t search_ptr=0;
+	char *start_p = gps_decode;
+	char *pos_p = NULL;
+	gps.vel_valid = false;
+
+		if(strncmp(gps_decode,"$GNRMC",6)==0)
+		{
+			pos_p = strchr(start_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			gps.time = atoi(pos_p);
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			if(*pos_p == 'A')
+				gps.status = realtimeGPS;
+			else
+				gps.status = noGPS;
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			gps_lat_raw = strtod(pos_p,NULL);
+			gps.lat = ((int64_t)gps_lat_raw/100 + (gps_lat_raw-((int64_t)gps_lat_raw/100)*100)/60)*1e7;
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			if(*pos_p == 'S')
+				gps.lat = -gps.lat;
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			gps_lon_raw = strtod(pos_p,NULL);
+			gps.lon = ((int64_t)gps_lon_raw/100 + (gps_lon_raw-((int64_t)gps_lon_raw/100)*100)/60)*1e7;//(*pos_p)*1e9+(*pos_p++)*1e8+(*pos_p++)*1e7+((*pos_p++)*1e7+(*pos_p++)*1e6+(*pos_p++)*1e5+(*pos_p++)*1e4+(*pos_p++)*1e3+(*pos_p++)*100 + +(*pos_p++)*10)//;
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			if(*pos_p == 'W')
+				gps.lon = -gps.lon;
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			gps.vel = strtod(pos_p,NULL);
+			pos_p = strchr(pos_p,',');
+			pos_p++;
+			if(*pos_p == ',')
+			{
+				gps.vel_valid = false;
+			}
+			else
+			{
+				gps.azm = atof(pos_p);
+				if(gps.azm >= 0.0f && gps.azm <= 360.0f)
+				{
+					gps.vel_valid = true;
+				}
+				else
+				{
+					gps.vel_valid = false;
+				}
+				pos_p = strchr(pos_p,',');
+			}
+			pos_p++;
+			gps.date = atoi(pos_p);	
+		}
+		pos_p = strchr(pos_p,'$');
+		if(strncmp(pos_p,"$GNGGA",6)==0)
+		{
+			for(search_ptr=0;search_ptr<7;search_ptr++)
+			{
+				pos_p = strchr(pos_p,',');
+				if(pos_p == 0)
+				{
+					return ;
+				}
+				pos_p++;
+			}
+			gps.sat = atoi(pos_p);
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;//shuipingxishijingdu eph
+			pos_p = strchr(pos_p,',');
+			if(pos_p == 0)
+			{
+				return ;
+			}
+			pos_p++;
+			gps.alt = atof(pos_p);
+			
+		}
+	
+}	
+
 void get_gps_data(void)//read the data we want in gps_buffer[160]
 {
 	char string[15];//to store ascII of a data between two ","
@@ -104,7 +229,7 @@ void get_gps_data(void)//read the data we want in gps_buffer[160]
 	unsigned int i,j=0;
 
 	for(j=0;j<data_len;j++){
-		if(buffer_num == 0){
+		if(buf2read_num == 0){
 			gps_in=gps_buffer0[j]; 
 		}
 		else{
@@ -145,13 +270,22 @@ void get_gps_data(void)//read the data we want in gps_buffer[160]
 				case 6:
 				//gps status: 0 not positioning, 1 non-diff positioning, 
 				//2 diff positioning, 3 invalid PPS, 6 estimating
-					gps.status=(string[0]-48);
+				{
+					int status=(string[0]-48);
+					if(status == 0)
+						gps.status = noGPS;
+					else if (status == 1)
+						gps.status = realtimeGPS;
+					else if (status == 2)
+						gps.status = difGPS;
+				}					
+				
 					break;
 				case 7://# of sat in use (00~12)
 					gps.sat=(string[0]-48)*10+(string[1]-48);
 					break;
 				case 9://altitude -9,999.9 ~ 99,999.9
-					gps.alt=char_to_float(string)*1000;//unit of mm
+					gps.alt=char_to_float(string);//atof(string);//char_to_float(string);
 					break;
 				default:
 					break;
@@ -202,10 +336,10 @@ void get_gps_data(void)//read the data we want in gps_buffer[160]
 					}
 					break;
 				case 7://velocity Knots
-					gps.vel=char_to_float(string)*514.4f;//1 knot = 0.5144m/s = 514.4mm/s
+					gps.vel=char_to_float(string)*514.4f;//atof(string)*514.4f;//char_to_float(string)*514.4f;//1 knot = 0.5144m/s = 514.4mm/s
 					break;
 				case 8://azimuth deg			
-					gps.azm=char_to_float(string) * DEG2RAD;
+					gps.azm=char_to_float(string) * DEG2RAD;;//atof(string) * DEG2RAD;//char_to_float(string) * DEG2RAD;
 					break;
 				default:
 					break;
@@ -227,4 +361,38 @@ void get_gps_data(void)//read the data we want in gps_buffer[160]
 			string_offset++;
 		}
 	}
+}
+
+void GPSTask( void *pvParameters )
+{
+//	TickType_t xLastWakeTime;
+//	const TickType_t timeIncreament = 1000;
+//	xLastWakeTime = xTaskGetTickCount();
+	
+	for( ;; )  
+	{  
+		if (pdTRUE == xSemaphoreTake(gps_dataReceived, portMAX_DELAY)){
+		/*	if(buf2read_num == 0){
+				GPS_data_decode((char*)gps_buffer0); 
+				read++;
+			}
+			else{
+				GPS_data_decode((char*)gps_buffer1); 
+				read++;
+			}
+			data_len = data_len;
+			data2send[0] = read;
+			data2send[1] = buf2read_num;
+		*/	
+			get_gps_data();
+			xQueueOverwrite(gps_q,&gps);
+		}
+//		vTaskDelayUntil( &xLastWakeTime, timeIncreament );  
+	}  
+}
+BaseType_t gps_acquire(gpsRaw_t *gps_data)
+{
+	BaseType_t pdres=pdFALSE;
+	pdres = xQueuePeek(gps_q,gps_data,100);
+	return pdres;
 }

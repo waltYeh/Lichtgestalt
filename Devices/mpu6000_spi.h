@@ -1,8 +1,14 @@
 #ifndef MPU6000_H
 #define MPU6000_H
+#include <stdint.h>
+#include "stm32f4xx_hal.h"
 void mpu6000_cfg(void);
 void mpu_fast_init(void);
-
+void mpu6000_dma_start(uint8_t *pRxData, uint16_t Size);
+#define SEL()   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET)
+#define DSEL()  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET) 
+//#define SEL()  __HAL_SPI_ENABLE(&hspi1)
+//#define DSEL() __HAL_SPI_DISABLE(&hspi1)
 #define IMU_ADD 0x00680000
 #define MPU_ADDR 0x68
 #define RA_SMPLRT_DIV 0x19
